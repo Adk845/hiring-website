@@ -326,6 +326,12 @@ return [
             'url' => '/departements',
             'icon' => 'far fa-fw fa-file',
         ],
+
+        [
+            'text' => 'Pipeline',
+            'url' => '/pipelines',
+            'icon' => 'far fa-fw fa-file',
+        ],
         // ['header' => 'account_settings'],
         // [
         //     'text' => 'profile',
