@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Departement;
 use App\Models\Job as ModelsJob;
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Http\Request;
@@ -24,7 +25,11 @@ class JobController extends Controller
 
     public function create()
     {
-        return view('jobs.create');
+        // Mengambil semua departemen dari database
+        $departements = Departement::all();
+        
+        // Mengirim data departemen ke view create
+        return view('jobs.create', compact('departements'));
     }
 
     // Menyimpan data job baru ke database
@@ -34,18 +39,19 @@ class JobController extends Controller
         $request->validate([
             'job_name' => 'required|string|max:255',
             'work_location' => 'required|string|max:255',
-            'department' => 'required|string|max:255',
+            'department' => 'required|exists:departements,id', // Pastikan ini menggunakan ID
             'employment_type' => 'required|string',
             'minimum_salary' => 'required|numeric',
             'maximum_salary' => 'required|numeric',
             'benefit' => 'nullable|string',
             'responsibilities' => 'nullable|string',
             'requirements' => 'nullable|string',
-            'status_published' => 'required|boolean',
+            // 'status_published' => 'required|boolean',
         ]);
 
         // Menyimpan job baru
         ModelsJob::create($request->all());
+        // ModelsJob::create(array_merge($request->all(), ['status_published' => 'unpublished']));
 
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
@@ -53,10 +59,15 @@ class JobController extends Controller
     // Menampilkan form edit untuk job
     public function edit($id)
     {
+        // Fetch the job by ID
         $job = ModelsJob::findOrFail($id);
-        return view('jobs.edit', compact('job'));
+        // Fetch all departments
+        $departements = Departement::all();
+    
+        // Return the edit view with job and departments
+        return view('jobs.edit', compact('job', 'departements'));
     }
-
+    
     // Memperbarui data job di database
     public function update(Request $request, $id)
     {
@@ -71,7 +82,7 @@ class JobController extends Controller
             'benefit' => 'nullable|string',
             'responsibilities' => 'nullable|string',
             'requirements' => 'nullable|string',
-            'status_published' => 'required|boolean',
+            
         ]);
 
         // Memperbarui job
@@ -93,5 +104,14 @@ class JobController extends Controller
 
 //     return redirect()->route('jobs.index')->with('success', 'Status updated successfully.');
 // }
+
+public function destroy($id)
+    {
+        //Menghapus department
+        $job = ModelsJob::find($id);
+
+        if ($job) $job->delete();
+        return redirect()->route('jobs.index')->with('success_message', 'Berhasil menghapus department');
+    }
 
 }

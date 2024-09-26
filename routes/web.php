@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,9 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::resource('jobs', \App\Http\Controllers\JobController::class)->middleware('auth');
+Route::resource('departements', DepartementController::class);
+
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::patch('/jobs/{job}/update-status', [JobController::class, 'updateStatus'])->name('jobs.updateStatus');

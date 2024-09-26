@@ -320,6 +320,12 @@ return [
             'url' => '/jobs',
             'icon' => 'far fa-fw fa-file',
         ],
+
+        [
+            'text' => 'Derpartment',
+            'url' => '/departements',
+            'icon' => 'far fa-fw fa-file',
+        ],
         // ['header' => 'account_settings'],
         // [
         //     'text' => 'profile',
