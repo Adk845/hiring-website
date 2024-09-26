@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\PipelineController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +24,11 @@ Route::get('/', function () {
 Auth::routes();
 Route::resource('jobs', \App\Http\Controllers\JobController::class)->middleware('auth');
 Route::resource('departements', DepartementController::class);
+Route::resource('pipelines', ApplicantController::class);
+
+Route::delete('/pipelines/{applicant}', [ApplicantController::class, 'destroy'])->name('pipelines.destroy');
+
+// Route::resource('pipelines', PipelineController::class);
 
 
 
