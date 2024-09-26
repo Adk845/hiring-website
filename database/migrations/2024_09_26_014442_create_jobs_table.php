@@ -17,15 +17,17 @@ return new class extends Migration
             $table->id();
             $table->string('job_name');
             $table->string('work_location');
-            $table->string('department');
+            $table->unsignedBigInteger('department');
             $table->string('employment_type');
             $table->decimal('minimum_salary', 10, 2);
             $table->decimal('maximum_salary', 10, 2);
             $table->text('benefit');
             $table->text('responsibilities');
             $table->text('requirements');
-            $table->boolean('status_published');
+            $table->boolean('status_published')->default(0); // Nilai default 0 (Unpublished)
             $table->timestamps();
+            $table->foreign('department')->references('id')->on('departements')->onDelete('cascade');
+
         });
     }
 
