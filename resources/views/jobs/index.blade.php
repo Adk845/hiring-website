@@ -17,34 +17,58 @@
                 <table>
                     <tr>
                         <td>
-                            <div data-job="{{ json_encode($job) }}">
-                                <p>{{ $job->job_name }}</p>
+                            <div data-toggle="modal" data-target="#jobModal" data-job="{{ json_encode($job) }}" class="kontainer_name_location" data-job="{{ json_encode($job) }}">
+                                <p class="job_name">{{ $job->job_name }}</p>
                                 <p>{{ $job->work_location }}</p>
                             </div>
                         </td>
-                        <td>
-                            <div class="pipeline_stage">
-                                <p>{{ $job->applicants->count() }}</p>
-                                <p>Applicant</p>
-                            </div>
+                        <td class="pipeline_stage">
+                            <a href="#">
+                                <div>
+                                    <p class="amount">{{ $job->applicants->count() }}</p>
+                                    <p>Applicant</p>
+                                </div>
+                            </a>
                         </td>
-                        <td >
-                            <div class="pipeline_stage">
-                                <p>{{ $job->applicants->count() }}</p>
-                                <p>Interview</p>
-                            </div>
+                        <td class="pipeline_stage">
+                            <a href="#">
+                                <div>
+                                    <p class="amount">{{ $job->applicants->where('status', 'interview')->count() }}</p>
+                                    <p>Interview</p>
+                                </div>
+                            </a>
                         </td>
-                        <td>
-                            <div class="pipeline_stage">
-                                <p>{{ $job->applicants->count() }}</p>
-                                <p>Offer</p>
-                            </div>
+                        <td class="pipeline_stage">
+                            <a href="#">
+                                <div>
+                                    <p class="amount">{{ $job->applicants->where('status', 'offer')->count() }}</p>
+                                    <p>Offer</p>
+                                </div>
+                            </a>
                         </td>
-                        <td>
-                            <div class="pipeline_stage">
-                                <p>{{ $job->applicants->count() }}</p>
+                        <td class="pipeline_stage">
+                            <div>
+                                <p class="amount">{{ $job->applicants->where('status', 'accepted')->count() }}</p>
                                 <p>Accepted</p>
                             </div>
+                        </td>
+                        <td class="options">
+                            <div class="dropdown">
+                                <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Options
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="{{ route('jobs.edit', $job->id) }}" >Edit</a></li>
+                                  <li>
+                                    <form action="{{ route('jobs.destroy', $job->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="dropdown-item" onclick="return confirm('Yakin ingin menghapus job ini?')">Hapus</button>
+                                    </form>
+                                </li>
+                                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                              </div>
                         </td>
                         
                     </tr>
@@ -96,22 +120,7 @@
 
                                 <div class="col">
 
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                          Options
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                          <li><a class="dropdown-item" href="{{ route('jobs.edit', $job->id) }}" >Edit</a></li>
-                                          <li>
-                                            <form action="{{ route('jobs.destroy', $job->id) }}" method="POST" style="display:inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="dropdown-item" onclick="return confirm('Yakin ingin menghapus job ini?')">Hapus</button>
-                                            </form>
-                                        </li>
-                                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                      </div>
+                                    
                                     
                                     
                                 </div>
