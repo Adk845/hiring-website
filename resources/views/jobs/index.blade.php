@@ -173,7 +173,7 @@
 @push('js')
 <script>
     $(document).ready(function() {
-        $('.job-name, .job-location').on('click', function() {
+        $('.kontainer_name_location').on('click', function() {
             // Get job data from the clicked element
             var job = $(this).data('job');
             
