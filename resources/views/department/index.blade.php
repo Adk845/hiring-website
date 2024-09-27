@@ -11,7 +11,13 @@
                 <a href="{{ route('departements.create') }}" class="btn btn-success mb-2">
                     <i class="fa fa-plus"></i> Create Department
                 </a>
-                <table class="table table-hover table-bordered table-stripped" id="example2">
+
+                <div class="kontainer_department">
+
+                    
+                </div>
+
+                {{-- <table class="table table-hover table-bordered table-stripped" id="example2">
                     <thead>
                         <tr class="table-primary">
                             <th>No.</th>
@@ -33,7 +39,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                </table>
+                </table> --}}
             </div>
         </div>
     </div>
