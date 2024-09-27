@@ -13,16 +13,61 @@
             <div class="card-header">
                 <a href="{{ route('jobs.create') }}" class="btn btn-primary">Tambah Job</a>
             </div>
+            @forelse ($jobs as $job)
+                <table>
+                    <tr>
+                        <td>
+                            <div data-job="{{ json_encode($job) }}">
+                                <p>{{ $job->job_name }}</p>
+                                <p>{{ $job->work_location }}</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="pipeline_stage">
+                                <p>{{ $job->applicants->count() }}</p>
+                                <p>Applicant</p>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="pipeline_stage">
+                                <p>{{ $job->applicants->count() }}</p>
+                                <p>Interview</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="pipeline_stage">
+                                <p>{{ $job->applicants->count() }}</p>
+                                <p>Offer</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="pipeline_stage">
+                                <p>{{ $job->applicants->count() }}</p>
+                                <p>Accepted</p>
+                            </div>
+                        </td>
+                        
+                    </tr>
+                </table>
+                @empty
+                <div class="col-12">
+                    <div class="alert alert-warning text-center">Belum ada data job yang tersedia.</div>
+                </div>
+            @endforelse
 
-            <div class="card-body">
-                <div class="row">
+            {{-- <div class="card-body">
+                <div class="column">
                     @forelse ($jobs as $job)
-                    <div class="col-md-4 mb-4">
+                    <div class="col mb-4">
                         <div class="card text-center">
                             <div class="row mt-3 text-center">
-                                <div class="col">
-                                    <h5 class="card-title job-name" data-toggle="modal" data-target="#jobModal" data-job="{{ json_encode($job) }}">{{ $job->job_name }}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted job-location" data-toggle="modal" data-target="#jobModal" data-job="{{ json_encode($job) }}">{{ $job->work_location }}</h6>
+                                <div class="col d-flex flex-column kontainer_name_location">
+                                    <div class="job_name">
+                                        <p class="job-name mb-0 mt-0" data-toggle="modal" data-target="#jobModal" data-job="{{ json_encode($job) }}">{{ $job->job_name }}</p>
+                                    </div>
+                                    <div class="job_location">
+                                        <p class="card-subtitle mb-0 mt-0 text-muted job-location" data-toggle="modal" data-target="#jobModal" data-job="{{ json_encode($job) }}">{{ $job->work_location }}</h6>
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <p class="card-text">
@@ -50,12 +95,25 @@
                                 </div>
 
                                 <div class="col">
-                                    <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('jobs.destroy', $job->id) }}" method="POST" style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus job ini?')">Hapus</button>
-                                    </form>
+
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                          Options
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                          <li><a class="dropdown-item" href="{{ route('jobs.edit', $job->id) }}" >Edit</a></li>
+                                          <li>
+                                            <form action="{{ route('jobs.destroy', $job->id) }}" method="POST" style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item" onclick="return confirm('Yakin ingin menghapus job ini?')">Hapus</button>
+                                            </form>
+                                        </li>
+                                          <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        </ul>
+                                      </div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -66,7 +124,7 @@
                     </div>
                     @endforelse
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>
@@ -98,6 +156,9 @@
     </div>
 </div>
 
+<link rel="stylesheet" href="{{asset('css/jobs.index.css')}}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 @stop
 
 @push('js')

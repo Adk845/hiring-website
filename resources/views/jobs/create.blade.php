@@ -103,8 +103,8 @@
                     <!-- Benefit -->
                     <div class="form-group">
                         <label for="benefit">Benefit</label>
-                        <textarea class="form-control @error('benefit') is-invalid @enderror" id="benefit"
-                            placeholder="Masukkan benefit" name="benefit">{{ old('benefit') }}</textarea>
+                        <input class="trix-editor" id="benefit" type="hidden" name="benefit">
+                        <trix-editor input="benefit"></trix-editor>
                         @error('benefit')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -113,9 +113,8 @@
                     <!-- Responsibilities -->
                     <div class="form-group">
                         <label for="responsibilities">Responsibilities</label>
-                        <textarea class="form-control @error('responsibilities') is-invalid @enderror"
-                            id="responsibilities" placeholder="Tanggung jawab pekerjaan"
-                            name="responsibilities">{{ old('responsibilities') }}</textarea>
+                        <input class="trix-editor" id="responsibilities" type="hidden" name="responsibilities">
+                        <trix-editor input="responsibilities"></trix-editor>
                         @error('responsibilities')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -124,10 +123,8 @@
                     <!-- Requirements -->
                     <div class="form-group">
                         <label for="requirements">Requirements</label>
-
-                        <textarea class="form-control @error('requirements') is-invalid @enderror"
-                            id="requirements" placeholder="Syarat pekerjaan"
-                            name="requirements">{{ old('requirements') }}</textarea>
+                        <input class="trix-editor" id="requirements" type="hidden" name="requirements">
+                        <trix-editor input="requirements"></trix-editor>
                         @error('requirements')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -153,4 +150,12 @@
         </div>
     </div>
 </form>
+<link rel="stylesheet" type="text/css" href="{{ asset('css/jobs.create.css')}}"> {{-- library untuk text editor --}}
+
+@push('js')
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css"> {{-- library untuk text editor --}}
+@endpush
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script> {{-- library untuk text editor --}}
+
+
 @stop
