@@ -11,7 +11,7 @@
     <div class="col-12">
         <div class="card overflow-scroll">
             <div class="card-body pe-3">
-                <a href="{{ route('pipelines.create') }}" class="btn btn-success mb-2">
+                <a href="{{ route('pipelines.create') }}" class="btn btn-primary mb-2">
                     <i class="fa fa-plus"></i> Create Applicant
                 </a>
                 <table class="table table-hover table-bordered table-striped" id="example2">
@@ -31,7 +31,7 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>
-                                <div style="display: flex; align-items: center; cursor: pointer;"  onclick="showApplicantInfo({{ json_encode($applicant) }})" >
+                                <div style="display: flex; align-items: center; cursor: pointer;" onclick="showApplicantInfo({{ json_encode($applicant) }})">
                                     @if($applicant->photo_pass)
                                     <img src="{{ asset('storage/' . $applicant->photo_pass) }}" alt="Applicant Photo" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
                                     @else
@@ -43,7 +43,31 @@
                             <td>{{ $applicant->email }}</td>
                             <td>{{ optional($applicant->job)->work_location }}</td>
                             <td>{{ $applicant->number }}</td>
-                            <td></td>
+                            <td class="pipeline_stage">
+    <div>
+        <form action="{{ route('applicants.updateStatus', $applicant->id) }}" method="POST" style="display:inline;">
+            @csrf
+            @method('PUT')
+            <div class="dropdown">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ ucfirst($applicant->status) ?: 'Pilih Status' }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button type="submit" name="status" value="applied" class="dropdown-item">Applicant</button>
+                    <button type="submit" name="status" value="interview" class="dropdown-item">Interview</button>
+                    <button type="submit" name="status" value="offer" class="dropdown-item">Offer</button>
+                    <button type="submit" name="status" value="accepted" class="dropdown-item">Accepted</button>
+                    <button type="submit" name="status" value="rejected" class="dropdown-item">Rejected</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</td>
+
+
+
+
+
                             <td>
                                 <!-- <a href="{{ route('pipelines.edit', $applicant) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a> -->
                                 <a href="{{ route('pipelines.destroy', $applicant) }}"
@@ -76,7 +100,7 @@
 <div class="modal fade" id="applicantInfoModal" tabindex="-1" role="dialog" aria-labelledby="applicantInfoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #2890a7;">
                 <h5 class="modal-title" id="applicantInfoModalLabel">Applicant Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -85,7 +109,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <img id="applicant-photo" src="" alt="Applicant Photo" class="img-fluid rounded" style="width: 100px; height: 100px;">
+                        <img id="applicant-photo" src="" alt="Applicant Photo" class="img-fluid rounded" style="width: 200px; height: 300px;">
                     </div>
                     <div class="col-md-8">
                         <h5 id="applicant-name"></h5>
@@ -99,6 +123,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+            <a href="{{ route('applicants.generatePdf', $applicant->id) }}" class="btn btn-primary">Download PDF</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

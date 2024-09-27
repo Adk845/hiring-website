@@ -1,48 +1,74 @@
-.kontainer_name_location p{
-    margin: 0px;
-}
-.kontainer_name_location:hover{
-    cursor: pointer;
+/* jobs.index.css */
+body {
+    background-color: #f0f4f8; /* Warna latar belakang halaman */
 }
 
-p{
-    font-size: 20px;
-   
+.card {
+    border: none; /* Menghilangkan border pada card */
+    border-radius: 12px; /* Radius sudut card */
 }
 
-.job_name{
-    font-weight: bolder;
+.card-header {
+    background-color: #007bff; /* Warna latar belakang header card */
+    color: white; /* Warna teks header card */
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 
-table{
-    width: 80%;
-    margin-left: 10px;
-}
-tr{
-    margin-bottom: 100px;
-}
-td a{
-    text-decoration: none;
-    color: black;
-}
-.pipeline_stage{
-    width: 200px;
-}
-.options{
-    width: 200px;
-    cursor: pointer;
-    align-items: center;
-}
-.pipeline_stage div{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    border-radius: 15px;
-    /* border: 1px solid black; */
+.table {
+    font-size: 1.1rem; /* Ukuran font tabel */
 }
 
-.pipeline_stage div:hover{
-    background-color: rgb(0, 0, 0);
-    color: white;
-    cursor: pointer;
+.kontainer_name_location {
+    background-color: #ffffff; /* Warna latar belakang elemen pekerjaan */
+    border-radius: 8px; /* Sudut melengkung */
+    padding: 15px; /* Padding yang lebih besar */
+    transition: box-shadow 0.3s; /* Efek transisi */
+    cursor: pointer; /* Menunjukkan bahwa ini dapat diklik */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+}
+
+.kontainer_name_location:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lebih kuat saat hover */
+}
+
+.pipeline_stage {
+    background-color: #d1ecf1; /* Warna latar belakang untuk tahap */
+    border-radius: 8px;
+    padding: 10px;
+    margin: 5px; /* Margin untuk memberi jarak antar elemen */
+    text-align: center; /* Rata tengah teks */
+}
+
+.pipeline_stage .amount {
+    font-weight: bold; /* Tebalkan jumlah */
+    font-size: 1.5rem; /* Ukuran font lebih besar untuk jumlah */
+}
+
+.dropdown-menu {
+    background-color: #ffc107; /* Warna dropdown */
+}
+
+.dropdown-item:hover {
+    background-color: #e0a800; /* Warna saat hover di dropdown */
+}
+
+.modal-content {
+    background-color: #ffffff; /* Latar belakang modal */
+    border-radius: 10px; /* Radius sudut modal */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan modal */
+}
+
+.modal-header {
+    background-color: #2890a7; /* Warna latar belakang header modal */
+    color: white; /* Warna teks header modal */
+}
+
+.modal-footer {
+    background-color: #f1f1f1; /* Warna latar belakang footer modal */
+}
+
+.modal-body p {
+    font-size: 1.1rem; /* Ukuran font di modal */
+    color: #333; /* Warna teks modal */
 }

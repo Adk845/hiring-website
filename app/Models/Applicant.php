@@ -25,6 +25,7 @@ class Applicant extends Model
         'languages',
         'skills',
         'salary_expectation',
+        'status',
     ];
 
     // Define the relationship with the Job model

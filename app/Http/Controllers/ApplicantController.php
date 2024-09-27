@@ -6,17 +6,37 @@ use App\Models\Applicant;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ApplicantController extends Controller
 {
+
+    public function generatePdf($id)
+    {
+        // Fetch the applicant by ID
+        $applicant = Applicant::find($id);
+
+        // Check if the applicant exists
+        if (!$applicant) {
+            return redirect()->route('pipelines.index')->with('error', 'Applicant not found.');
+        }
+
+        // Generate the PDF
+        $pdf = PDF::loadView('pipelines.pdf', ['applicants' => $applicant])
+            ->setPaper('a4', 'portrait');
+
+        // Return the generated PDF
+        return $pdf->stream('applicant-cv-' . $applicant->name . '.pdf');
+    }
+
     // Display a listing of the applicants
     public function index()
-{
-    // Eager load 'job' relationship for each applicant
-    $applicants = Applicant::with('job')->get(); 
+    {
+        // Eager load 'job' relationship for each applicant
+        $applicants = Applicant::with('job')->get();
 
-    return view('pipelines.index', compact('applicants')); // Return view with applicants and their jobs
-}
+        return view('pipelines.index', compact('applicants')); // Return view with applicants and their jobs
+    }
 
 
     // Show the form for creating a new applicant
@@ -148,4 +168,16 @@ class ApplicantController extends Controller
         return redirect()->route('pipelines.index')->with('success_message', 'Berhasil menghapus department');
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|string',
+        ]);
+
+        $applicant = Applicant::findOrFail($id);
+        $applicant->status = $request->status;
+        $applicant->save();
+
+        return redirect()->back()->with('success', 'Status applicant updated successfully!');
+    }
 }
