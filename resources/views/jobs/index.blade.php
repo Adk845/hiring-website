@@ -24,11 +24,11 @@
                     </div>
 
                     <!-- Tombol Create Job -->
-                    <a href="{{ route('jobs.create') }}" class="btn btn-primary btn-extended"> <i class="fa fa-plus">Create Job</i></a>
+                    <a href="{{ route('jobs.create') }}" class="btn btn-primary btn-extended"> <i class="fa fa-plus"></i>Create Job</a>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table ">
+                <table class="table">
                     @forelse ($jobs as $job)
                     <tr>
                         <td>
@@ -37,37 +37,14 @@
                                 <p class="text-muted">{{ $job->work_location }}</p>
                             </div>
                         </td>
-                        <td class="pipeline_stage">
+                        @foreach (['applied', 'interview', 'offer', 'accepted', 'rejected'] as $status)
+                        <td class="pipeline_stage" data-bs-toggle="modal" data-bs-target="#applicantsModal" data-applicants="{{ json_encode($job->applicants->where('status', $status)->values()) }}">
                             <div>
-                                <p class="amount">{{ $job->applicants->where('status', 'applied')->count() }}</p>
-                                <small>Applicants</small>
+                                <p class="amount">{{ $job->applicants->where('status', $status)->count() }}</p>
+                                <small>{{ ucfirst($status) }}</small>
                             </div>
                         </td>
-                        <td class="pipeline_stage">
-                            <div>
-                                <p class="amount">{{ $job->applicants->where('status', 'interview')->count() }}</p>
-                                <small>Interview</small>
-                            </div>
-                        </td>
-                        <td class="pipeline_stage">
-                            <div>
-                                <p class="amount">{{ $job->applicants->where('status', 'offer')->count() }}</p>
-                                <small>Offer</small>
-                            </div>
-                        </td>
-                        <td class="pipeline_stage">
-                            <div>
-                                <p class="amount">{{ $job->applicants->where('status', 'accepted')->count() }}</p>
-                                <small>Accepted</small>
-                            </div>
-                        </td>
-                        <td class="pipeline_stage">
-                            <div>
-                                <p class="amount">{{ $job->applicants->where('status', 'rejected')->count() }}</p>
-                                <small>Rejected</small>
-                            </div>
-                        </td>
-
+                        @endforeach
                         <td class="options">
                             <div class="dropdown">
                                 <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,42 +88,22 @@
                 <h3 id="modal-job-name"></h3>
                 <table class="mt-5">
                     <tr>
-                        <td>
-                            <p><strong>Location</strong></p>
-                        </td>
-                        <td>
-                            <p>: <span id="modal-job-location"></span></p>
-                        </td>
+                        <td><p><strong>Location</strong></p></td>
+                        <td><p>: <span id="modal-job-location"></span></p></td>
                     </tr>
                     <tr>
-                        <td>
-                            <p><strong>Minimum Salary</strong></p>
-                        </td>
-                        <td>
-                            <p>: <span id="modal-minimum-salary"></span></p>
-                        </td>
+                        <td><p><strong>Minimum Salary</strong></p></td>
+                        <td><p>: <span id="modal-minimum-salary"></span></p></td>
                     </tr>
                     <tr>
-                        <td>
-                            <p><strong>Maximum Salary</strong></p>
-                        </td>
-                        <td>
-                            <p>: <span id="modal-maximum-salary"></span></p>
-                        </td>
+                        <td><p><strong>Maximum Salary</strong></p></td>
+                        <td><p>: <span id="modal-maximum-salary"></span></p></td>
                     </tr>
                     <tr>
-                        <td>
-                            <p><strong>Employment Type</strong></p>
-                        </td>
-                        <td>
-                            <p>: <span id="modal-employment-type"></span></p>
-                        </td>
+                        <td><p><strong>Employment Type</strong></p></td>
+                        <td><p>: <span id="modal-employment-type"></span></p></td>
                     </tr>
                 </table>
-                {{-- <p><strong>Location:</strong> <span id="modal-job-location"></span></p>
-                <p><strong>Minimum Salary:</strong> <span id="modal-minimum-salary"></span></p>
-                <p><strong>Maximum Salary:</strong> <span id="modal-maximum-salary"></span></p>
-                <p><strong>Employment Type:</strong> <span id="modal-employment-type"></span></p> --}}
                 <p><strong>Benefit:</strong> <span id="modal-benefit"></span></p>
                 <p><strong>Responsibilities:</strong> <span id="modal-responsibilities"></span></p>
                 <p><strong>Requirements:</strong> <span id="modal-requirements"></span></p>
@@ -158,6 +115,33 @@
     </div>
 </div>
 
+<!-- Applicants Modal -->
+<!-- Applicants Modal -->
+<div class="modal fade" id="applicantsModal" tabindex="-1" aria-labelledby="applicantsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="applicantsModalLabel">Applicants</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicantsList">
+                        <!-- Applicants will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <link rel="stylesheet" href="{{ asset('css/jobs.index.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -166,6 +150,7 @@
 @push('js')
 <script>
     $(document).ready(function() {
+        // Job details modal
         $('.kontainer_name_location').on('click', function() {
             var job = $(this).data('job');
             $('#modal-job-name').text(job.job_name);
@@ -176,6 +161,31 @@
             $('#modal-benefit').html(job.benefit);
             $('#modal-responsibilities').html(job.responsibilities);
             $('#modal-requirements').html(job.requirements);
+        });
+
+        // Applicants modal
+       // Applicants modal
+       $('#applicantsModal').on('show.bs.modal', function(event) {
+            var button = event.relatedTarget; // Button that triggered the modal
+            var applicantsData = button.getAttribute('data-applicants'); // Extract info from data-* attributes
+
+            // Parse the JSON data
+            var applicants = JSON.parse(applicantsData);
+
+            // Get the list element
+            var applicantsList = document.getElementById('applicantsList');
+            applicantsList.innerHTML = ''; // Clear the existing list
+
+            // Populate the modal with the applicants
+            applicants.forEach(function(applicant) {
+                var row = `
+                    <tr>
+                        <td><img src="${applicant.photo_url}" alt="${applicant.name}" style="width: 50px; height: 50px; border-radius: 50%;"></td>
+                        <td>${applicant.email}</td>
+                    </tr>
+                `;
+                applicantsList.insertAdjacentHTML('beforeend', row); // Append the new row to the table
+            });
         });
     });
 </script>

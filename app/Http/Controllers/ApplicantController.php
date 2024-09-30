@@ -11,22 +11,23 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class ApplicantController extends Controller
 {
 
+    public function getPhotoUrlAttribute()
+    {
+        return Storage::url($this->photo_pass); 
+    }
+
     public function generatePdf($id)
     {
-        // Fetch the applicant by ID
-        $applicant = Applicant::find($id); // Ambil satu pelamar berdasarkan ID
+       
+        $applicant = Applicant::find($id); 
     
-        // Check if the applicant exists
         if (!$applicant) {
             return redirect()->route('pipelines.index')->with('error', 'Applicant not found.');
         }
-    
-        // Generate the PDF
-        $pdf = PDF::loadView('pipelines.pdf', ['applicant' => $applicant]) // Ubah 'applicants' menjadi 'applicant'
+        $pdf = PDF::loadView('pipelines.pdf', ['applicant' => $applicant]) 
             ->setPaper('a4', 'portrait');
     
-        // Return the generated PDF
-        return $pdf->stream('applicant-cv-' . $applicant->name . '.pdf'); // Ganti $applicants menjadi $applicant
+        return $pdf->stream('applicant-cv-' . $applicant->name . '.pdf'); 
     }
     
 
