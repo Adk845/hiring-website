@@ -1,0 +1,49 @@
+.header{
+    width: 100%;
+    height: 300px;
+    background-color: #78adfe;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+hr{
+    margin: 0px;
+}
+
+
+.vacancy{
+    margin: 0px;
+    transition: 0.2s ease-in-out;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+/* 
+.vacancy:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+
+} */
+
+.name{
+    font-weight: bolder;
+    font-size: larger;
+}
+
+.vacancy_kontainer{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff; /* Warna latar belakang elemen pekerjaan */
+    border-radius: 8px; /* Sudut melengkung */
+    padding: 15px; /* Padding yang lebih besar */
+    transition: box-shadow 0.3s; /* Efek transisi */
+    cursor: pointer; /* Menunjukkan bahwa ini dapat diklik */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+
+}
+
+.vacancy_kontainer:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lebih kuat saat hover */
+}
