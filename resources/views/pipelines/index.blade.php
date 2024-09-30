@@ -123,7 +123,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <a href="{{ route('applicants.generatePdf', $applicant->id) }}" class="btn btn-primary">Download PDF</a>
+            <a href="{{ route('applicants.generatePdf', $applicant->id) }}" class="btn btn-primary">CV</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
