@@ -14,30 +14,44 @@ class ApplicantController extends Controller
     public function generatePdf($id)
     {
         // Fetch the applicant by ID
-        $applicant = Applicant::find($id);
-
+        $applicant = Applicant::find($id); // Ambil satu pelamar berdasarkan ID
+    
         // Check if the applicant exists
         if (!$applicant) {
             return redirect()->route('pipelines.index')->with('error', 'Applicant not found.');
         }
-
+    
         // Generate the PDF
-        $pdf = PDF::loadView('pipelines.pdf', ['applicants' => $applicant])
+        $pdf = PDF::loadView('pipelines.pdf', ['applicant' => $applicant]) // Ubah 'applicants' menjadi 'applicant'
             ->setPaper('a4', 'portrait');
-
+    
         // Return the generated PDF
-        return $pdf->stream('applicant-cv-' . $applicant->name . '.pdf');
+        return $pdf->stream('applicant-cv-' . $applicant->name . '.pdf'); // Ganti $applicants menjadi $applicant
     }
+    
+
 
     // Display a listing of the applicants
-    public function index()
+    public function index(Request $request)
     {
-        // Eager load 'job' relationship for each applicant
-        $applicants = Applicant::with('job')->get();
-
-        return view('pipelines.index', compact('applicants')); // Return view with applicants and their jobs
+        // Membuat query untuk model Applicant
+        $query = Applicant::with('job'); // Eager load 'job' relationship untuk setiap pelamar
+    
+        // Memeriksa apakah ada parameter pencarian
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+    
+        // Mengambil data pelamar berdasarkan query
+        $applicants = $query->get();
+        $jobs = Job::all();
+    
+        // Mengembalikan view dengan data pelamar dan pekerjaan mereka
+        return view('pipelines.index', compact('applicants'));
     }
-
+    
+    
 
     // Show the form for creating a new applicant
     public function create()

@@ -11,15 +11,20 @@ use Illuminate\Http\Request;
 class JobController extends Controller
 {
    
-    public function index()
+    public function index(Request $request)
     {
-        // Mengambil semua data jobs
-        $jobs = ModelsJob:: all();
+        $query = ModelsJob::query();
         
-        // Mengirim data jobs ke view 'jobs.index'
-        return view('jobs.index', ['jobs' => $jobs]);
-    }
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('job_name', 'like', '%' . $search . '%')
+                  ->orWhere('work_location', 'like', '%' . $search . '%');
+        }
     
+        $jobs = $query->get();
+        
+        return view('jobs.index', compact('jobs'));
+    }
 
 
 

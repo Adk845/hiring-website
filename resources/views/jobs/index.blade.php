@@ -12,8 +12,19 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Jobs List</h5>
-                <div class="ms-auto"> <!-- Menambahkan div ms-auto untuk mendorong tombol ke kanan -->
-                    <a href="{{ route('jobs.create') }}" class="btn btn-primary">Create Job</a>
+                <div class="ms-auto d-flex ">
+                    <!-- Form Search Job dengan tampilan yang lebih modern dan bersih -->
+                    <div class="search-bar me-3">
+                        <form action="{{ route('jobs.index') }}" method="GET">
+                            <input type="text" name="search" placeholder="Search jobs..." value="{{ request()->get('search') }}">
+                            <button type="submit">
+                                <i class="fas fa-search"></i> <!-- Ikon pencarian dari FontAwesome -->
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Tombol Create Job -->
+                    <a href="{{ route('jobs.create') }}" class="btn btn-primary btn-extended"> <i class="fa fa-plus">Create Job</i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -59,9 +70,9 @@
 
                         <td class="options">
                             <div class="dropdown">
-                                    <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Options
-                                    </button>
+                                <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Options
+                                </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="{{ route('jobs.edit', $job->id) }}">Edit</a></li>
                                     <li>
@@ -100,20 +111,36 @@
                 <h3 id="modal-job-name"></h3>
                 <table class="mt-5">
                     <tr>
-                        <td><p><strong>Location</strong></p></td>
-                        <td><p>: <span id="modal-job-location"></span></p></td>
+                        <td>
+                            <p><strong>Location</strong></p>
+                        </td>
+                        <td>
+                            <p>: <span id="modal-job-location"></span></p>
+                        </td>
                     </tr>
                     <tr>
-                        <td><p><strong>Minimum Salary</strong></p></td>
-                        <td><p>: <span id="modal-minimum-salary"></span></p></td>
+                        <td>
+                            <p><strong>Minimum Salary</strong></p>
+                        </td>
+                        <td>
+                            <p>: <span id="modal-minimum-salary"></span></p>
+                        </td>
                     </tr>
                     <tr>
-                        <td><p><strong>Maximum Salary</strong></p></td>
-                        <td><p>: <span id="modal-maximum-salary"></span></p></td>
+                        <td>
+                            <p><strong>Maximum Salary</strong></p>
+                        </td>
+                        <td>
+                            <p>: <span id="modal-maximum-salary"></span></p>
+                        </td>
                     </tr>
                     <tr>
-                        <td><p><strong>Employment Type</strong></p></td>
-                        <td><p>: <span id="modal-employment-type"></span></p></td>
+                        <td>
+                            <p><strong>Employment Type</strong></p>
+                        </td>
+                        <td>
+                            <p>: <span id="modal-employment-type"></span></p>
+                        </td>
                     </tr>
                 </table>
                 {{-- <p><strong>Location:</strong> <span id="modal-job-location"></span></p>
