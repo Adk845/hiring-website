@@ -63,8 +63,8 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Isolutions</b>',
+    'logo_img' => 'vendor/adminlte/dist/img/ISOLOGO.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -196,9 +196,9 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-light-primary elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-primary navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -318,19 +318,19 @@ return [
         [
             'text' => 'jobs',
             'url' => '/jobs',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'fa fa-briefcase',
         ],
 
         [
             'text' => 'Derpartment',
             'url' => '/departements',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'fa fa-id-card',
         ],
 
         [
             'text' => 'Pipeline',
             'url' => '/pipelines',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'fa fa-users',
         ],
         // ['header' => 'account_settings'],
         // [

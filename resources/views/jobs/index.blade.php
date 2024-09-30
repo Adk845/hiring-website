@@ -3,7 +3,7 @@
 @section('title', 'Daftar Jobs')
 
 @section('content_header')
-<h1 class="m-0 text-dark">Daftar Jobs</h1>
+<h1 class="m-0 text-dark"></h1>
 @stop
 
 @section('content')
@@ -13,7 +13,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Jobs List</h5>
                 <div class="ms-auto"> <!-- Menambahkan div ms-auto untuk mendorong tombol ke kanan -->
-                    <a href="{{ route('jobs.create') }}" class="btn btn-primary">Tambah Job</a>
+                    <a href="{{ route('jobs.create') }}" class="btn btn-primary">Create Job</a>
                 </div>
             </div>
             <div class="card-body">

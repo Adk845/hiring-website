@@ -8,7 +8,7 @@
     <div class="col-12">
         <div class="card overflow-scroll">
             <div class="card-body pe-3">
-                <a href="{{ route('departements.create') }}" class="btn btn-success mb-2">
+                <a href="{{ route('departements.create') }}" class="btn btn-primary mb-2">
                     <i class="fa fa-plus"></i> Create Department
                 </a>
 
