@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-striped">
+                <table class="table ">
                     @forelse ($jobs as $job)
                     <tr>
                         <td>
@@ -90,18 +90,36 @@
 
 <!-- Job Details Modal -->
 <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="jobModalLabel">Job Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h5 id="modal-job-name"></h5>
-                <p><strong>Location:</strong> <span id="modal-job-location"></span></p>
+                <h3 id="modal-job-name"></h3>
+                <table class="mt-5">
+                    <tr>
+                        <td><p><strong>Location</strong></p></td>
+                        <td><p>: <span id="modal-job-location"></span></p></td>
+                    </tr>
+                    <tr>
+                        <td><p><strong>Minimum Salary</strong></p></td>
+                        <td><p>: <span id="modal-minimum-salary"></span></p></td>
+                    </tr>
+                    <tr>
+                        <td><p><strong>Maximum Salary</strong></p></td>
+                        <td><p>: <span id="modal-maximum-salary"></span></p></td>
+                    </tr>
+                    <tr>
+                        <td><p><strong>Employment Type</strong></p></td>
+                        <td><p>: <span id="modal-employment-type"></span></p></td>
+                    </tr>
+                </table>
+                {{-- <p><strong>Location:</strong> <span id="modal-job-location"></span></p>
                 <p><strong>Minimum Salary:</strong> <span id="modal-minimum-salary"></span></p>
                 <p><strong>Maximum Salary:</strong> <span id="modal-maximum-salary"></span></p>
-                <p><strong>Employment Type:</strong> <span id="modal-employment-type"></span></p>
+                <p><strong>Employment Type:</strong> <span id="modal-employment-type"></span></p> --}}
                 <p><strong>Benefit:</strong> <span id="modal-benefit"></span></p>
                 <p><strong>Responsibilities:</strong> <span id="modal-responsibilities"></span></p>
                 <p><strong>Requirements:</strong> <span id="modal-requirements"></span></p>
@@ -128,9 +146,9 @@
             $('#modal-minimum-salary').text(job.minimum_salary);
             $('#modal-maximum-salary').text(job.maximum_salary);
             $('#modal-employment-type').text(job.employment_type);
-            $('#modal-benefit').text(job.benefit);
-            $('#modal-responsibilities').text(job.responsibilities);
-            $('#modal-requirements').text(job.requirements);
+            $('#modal-benefit').html(job.benefit);
+            $('#modal-responsibilities').html(job.responsibilities);
+            $('#modal-requirements').html(job.requirements);
         });
     });
 </script>

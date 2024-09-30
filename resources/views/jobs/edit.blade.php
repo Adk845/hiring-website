@@ -101,8 +101,8 @@
                     <!-- Benefit -->
                     <div class="form-group">
                         <label for="benefit">Benefit</label>
-                        <textarea class="form-control @error('benefit') is-invalid @enderror" id="benefit"
-                            placeholder="Masukkan benefit" name="benefit">{{ old('benefit', $job->benefit) }}</textarea>
+                        <input class="trix-editor" id="benefit" type="hidden" name="benefit" value="{{ old('benefit', $job->benefit) }}">
+                        <trix-editor input="benefit">{{ old('benefit', $job->benefit) }}</trix-editor>
                         @error('benefit')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -111,9 +111,8 @@
                     <!-- Responsibilities -->
                     <div class="form-group">
                         <label for="responsibilities">Responsibilities</label>
-                        <textarea class="form-control @error('responsibilities') is-invalid @enderror"
-                            id="responsibilities" placeholder="Tanggung jawab pekerjaan"
-                            name="responsibilities">{{ old('responsibilities', $job->responsibilities) }}</textarea>
+                        <input class="trix-editor" id="responsibilities" type="hidden" name="responsibilities" value="{{ old('responsibilities', $job->responsibilities) }}">
+                        <trix-editor input="responsibilities">{{ old('responsibilities', $job->responsibilities) }}</trix-editor>
                         @error('responsibilities')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -122,9 +121,8 @@
                     <!-- Requirements -->
                     <div class="form-group">
                         <label for="requirements">Requirements</label>
-                        <textarea class="form-control @error('requirements') is-invalid @enderror"
-                            id="requirements" placeholder="Syarat pekerjaan"
-                            name="requirements">{{ old('requirements', $job->requirements) }}</textarea>
+                        <input class="trix-editor" id="requirements" type="hidden" name="requirements" value="{{ old('requirements', $job->requirements) }}">
+                        <trix-editor input="requirements">{{ old('requirements', $job->requirements) }}</trix-editor>
                         @error('requirements')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -147,4 +145,6 @@
         </div>
     </div>
 </form>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css"> {{-- library untuk text editor --}}
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script> {{-- library untuk text editor --}}
 @stop
