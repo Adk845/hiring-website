@@ -11,10 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class ApplicantController extends Controller
 {
 
-    public function getPhotoUrlAttribute()
-    {
-        return Storage::url($this->photo_pass); 
-    }
+   
 
     public function generatePdf($id)
     {
