@@ -8,28 +8,42 @@
     <div class="col-12">
         <div class="card overflow-scroll">
             <div class="card-body pe-3">
-                <a href="{{ route('departements.create') }}" class="btn btn-primary mb-2">
-                    <i class="fa fa-plus"></i> Create Department
-                </a>
+
+                <div class="d-flex justify-content-between align-items-center mb-2"> <!-- Menggunakan d-flex untuk menyusun item secara horizontal -->
+                    <div class="search-bar me-3">
+                        <form action="{{ route('departements.index') }}" method="GET" class="d-flex"> <!-- Menggunakan d-flex untuk menyatukan input dan tombol -->
+                            <input type="text" name="search" class="form-control" placeholder="Search Department..." value="{{ request()->get('search') }}">
+                            <button type="submit">
+                                <i class="fas fa-search"></i> <!-- Ikon pencarian dari FontAwesome -->
+                            </button>
+                        </form>
+                    </div>
+
+                    <a href="{{ route('departements.create') }}" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Create Department
+                    </a>
+                </div>
+
+
 
                 <div class="kontainer_department mt-5">
                     @foreach($departements as $key => $departement)
-                        <div class="card" style="width: 18rem;">
-                            <div class="image_department">                           
-                                <img src="{{asset('assets/marketing3.jpg')}}" class="card-img-top" alt="...">
-                            </div>
-                            <div class="card-body">
-                                <div>
-                                    <h4 class="">{{ $departement->dep_name }}</h4>
-                                </div>  
-                                
-                                <a href="{{ route('departements.edit', $departement) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a>
-                                <a href="{{ route('departements.destroy', $departement) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
-                                    <i class="fa fa-trash"></i> Delete
-                                </a>
-                            </div>
+                    <div class="card" style="width: 18rem;">
+                        <div class="image_department">
+                            <img src="{{asset('assets/marketing3.jpg')}}" class="card-img-top" alt="...">
                         </div>
-                      @endforeach
+                        <div class="card-body">
+                            <div>
+                                <h4 class="">{{ $departement->dep_name }}</h4>
+                            </div>
+
+                            <a href="{{ route('departements.edit', $departement) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a>
+                            <a href="{{ route('departements.destroy', $departement) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
+                                <i class="fa fa-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
 
                 {{-- <table class="table table-hover table-bordered table-stripped" id="example2">
@@ -44,16 +58,16 @@
                         @foreach($departements as $key => $departement)
                         <tr>
                             <td>{{ $key + 1 }}</td>
-                            <td>{{ $departement->dep_name }}</td>
-                            <td>
-                                <a href="{{ route('departements.edit', $departement) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a>
-                                <a href="{{ route('departements.destroy', $departement) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
-                                    <i class="fa fa-trash"></i> Delete
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+                <td>{{ $departement->dep_name }}</td>
+                <td>
+                    <a href="{{ route('departements.edit', $departement) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a>
+                    <a href="{{ route('departements.destroy', $departement) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                </td>
+                </tr>
+                @endforeach
+                </tbody>
                 </table> --}}
             </div>
         </div>

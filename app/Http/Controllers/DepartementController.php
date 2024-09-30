@@ -7,16 +7,26 @@ use Illuminate\Http\Request;
 
 class DepartementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index(Request $request)
     {
-        return view('department.index', ['departements' => Departement::all()]);
+        // return view('department.index', ['departements' => Departement::all()]);
+
+        $query = Departement::query();
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('dep_name', 'like', '%' . $search . '%');
+        }
+
+        $departements = $query->get();
+
+        return view('department.index', compact('departements')); // Memperbaiki nama variabel
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+
+
+
+
     public function create()
     {
         // Tampilkan form untuk membuat departemen baru

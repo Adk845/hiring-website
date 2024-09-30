@@ -11,9 +11,21 @@
     <div class="col-12">
         <div class="card overflow-scroll">
             <div class="card-body pe-3">
-                <a href="{{ route('pipelines.create') }}" class="btn btn-primary mb-2">
-                    <i class="fa fa-plus"></i> Create Applicant
-                </a>
+                <div class="d-flex justify-content-between align-items-center mb-2"> <!-- Menggunakan d-flex untuk menyusun item secara horizontal -->
+                    <div class="search-bar me-3">
+                        <form action="{{ route('pipelines.index') }}" method="GET" class="d-flex"> <!-- Menggunakan d-flex untuk menyatukan input dan tombol -->
+                            <input type="text" name="search" class="form-control" placeholder="Search Applicant..." value="{{ request()->get('search') }}">
+                            <button type="submit">
+                                <i class="fas fa-search"></i> <!-- Ikon pencarian dari FontAwesome -->
+                            </button>
+                        </form>
+                    </div>
+
+                    <a href="{{ route('pipelines.create') }}" class="btn btn-primary mb-2">
+                        <i class="fa fa-plus"></i> Create Applicant
+                    </a>
+                </div>
+
                 <table class="table table-hover table-bordered table-striped" id="example2">
                     <thead>
                         <tr class="table-primary">
@@ -44,25 +56,25 @@
                             <td>{{ optional($applicant->job)->work_location }}</td>
                             <td>{{ $applicant->number }}</td>
                             <td class="pipeline_stage">
-    <div>
-        <form action="{{ route('applicants.updateStatus', $applicant->id) }}" method="POST" style="display:inline;">
-            @csrf
-            @method('PUT')
-            <div class="dropdown">
-                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ ucfirst($applicant->status) ?: 'Pilih Status' }}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <button type="submit" name="status" value="applied" class="dropdown-item">Applicant</button>
-                    <button type="submit" name="status" value="interview" class="dropdown-item">Interview</button>
-                    <button type="submit" name="status" value="offer" class="dropdown-item">Offer</button>
-                    <button type="submit" name="status" value="accepted" class="dropdown-item">Accepted</button>
-                    <button type="submit" name="status" value="rejected" class="dropdown-item">Rejected</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</td>
+                                <div>
+                                    <form action="{{ route('applicants.updateStatus', $applicant->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="dropdown">
+                                            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{ ucfirst($applicant->status) ?: 'Pilih Status' }}
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <button type="submit" name="status" value="applied" class="dropdown-item">Applicant</button>
+                                                <button type="submit" name="status" value="interview" class="dropdown-item">Interview</button>
+                                                <button type="submit" name="status" value="offer" class="dropdown-item">Offer</button>
+                                                <button type="submit" name="status" value="accepted" class="dropdown-item">Accepted</button>
+                                                <button type="submit" name="status" value="rejected" class="dropdown-item">Rejected</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </td>
 
 
 
@@ -122,14 +134,18 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer"> 
+           
             <a href="{{ route('applicants.generatePdf', $applicant->id) }}" class="btn btn-primary">CV</a>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          
             </div>
+
         </div>
     </div>
 </div>
 @stop
+<link rel="stylesheet" href="{{asset('css/applicant.index.css')}}">
 
 @push('js')
 <form action="" id="delete-form" method="post">

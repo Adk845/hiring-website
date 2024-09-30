@@ -25,6 +25,7 @@ Auth::routes();
 Route::resource('jobs', \App\Http\Controllers\JobController::class)->middleware('auth');
 Route::resource('departements', DepartementController::class);
 Route::resource('pipelines', ApplicantController::class);
+Route::get('applicants', [ApplicantController::class, 'index'])->name('pipelines.index');
 Route::put('/applicants/{id}/updateStatus', [ApplicantController::class, 'updateStatus'])->name('applicants.updateStatus');
 Route::get('/pipelines/{id}/pdf', [ApplicantController::class, 'generatePdf'])->name('applicants.generatePdf');
 
