@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 Route::resource('jobs', \App\Http\Controllers\JobController::class)->middleware('auth');
@@ -33,6 +33,6 @@ Route::delete('/pipelines/{applicant}', [ApplicantController::class, 'destroy'])
 // Route::resource('pipelines', PipelineController::class);
 
 
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::patch('/jobs/{job}/update-status', [JobController::class, 'updateStatus'])->name('jobs.updateStatus');
+Route::get('/{id}', [App\Http\Controllers\VacancyController::class, 'index'])->name('vacancy');
