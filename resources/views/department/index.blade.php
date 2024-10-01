@@ -34,7 +34,6 @@
                             <img src="{{ asset('assets/marketing3.jpg') }}" class="card-img-top" alt="...">
                         </div>
                         <div class="card-body">
-                            <!-- Link to jobs page with department_id -->
                             <a href="{{ route('jobs.index', ['department' => $departement->id]) }}" class="text-decoration-none text-dark">
                                 <h4 class="">{{ $departement->dep_name }}</h4>
                             </a>
