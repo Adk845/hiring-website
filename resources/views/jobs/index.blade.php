@@ -36,7 +36,7 @@
                         </td>
                         @foreach (['applied', 'interview', 'offer', 'accepted', 'rejected'] as $status)
                         <td class="pipeline_stage">
-                            <a href="{{ route('pipelines.index', ['status' => $status]) }}" class="stage-link">
+                            <a href="{{ route('pipelines.index', ['status' => $status, 'job_id' => $job->id]) }}" class="stage-link">
                                 <div>
                                     <p class="amount">{{ $job->applicants->where('status', $status)->count() }}</p>
                                     <small>{{ ucfirst($status) }}</small>
@@ -89,20 +89,36 @@
                 <h3 id="modal-job-name"></h3>
                 <table class="mt-5">
                     <tr>
-                        <td><p><strong>Location</strong></p></td>
-                        <td><p>: <span id="modal-job-location"></span></p></td>
+                        <td>
+                            <p><strong>Location</strong></p>
+                        </td>
+                        <td>
+                            <p>: <span id="modal-job-location"></span></p>
+                        </td>
                     </tr>
                     <tr>
-                        <td><p><strong>Minimum Salary</strong></p></td>
-                        <td><p>: <span id="modal-minimum-salary"></span></p></td>
+                        <td>
+                            <p><strong>Minimum Salary</strong></p>
+                        </td>
+                        <td>
+                            <p>: <span id="modal-minimum-salary"></span></p>
+                        </td>
                     </tr>
                     <tr>
-                        <td><p><strong>Maximum Salary</strong></p></td>
-                        <td><p>: <span id="modal-maximum-salary"></span></p></td>
+                        <td>
+                            <p><strong>Maximum Salary</strong></p>
+                        </td>
+                        <td>
+                            <p>: <span id="modal-maximum-salary"></span></p>
+                        </td>
                     </tr>
                     <tr>
-                        <td><p><strong>Employment Type</strong></p></td>
-                        <td><p>: <span id="modal-employment-type"></span></p></td>
+                        <td>
+                            <p><strong>Employment Type</strong></p>
+                        </td>
+                        <td>
+                            <p>: <span id="modal-employment-type"></span></p>
+                        </td>
                     </tr>
                 </table>
                 <p><strong>Benefit:</strong> <span id="modal-benefit"></span></p>

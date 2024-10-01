@@ -31,6 +31,7 @@ class ApplicantController extends Controller
     public function index(Request $request)
     {
         $query = Applicant::with('job');
+        $jobId = $request->get('job_id');
 
         if ($request->has('search')) {
             $search = $request->get('search');
@@ -38,7 +39,8 @@ class ApplicantController extends Controller
         }
         if ($request->has('status')) {
             $status = $request->get('status');
-            $query->where('status', $status); 
+            $query->where('status', $status)
+            ->where('job_id', $jobId);
         }
         $applicants = $query->get();
     
