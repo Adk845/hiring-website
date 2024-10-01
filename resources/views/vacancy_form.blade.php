@@ -5,216 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/vacancy.form.css')}}">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>vacancy Form</title>
 </head>
 <body>
 
-    @dump($jobs)
-{{-- 
+<div class="container">
+    <form action="" @submit.prevent="submitForm">
+        <div class="form_kontainer">
+            <div class="row mb-5">
+                <div class="col">
+                    <div class="input">
+                        <label class="form-label" for="name" id="name">Nama</label>
+                        <input class="form-control" type="text" name="name">
+                    </div>
 
-@section('title', 'Tambah Applicant')
+                    <div class="input">
+                        <label class="form-label" for="email" id="email">Email</label>
+                        <input class="form-control" type="text" name="email">
+                    </div>
 
-@section('content_header')
-    <h1 class="m-0 text-dark">Tambah Applicant</h1>
-@stop
+                    <div class="input">
+                        <label class="form-label" for="number" id="number">Nomor Telepon</label>
+                        <input class="form-control" type="text" name="number">
+                    </div>
 
-@section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Form Tambah Applicant</h3>
+                    <div class="input">
+                        <label class="form-label" for="alamat" id="alamat">Alamat</label>
+                        <input class="form-control" type="text" name="alamat">
+                    </div>
                 </div>
+                <div class="col">
+                    <div class="input">
+                        <label class="form-label" for="portofolio" id="portofolio">Link Portofolio</label>
+                        <input class="form-control" type="text" name="portofolio">
+                    </div>
 
-                <div class="card-body">
-                    <form action="{{ route('pipelines.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <!-- Job Selection -->
-                                <div class="form-group">
-                                    <label for="job_id">Pilih Job</label>
-                                    <select class="form-control @error('job_id') is-invalid @enderror" id="job_id" name="job_id">
-                                        <option value="">Pilih Job</option>
-                                        @foreach ($jobs as $job)
-                                            <option value="{{ $job->id }}" {{ old('job_id') == $job->id ? 'selected' : '' }}>
-                                                {{ $job->job_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('job_id')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+                    <div class="input">
+                        <label class="form-label" for="profil_linkdin" id="profil_linkdin">Link Profil Linkdin</label>
+                        <input class="form-control" type="text" name="profil_linkdin">
+                    </div>
 
-                            <div class="col-md-6">
-                                <!-- Name -->
-                                <div class="form-group">
-                                    <label for="name">Nama</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Nama Applicant">
-                                    @error('name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+                    <div class="input">
+                        <label class="form-label" for="photo_pass" id="photo_pass">Photo</label>
+                        <input class="form-control" type="file" name="photo_pass">
+                    </div>
 
-                            <div class="col-md-6">
-                                <!-- Address -->
-                                <div class="form-group">
-                                    <label for="address">Alamat</label>
-                                    <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" placeholder="Alamat Applicant">{{ old('address') }}</textarea>
-                                    @error('address')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+                   
 
-                            <div class="col-md-6">
-                                <!-- Number -->
-                                <div class="form-group">
-                                    <label for="number">Nomor Telepon</label>
-                                    <input type="text" class="form-control @error('number') is-invalid @enderror" id="number" name="number" value="{{ old('number') }}" placeholder="Nomor Telepon">
-                                    @error('number')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Email -->
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="Email">
-                                    @error('email')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- LinkedIn Profile -->
-                                <div class="form-group">
-                                    <label for="profil_linkedin">Link Profil LinkedIn</label>
-                                    <input type="url" class="form-control @error('profil_linkedin') is-invalid @enderror" id="profil_linkedin" name="profil_linkedin" value="{{ old('profil_linkedin') }}" placeholder="Link Profil LinkedIn">
-                                    @error('profil_linkedin')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Portfolio -->
-                                <div class="form-group">
-                                    <label for="portfolio">Portfolio</label>
-                                    <input type="url" class="form-control @error('portfolio') is-invalid @enderror" id="portfolio" name="portfolio" value="{{ old('portfolio') }}" placeholder="Link Portfolio">
-                                    @error('portfolio')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Certificates -->
-                                <div class="form-group">
-                                    <label for="certificates">Sertifikat</label>
-                                    <input type="text" class="form-control @error('certificates') is-invalid @enderror" id="certificates" name="certificates" value="{{ old('certificates') }}" placeholder="Sertifikat yang dimiliki">
-                                    @error('certificates')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Education -->
-                                <div class="form-group">
-                                    <label for="education">Pendidikan</label>
-                                    <input type="text" class="form-control @error('education') is-invalid @enderror" id="education" name="education" value="{{ old('education') }}" placeholder="Pendidikan">
-                                    @error('education')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Experience -->
-                                <div class="form-group">
-                                    <label for="experience">Pengalaman Kerja</label>
-                                    <input type="text" class="form-control @error('experience') is-invalid @enderror" id="experience" name="experience" value="{{ old('experience') }}" placeholder="Pengalaman Kerja">
-                                    @error('experience')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Photo Pass -->
-                                <div class="form-group">
-                                    <label for="photo_pass">Unggah Foto</label>
-                                    <input type="file" class="form-control @error('photo_pass') is-invalid @enderror" id="photo_pass" name="photo_pass">
-                                    @error('photo_pass')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Profile -->
-                                <div class="form-group">
-                                    <label for="profile">Profil Diri</label>
-                                    <textarea class="form-control @error('profile') is-invalid @enderror" id="profile" name="profile" placeholder="Profil Diri">{{ old('profile') }}</textarea>
-                                    @error('profile')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Languages -->
-                                <div class="form-group">
-                                    <label for="languages">Bahasa</label>
-                                    <textarea class="form-control @error('languages') is-invalid @enderror" id="languages" name="languages" placeholder="Bahasa yang dikuasai">{{ old('languages') }}</textarea>
-                                    @error('languages')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Skills -->
-                                <div class="form-group">
-                                    <label for="skills">Keahlian</label>
-                                    <textarea class="form-control @error('skills') is-invalid @enderror" id="skills" name="skills" placeholder="Keahlian">{{ old('skills') }}</textarea>
-                                    @error('skills')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Salary Expectation -->
-                                <div class="form-group">
-                                    <label for="salary_expectation">Ekspektasi Gaji</label>
-                                    <input type="number" class="form-control @error('salary_expectation') is-invalid @enderror" id="salary_expectation" name="salary_expectation" value="{{ old('salary_expectation') }}" placeholder="Ekspektasi Gaji">
-                                    @error('salary_expectation')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Simpan Applicant</button>
-                        <a href="{{ route('pipelines.index') }}" class="btn btn-secondary">Kembali</a>
-                    </form>
                 </div>
             </div>
-        </div>
-    </div>
-@stop
-    
-     --}}
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+            <div id="app">
+                <div class="mb-4" id="certification" v-for='(certification, index) in certifications' :key='index'>
+                    
+                    <div class="certificate">
+                        <label class="form-label" :for="'certificate_name_' + (index + 1)">Sertifikasi @{{index + 1}}</label>
+                        <input class="form-control" :name="'certificate_name_' + (index + 1)" type="text">
+                    </div>
+                    <div class="date">
+                        <label class="form-label" for="date_certification ">Tanggal Terbit</label>
+                        <input class="form-control" type="date" name="date_certification">
+                    </div>
+                    <button type="button" class="btn btn-danger" @click="removeInput1(index)">Hapus Sertifikasi</button>
+                </div>
+                <button type="button" class="btn btn-secondary" @click="addInput1" >Tambah Sertifikasi</button>
+
+
+                
+            </div>
+        </div>
+    </form>
+</div>
+
+    <script>
+        const {createApp} = Vue
+        createApp({
+            data(){
+                return {
+                    certifications : [
+                        {value: ''}
+                    ],
+                    experience : [
+                        {value: ''}
+                    ],
+                }
+            },
+            methods: {
+                addInput1() {
+                    this.certifications.push({value:''});
+                },
+                removeInput1(index) {
+                    this.certifications.splice(index, 1);
+                },
+
+                addInput2() {
+                    this.certifications.push({value:''});
+                },
+                removeInput2(index) {
+                    this.certifications.splice(index, 1);
+                }
+            }
+        }).mount('#app')
+    </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>
