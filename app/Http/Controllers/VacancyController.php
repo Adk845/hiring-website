@@ -16,9 +16,17 @@ class VacancyController extends Controller
         return view('vacancy', compact('jobs'));
     }
 
+
     public function list()
     {
         $jobs = Job::all();
         return view('vacancy_list', compact('jobs'));
+    }
+
+    public function form($id)
+    {
+        $jobs = Job::findOrFail($id);
+
+        return view('vacancy_form', compact('jobs'));
     }
 }

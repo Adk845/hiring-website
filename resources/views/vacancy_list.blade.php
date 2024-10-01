@@ -21,7 +21,7 @@
         </div>
 
         @foreach($jobs as $job)
-            <a href="{{route('vacancy', $job->id)}}" style="text-decoration: none">
+            <a href="{{route('vacancy', $job->id)}}" style="text-decoration: none" target="_blank">
                 <div class="row vacancy_kontainer">
                     <div class="col vacancy">
                         <p class="name">{{$job->job_name}}</p>
