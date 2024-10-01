@@ -12,19 +12,18 @@ class JobController extends Controller
 {
    
     public function index(Request $request)
-    {
-        $query = ModelsJob::query();
-        
-        if ($request->has('search')) {
-            $search = $request->get('search');
-            $query->where('job_name', 'like', '%' . $search . '%')
-                  ->orWhere('work_location', 'like', '%' . $search . '%');
-        }
-    
-        $jobs = $query->get();
-        
-        return view('jobs.index', compact('jobs'));
+{
+    $departmentId = $request->get('department');
+
+    if ($departmentId) {
+        $jobs = ModelsJob::where('department', $departmentId)->get();
+    } else {
+        $jobs = ModelsJob::all(); 
     }
+        
+    return view('jobs.index', compact('jobs'));
+}
+
 
 
 

@@ -27,14 +27,17 @@
                     </a>
                 </div>
 
-                <div class="kontainer_department mt-5">
+                <div class="kontainer_department mt-5 d-flex flex-wrap">
                     @foreach($departements as $departement)
-                    <div class="card" style="width: 18rem;" data-jobs="{{ json_encode($departement->jobs) }}" data-bs-toggle="modal" data-bs-target="#jobsModal">
+                    <div class="card me-3 mb-3" style="width: 18rem;">
                         <div class="image_department">
                             <img src="{{ asset('assets/marketing3.jpg') }}" class="card-img-top" alt="...">
                         </div>
                         <div class="card-body">
-                            <h4 class="">{{ $departement->dep_name }}</h4>
+                            <!-- Link to jobs page with department_id -->
+                            <a href="{{ route('jobs.index', ['department' => $departement->id]) }}" class="text-decoration-none text-dark">
+                                <h4 class="">{{ $departement->dep_name }}</h4>
+                            </a>
                             <a href="{{ route('departements.edit', $departement) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a>
                             <a href="{{ route('departements.destroy', $departement) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
                                 <i class="fa fa-trash"></i> Delete
@@ -43,31 +46,6 @@
                     </div>
                     @endforeach
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Jobs Modal -->
-<div class="modal fade" id="jobsModal" tabindex="-1" aria-labelledby="jobsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="jobsModalLabel">Jobs in Department - <span id="departmentName"></span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Job Title</th>
-                            <th>Location</th>
-                        </tr>
-                    </thead>
-                    <tbody id="jobsList">
-                        <!-- Jobs will be populated here -->
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
@@ -91,30 +69,6 @@
             $("#delete-form").submit();
         }
     }
-
-    $(document).ready(function() {
-        // Handle click event on department cards
-        $('.kontainer_department .card').on('click', function() {
-            const jobs = $(this).data('jobs');
-            const departmentName = $(this).find('h4').text(); // Assuming the department name is in an h4 tag
-
-            // Set department name in modal
-            $('#departmentName').text(departmentName);
-
-            // Clear previous jobs
-            const jobsList = $('#jobsList');
-            jobsList.empty();
-
-            // Populate jobs table
-            jobs.forEach(job => {
-                const row = `<tr>
-                    <td>${job.job_name}</td>
-                    <td>${job.work_location}</td>
-                </tr>`;
-                jobsList.append(row);
-            });
-        });
-    });
 </script>
 @endpush
 @stop
