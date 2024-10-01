@@ -1,20 +1,23 @@
 @extends('adminlte::page')
+
 @section('title', 'List Departemen')
+
 @section('content_header')
 <h1 class="m-0 text-dark">List Departments</h1>
 @stop
+
 @section('content')
 <div class="row">
     <div class="col-12">
         <div class="card overflow-scroll">
             <div class="card-body pe-3">
 
-                <div class="d-flex justify-content-between align-items-center mb-2"> <!-- Menggunakan d-flex untuk menyusun item secara horizontal -->
+                <div class="d-flex justify-content-between align-items-center mb-2">
                     <div class="search-bar me-3">
-                        <form action="{{ route('departements.index') }}" method="GET" class="d-flex"> <!-- Menggunakan d-flex untuk menyatukan input dan tombol -->
+                        <form action="{{ route('departements.index') }}" method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control" placeholder="Search Department..." value="{{ request()->get('search') }}">
-                            <button type="submit">
-                                <i class="fas fa-search"></i> <!-- Ikon pencarian dari FontAwesome -->
+                            <button type="submit" class="btn btn-outline-secondary">
+                                <i class="fas fa-search"></i>
                             </button>
                         </form>
                     </div>
@@ -24,19 +27,14 @@
                     </a>
                 </div>
 
-
-
                 <div class="kontainer_department mt-5">
-                    @foreach($departements as $key => $departement)
-                    <div class="card" style="width: 18rem;">
+                    @foreach($departements as $departement)
+                    <div class="card" style="width: 18rem;" data-jobs="{{ json_encode($departement->jobs) }}" data-bs-toggle="modal" data-bs-target="#jobsModal">
                         <div class="image_department">
-                            <img src="{{asset('assets/marketing3.jpg')}}" class="card-img-top" alt="...">
+                            <img src="{{ asset('assets/marketing3.jpg') }}" class="card-img-top" alt="...">
                         </div>
                         <div class="card-body">
-                            <div>
-                                <h4 class="">{{ $departement->dep_name }}</h4>
-                            </div>
-
+                            <h4 class="">{{ $departement->dep_name }}</h4>
                             <a href="{{ route('departements.edit', $departement) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a>
                             <a href="{{ route('departements.destroy', $departement) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
                                 <i class="fa fa-trash"></i> Delete
@@ -45,48 +43,47 @@
                     </div>
                     @endforeach
                 </div>
-
-                {{-- <table class="table table-hover table-bordered table-stripped" id="example2">
-                    <thead>
-                        <tr class="table-primary">
-                            <th>No.</th>
-                            <th>Nama Departemen</th>
-                            <th>Opsi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($departements as $key => $departement)
-                        <tr>
-                            <td>{{ $key + 1 }}</td>
-                <td>{{ $departement->dep_name }}</td>
-                <td>
-                    <a href="{{ route('departements.edit', $departement) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a>
-                    <a href="{{ route('departements.destroy', $departement) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
-                        <i class="fa fa-trash"></i> Delete
-                    </a>
-                </td>
-                </tr>
-                @endforeach
-                </tbody>
-                </table> --}}
             </div>
         </div>
     </div>
 </div>
-@stop
-<link rel="stylesheet" href="{{asset('css/department.index.css')}}">
+
+<!-- Jobs Modal -->
+<div class="modal fade" id="jobsModal" tabindex="-1" aria-labelledby="jobsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobsModalLabel">Jobs in Department - <span id="departmentName"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobsList">
+                        <!-- Jobs will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="{{ asset('css/department.index.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 @push('js')
 <form action="" id="delete-form" method="post">
     @method('delete')
     @csrf
 </form>
-<script>
-    $('#example2').DataTable({
-        "responsive": true,
-    });
 
+<script>
     function notificationBeforeDelete(event, el) {
         event.preventDefault();
         if (confirm('Apakah anda yakin akan menghapus data departemen?')) {
@@ -94,5 +91,30 @@
             $("#delete-form").submit();
         }
     }
+
+    $(document).ready(function() {
+        // Handle click event on department cards
+        $('.kontainer_department .card').on('click', function() {
+            const jobs = $(this).data('jobs');
+            const departmentName = $(this).find('h4').text(); // Assuming the department name is in an h4 tag
+
+            // Set department name in modal
+            $('#departmentName').text(departmentName);
+
+            // Clear previous jobs
+            const jobsList = $('#jobsList');
+            jobsList.empty();
+
+            // Populate jobs table
+            jobs.forEach(job => {
+                const row = `<tr>
+                    <td>${job.job_name}</td>
+                    <td>${job.work_location}</td>
+                </tr>`;
+                jobsList.append(row);
+            });
+        });
+    });
 </script>
 @endpush
+@stop

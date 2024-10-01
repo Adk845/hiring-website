@@ -9,15 +9,18 @@ class Departement extends Model
 {
     use HasFactory;
 
-    // Nama tabel yang digunakan oleh model
+   
     protected $table = 'departements';
 
-    // Kolom yang boleh diisi (mass-assignable)
+   
     protected $fillable = ['dep_name'];
 
-    // Tambahkan relasi jika diperlukan di sini. Misalnya, jika Departement punya relasi dengan User:
-    // public function users()
-    // {
-    //     return $this->hasMany(User::class);
-    // }
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'department'); 
+    }
+   
 }
+
+
