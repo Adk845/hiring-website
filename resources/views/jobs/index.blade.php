@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Daftar Jobs')
+@section('title', 'Pipelines')
 
 @section('content_header')
-<h1 class="m-0 text-dark"></h1>
+<h1 class="m-0 text-dark">Pipelines</h1>
 @stop
 
 @section('content')
@@ -12,19 +12,16 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Jobs List</h5>
-                <div class="ms-auto d-flex ">
-                    <!-- Form Search Job dengan tampilan yang lebih modern dan bersih -->
+                <div class="ms-auto d-flex">
+                    <!-- Form Search Job dengan tampilan modern -->
                     <div class="search-bar me-3">
-                        <form action="{{ route('jobs.index') }}" method="GET">
-                            <input type="text" name="search" placeholder="Search jobs..." value="{{ request()->get('search') }}">
+                        <form action="{{ route('pipelines.index') }}" method="GET">
+                            <input type="text" name="search" placeholder="Search applicants..." value="{{ request()->get('search') }}">
                             <button type="submit">
-                                <i class="fas fa-search"></i> <!-- Ikon pencarian dari FontAwesome -->
+                                <i class="fas fa-search"></i>
                             </button>
                         </form>
                     </div>
-
-                    <!-- Tombol Create Job -->
-                    <a href="{{ route('jobs.create') }}" class="btn btn-primary btn-extended"> <i class="fa fa-plus"></i>Create Job</a>
                 </div>
             </div>
             <div class="card-body">
@@ -38,13 +35,17 @@
                             </div>
                         </td>
                         @foreach (['applied', 'interview', 'offer', 'accepted', 'rejected'] as $status)
-                        <td class="pipeline_stage" data-bs-toggle="modal" data-bs-target="#applicantsModal" data-status="{{ $status }}" data-applicants="{{ json_encode($job->applicants->where('status', $status)->values()) }}">
-                            <div>
-                                <p class="amount">{{ $job->applicants->where('status', $status)->count() }}</p>
-                                <small>{{ ucfirst($status) }}</small>
-                            </div>
+                        <td class="pipeline_stage">
+                            <a href="{{ route('pipelines.index', ['status' => $status]) }}" class="stage-link">
+                                <div>
+                                    <p class="amount">{{ $job->applicants->where('status', $status)->count() }}</p>
+                                    <small>{{ ucfirst($status) }}</small>
+                                </div>
+                            </a>
                         </td>
                         @endforeach
+
+                        <!-- Options button -->
                         <td class="options">
                             <div class="dropdown">
                                 <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -115,35 +116,14 @@
     </div>
 </div>
 
-<!-- Applicants Modal -->
-<div class="modal fade" id="applicantsModal" tabindex="-1" aria-labelledby="applicantsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="applicantsModalLabel">Applicants - <span id="stageName"></span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody id="applicantsList">
-                        <!-- Applicants will be populated here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
+<!-- Styles and Scripts -->
 <link rel="stylesheet" href="{{ asset('css/jobs.index.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 @stop
+
+
 
 @push('js')
 <script>
@@ -159,33 +139,6 @@
             $('#modal-benefit').html(job.benefit);
             $('#modal-responsibilities').html(job.responsibilities);
             $('#modal-requirements').html(job.requirements);
-        });
-
-        // Applicants modal
-        const pipelineStages = document.querySelectorAll('.pipeline_stage');
-
-        pipelineStages.forEach(stage => {
-            stage.addEventListener('click', function () {
-                const status = this.getAttribute('data-status');
-                const applicants = JSON.parse(this.getAttribute('data-applicants'));
-
-                
-                document.getElementById('stageName').innerText = status.charAt(0).toUpperCase() + status.slice(1);
-
-                
-                const applicantsList = document.getElementById('applicantsList');
-                applicantsList.innerHTML = '';
-
-               
-                applicants.forEach(applicant => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${applicant.name}</td>
-                        <td>${applicant.email}</td>
-                    `;
-                    applicantsList.appendChild(row);
-                });
-            });
         });
     });
 </script>

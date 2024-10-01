@@ -119,3 +119,35 @@ body {
 
     }
 
+    .stage-link {
+        text-decoration: none; 
+        color: inherit; 
+    }
+
+   
+    .stage-link:hover {
+        color: #0056b3; 
+        cursor: pointer;
+    }
+
+    /* .pipeline_stage div {
+        padding: 10px;
+        border: 1px solid #e0e0e0; 
+        text-align: center;
+    } */
+
+    .pipeline_stage p.amount {
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .pipeline_stage small {
+        font-size: 14px;
+        color: #888888;
+    }
+
+    /* Atur tampilan agar lebih terpusat */
+    .pipeline_stage {
+        width: 100px;
+        text-align: center;
+    }

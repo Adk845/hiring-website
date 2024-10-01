@@ -28,25 +28,23 @@ class ApplicantController extends Controller
     }
     
 
-
-    // Display a listing of the applicants
     public function index(Request $request)
     {
-        // Membuat query untuk model Applicant
-        $query = Applicant::with('job'); // Eager load 'job' relationship untuk setiap pelamar
-    
-        // Memeriksa apakah ada parameter pencarian
+        $query = Applicant::with('job');
+
         if ($request->has('search')) {
             $search = $request->get('search');
             $query->where('name', 'like', '%' . $search . '%');
         }
-    
-        // Mengambil data pelamar berdasarkan query
+        if ($request->has('status')) {
+            $status = $request->get('status');
+            $query->where('status', $status); 
+        }
         $applicants = $query->get();
+    
         $jobs = Job::all();
     
-        // Mengembalikan view dengan data pelamar dan pekerjaan mereka
-        return view('pipelines.index', compact('applicants'));
+        return view('pipelines.index', compact('applicants', 'jobs'));
     }
     
     
