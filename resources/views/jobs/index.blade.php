@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Pipelines')
+@section('title', 'Jobs')
 
 @section('content_header')
-<h1 class="m-0 text-dark">Pipelines</h1>
+<h1 class="m-0 text-dark"></h1>
 @stop
 
 @section('content')
