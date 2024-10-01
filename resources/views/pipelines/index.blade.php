@@ -11,12 +11,12 @@
     <div class="col-12">
         <div class="card overflow-scroll">
             <div class="card-body pe-3">
-                <div class="d-flex justify-content-between align-items-center mb-2"> <!-- Menggunakan d-flex untuk menyusun item secara horizontal -->
+                <div class="d-flex justify-content-between align-items-center mb-2">
                     <div class="search-bar me-3">
-                        <form action="{{ route('pipelines.index') }}" method="GET" class="d-flex"> <!-- Menggunakan d-flex untuk menyatukan input dan tombol -->
+                        <form action="{{ route('pipelines.index') }}" method="GET" class="d-flex"> 
                             <input type="text" name="search" class="form-control" placeholder="Search Applicant..." value="{{ request()->get('search') }}">
                             <button type="submit">
-                                <i class="fas fa-search"></i> <!-- Ikon pencarian dari FontAwesome -->
+                                <i class="fas fa-search"></i> 
                             </button>
                         </form>
                     </div>
@@ -75,13 +75,7 @@
                                     </form>
                                 </div>
                             </td>
-
-
-
-
-
                             <td>
-                                <!-- <a href="{{ route('pipelines.edit', $applicant) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a> -->
                                 <a href="{{ route('pipelines.destroy', $applicant) }}"
                                     onclick="event.preventDefault(); 
                                      if (confirm('Are you sure you want to delete this item?')) {
@@ -97,7 +91,6 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
-
                             </td>
                         </tr>
                         @endforeach
@@ -135,23 +128,17 @@
                 </div>
             </div>
             <div class="modal-footer"> 
-           
-            <a href="{{ route('applicants.generatePdf', $applicant->id) }}" class="btn btn-primary">CV</a>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          
+                <a id="download-cv" href="#" class="btn btn-primary">CV</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
-
         </div>
     </div>
 </div>
 @stop
-<link rel="stylesheet" href="{{asset('css/applicant.index.css')}}">
+
+<link rel="stylesheet" href="{{ asset('css/applicant.index.css') }}">
 
 @push('js')
-<form action="" id="delete-form" method="post">
-    @csrf
-    @method('delete')
-</form>
 <script>
     $(document).ready(function() {
         $('#example2').DataTable({
@@ -159,17 +146,8 @@
         });
     });
 
-    function notificationBeforeDelete(event, el, route) {
-        event.preventDefault();
-        if (confirm('Apakah anda yakin akan menghapus data applicant?')) {
-            $("#delete-form").attr('action', route);
-            $("#delete-form").submit();
-        }
-    }
-
     function showApplicantInfo(applicant) {
-        // Check if the job data is loaded correctly
-        console.log(applicant); // This helps in debugging to see if the job data is available
+        console.log(applicant); // Debugging to check if data is passed correctly
 
         // Populate modal with applicant data
         $('#applicant-photo').attr('src', applicant.photo_pass ? "{{ asset('storage/') }}/" + applicant.photo_pass : 'https://via.placeholder.com/100');
@@ -177,9 +155,12 @@
         $('#applicant-email').text(applicant.email);
         $('#applicant-number').text(applicant.number);
         $('#applicant-address').text(applicant.address);
-        $('#applicant-job').text(applicant.job ? applicant.job.job_name : 'N/A'); // Ensure job is loaded
+        $('#applicant-job').text(applicant.job ? applicant.job.job_name : 'N/A');
         $('#applicant-skills').text(applicant.skills ? applicant.skills : 'N/A');
         $('#applicant-salary').text(applicant.salary_expectation);
+
+        // Update CV download link dynamically
+        $('#download-cv').attr('href', "{{ url('/pipelines') }}/" + applicant.id + "/pdf");
 
         // Show the modal
         $('#applicantInfoModal').modal('show');

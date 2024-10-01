@@ -38,7 +38,7 @@
                             </div>
                         </td>
                         @foreach (['applied', 'interview', 'offer', 'accepted', 'rejected'] as $status)
-                        <td class="pipeline_stage" data-bs-toggle="modal" data-bs-target="#applicantsModal" data-applicants="{{ json_encode($job->applicants->where('status', $status)->values()) }}">
+                        <td class="pipeline_stage" data-bs-toggle="modal" data-bs-target="#applicantsModal" data-status="{{ $status }}" data-applicants="{{ json_encode($job->applicants->where('status', $status)->values()) }}">
                             <div>
                                 <p class="amount">{{ $job->applicants->where('status', $status)->count() }}</p>
                                 <small>{{ ucfirst($status) }}</small>
@@ -116,12 +116,11 @@
 </div>
 
 <!-- Applicants Modal -->
-<!-- Applicants Modal -->
 <div class="modal fade" id="applicantsModal" tabindex="-1" aria-labelledby="applicantsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="applicantsModalLabel">Applicants</h5>
+                <h5 class="modal-title" id="applicantsModalLabel">Applicants - <span id="stageName"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -140,7 +139,6 @@
         </div>
     </div>
 </div>
-
 
 <link rel="stylesheet" href="{{ asset('css/jobs.index.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -164,27 +162,29 @@
         });
 
         // Applicants modal
-       // Applicants modal
-       $('#applicantsModal').on('show.bs.modal', function(event) {
-            var button = event.relatedTarget; // Button that triggered the modal
-            var applicantsData = button.getAttribute('data-applicants'); // Extract info from data-* attributes
+        const pipelineStages = document.querySelectorAll('.pipeline_stage');
 
-            // Parse the JSON data
-            var applicants = JSON.parse(applicantsData);
+        pipelineStages.forEach(stage => {
+            stage.addEventListener('click', function () {
+                const status = this.getAttribute('data-status');
+                const applicants = JSON.parse(this.getAttribute('data-applicants'));
 
-            // Get the list element
-            var applicantsList = document.getElementById('applicantsList');
-            applicantsList.innerHTML = ''; // Clear the existing list
+                
+                document.getElementById('stageName').innerText = status.charAt(0).toUpperCase() + status.slice(1);
 
-            // Populate the modal with the applicants
-            applicants.forEach(function(applicant) {
-                var row = `
-                    <tr>
-                        <td><img src="${applicant.photo_url}" alt="${applicant.name}" style="width: 50px; height: 50px; border-radius: 50%;"></td>
+                
+                const applicantsList = document.getElementById('applicantsList');
+                applicantsList.innerHTML = '';
+
+               
+                applicants.forEach(applicant => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${applicant.name}</td>
                         <td>${applicant.email}</td>
-                    </tr>
-                `;
-                applicantsList.insertAdjacentHTML('beforeend', row); // Append the new row to the table
+                    `;
+                    applicantsList.appendChild(row);
+                });
             });
         });
     });
