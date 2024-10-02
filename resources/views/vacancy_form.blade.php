@@ -12,6 +12,9 @@
 <body>
 
 <div class="container">
+    <div class="header">
+        <h1 class="job_title">Accountant</h1>
+    </div>
     <form action="" @submit.prevent="submitForm">
         <div class="form_kontainer">
             <div class="row mb-5">
@@ -188,30 +191,31 @@
             </div>
             
 
-            <div id="app">
-
-                <div class="references" v-for="(reference, index) in references">
-                    <div class="input references_name" >
-                        <label class="form-label" for="references_name">Instution / Company Name</label>
-                        <input class="form-control" type="text" name="references_name" id="references_name">
+            <div id="app" class="mt-5">
+                <h1>References</h1>
+                <div class="references_kontainer">
+                    <div class="references" v-for="(reference, index) in references">
+                        <div class="input references_name" >
+                            <label class="form-label" for="references_name">Instution / Company Name</label>
+                            <input class="form-control" type="text" name="references_name" id="references_name">
+                        </div>
+                        <div class="input references_email">
+                            <label for="references_email" class="form-label">Email</label>
+                            <input type="email" name="references_email" id="references_email" class="form-control">
+                        </div>
+                        <div class="input references_number">
+                            <label for="references_number" class="form-label">Number</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <button type="button" class="btn btn-danger" @click="removeInput3(index)">Delete</button>
                     </div>
-                    <div class="input references_email">
-                        <label for="references_email" class="form-label">Email</label>
-                        <input type="email" name="references_email" id="references_email" class="form-control">
-                    </div>
-                    <div class="input references_number">
-                        <label for="references_number" class="form-label">Number</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <button type="button" class="btn btn-danger" @click="removeInput3(index)">Hapus</button>
-                    <hr>
                 </div>
 
-                <button type="button" class="btn btn-secondary" @click="addInput3" >Tambah</button> 
+                <button type="button" class="btn btn-secondary mb-5 ms-4" @click="addInput3" >Add</button> 
 
 
                 <h1>Work experience</h1>
-                <div class="mb-4" id="work_experience" class="work_experience" v-for='(experience, index) in experiences' :key='index'>
+                <div  id="work_experience" class="work_experience" v-for='(experience, index) in experiences' :key='index'>
                     
                     <div class="input company_name">
                         <label class="form-label" :for="'company_name_' + (index + 1)">Company Name @{{index + 1}}</label>
@@ -243,47 +247,45 @@
                         @enderror
                     </div>
 
-                    <button type="button" class="btn btn-danger" @click="removeInput1(index)">Hapus</button>
-                    <hr>
+                    <button type="button" class="btn btn-danger" @click="removeInput1(index)">Delete</button>
                 </div>
-                <button type="button" class="btn btn-secondary mb-5" @click="addInput1" >Tambah</button> 
+                <button type="button" class="btn btn-secondary mb-5 ms-4" @click="addInput1" >Add</button> 
                 
                 <h1 style="margin-top: 30px">Project</h1>
-                <div class="Project">
-                    <div class="mb-4" id="Project" class="Project" v-for='(project, index) in projects' :key='index'>
-                    
-                        <div class="input Project">
-                            <label class="form-label" :for="'Project_name' + (index + 1)">Project Name @{{index + 1}}</label>
-                            <input class="form-control" :name="'Project_name' + (index + 1)" type="text">
-                        </div>
-                        <div class="input client_name">
-                            <label class="form-label" :for="'client_name_' + (index + 1)">Client @{{index + 1}}</label>
-                            <input class="form-control" :name="'client_name_' + (index + 1)" type="text">
-                        </div>
-    
-                        <div class="input date_kontainer">
-                            <div class="date project_start">
-                                <label class="form-label" :for="'project_start' + (index + 1)">Start</label>
-                                <input class="form-control" type="date" :name="'project_start' + (index + 1)">
-                            </div>
-        
-                            <div class="date project_end">
-                                <label class="form-label" :for="'project_end' + (index + 1)">End</label>
-                                <input class="form-control" type="date" :name="'project_end' + (index + 1)">
-                            </div>
-                        </div>
-    
-                        <div class="input project_description">
-                            <label class="form-label" :for="'project_description_' + (index + 1)">Project Description @{{index + 1}}</label>
-                            <input class="trix-editor" :id="'project_description_' + (index + 1)" :name="'project_description_' + (index + 1)" type="hidden">
-                            <trix-editor input="project_description"></trix-editor>
-                        </div>
-    
-                        <button type="button" class="btn btn-danger" @click="removeInput2(index)">Hapus</button>
-                        <hr>
+                
+                <div id="Project" class="Project" v-for='(project, index) in projects' :key='index'>
+                
+                    <div class="input Project_name">
+                        <label class="form-label" :for="'Project_name' + (index + 1)">Project Name @{{index + 1}}</label>
+                        <input class="form-control" :name="'Project_name' + (index + 1)" type="text">
                     </div>
-                    <button type="button" class="btn btn-secondary" @click="addInput2" >Tambah</button> 
+                    <div class="input client_name">
+                        <label class="form-label" :for="'client_name_' + (index + 1)">Client @{{index + 1}}</label>
+                        <input class="form-control" :name="'client_name_' + (index + 1)" type="text">
+                    </div>
+
+                    <div class="input date_kontainer">
+                        <div class="date project_start">
+                            <label class="form-label" :for="'project_start' + (index + 1)">Start</label>
+                            <input class="form-control" type="date" :name="'project_start' + (index + 1)">
+                        </div>
+    
+                        <div class="date project_end">
+                            <label class="form-label" :for="'project_end' + (index + 1)">End</label>
+                            <input class="form-control" type="date" :name="'project_end' + (index + 1)">
+                        </div>
+                    </div>
+
+                    <div class="input project_description">
+                        <label class="form-label" :for="'project_description_' + (index + 1)">Project Description @{{index + 1}}</label>
+                        <input class="trix-editor" :id="'project_description_' + (index + 1)" :name="'project_description_' + (index + 1)" type="hidden">
+                        <trix-editor input="project_description"></trix-editor>
+                    </div>
+
+                    <button type="button" class="btn btn-danger" @click="removeInput2(index)">Delete</button>
                 </div>
+                    <button type="button" class="btn btn-secondary ms-4" @click="addInput2" >Add</button> 
+               
 
                 
             </div>
