@@ -1,0 +1,22 @@
+label{
+    font-weight: bolder;
+}
+
+.date{
+    width: 200px;
+}
+
+.input{
+    margin-bottom: 10px;
+}
+hr{
+    border: 2px solid black
+}
+.date_kontainer{
+    display: flex;
+    gap: 20px;
+}
+
+.references{
+    width: 300px;
+}
