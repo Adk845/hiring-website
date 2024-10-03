@@ -30,11 +30,28 @@
 
                             <!-- Work Location -->
                             <div class="form-group">
-                                <label for="work_location">Work Location</label>
-                                <input type="text" class="form-control @error('work_location') is-invalid @enderror"
-                                    id="work_location" placeholder="Masukkan lokasi kerja" name="work_location"
-                                    value="{{ old('work_location') }}">
-                                @error('work_location')
+                                <label for="work_location_id">Work Location</label>
+                                <select class="form-control @error('work_location_id') is-invalid @enderror" id="work_location_id" name="work_location_id">
+                                    <option value="">Pilih Lokasi Kerja</option>
+                                    @foreach($workLocations as $location)
+                                    <option value="{{ $location->id }}" {{ old('work_location_id') == $location->id ? 'selected' : '' }}>
+                                        {{ $location->location }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('work_location_id')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+
+                            <!-- Spesifikasi -->
+                            <div class="form-group">
+                                <label for="spesifikasi">Spesifikasi</label>
+                                <input type="text" class="form-control @error('spesifikasi') is-invalid @enderror"
+                                    id="spesifikasi" placeholder="Masukkan spesifikasi pekerjaan" name="spesifikasi"
+                                    value="{{ old('spesifikasi') }}">
+                                @error('spesifikasi')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -52,23 +69,19 @@
                         </div>
 
                         <!-- Kolom Kanan -->
-                        
-
-
-                            <div class="col-md-6">
-                                <!-- Employment Type -->
-                                <div class="form-group">
-                                    <label for="employment_type">Employment Type</label>
-                                    <select class="form-control @error('employment_type') is-invalid @enderror" id="employment_type" name="employment_type">
-                                        <option value="">Pilih Tipe Pekerjaan</option>
-                                        <option value="permanent" {{ old('employment_type') == 'permanent' ? 'selected' : '' }}>Permanent</option>
-                                        <option value="contract" {{ old('employment_type') == 'contract' ? 'selected' : '' }}>Contract</option>
-                                    </select>
-                                    @error('employment_type')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                        
+                        <div class="col-md-6">
+                            <!-- Employment Type -->
+                            <div class="form-group">
+                                <label for="employment_type">Employment Type</label>
+                                <select class="form-control @error('employment_type') is-invalid @enderror" id="employment_type" name="employment_type">
+                                    <option value="">Pilih Tipe Pekerjaan</option>
+                                    <option value="permanent" {{ old('employment_type') == 'permanent' ? 'selected' : '' }}>Permanent</option>
+                                    <option value="contract" {{ old('employment_type') == 'contract' ? 'selected' : '' }}>Contract</option>
+                                </select>
+                                @error('employment_type')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
 
                             <!-- Department -->
                             <div class="form-group">
@@ -103,7 +116,7 @@
                     <!-- Benefit -->
                     <div class="form-group">
                         <label for="benefit">Benefit</label>
-                        <input class="trix-editor" id="benefit" type="hidden" name="benefit">
+                        <input class="trix-editor" id="benefit" type="hidden" name="benefit" value="{{ old('benefit') }}">
                         <trix-editor input="benefit"></trix-editor>
                         @error('benefit')
                         <span class="text-danger">{{ $message }}</span>
@@ -113,7 +126,7 @@
                     <!-- Responsibilities -->
                     <div class="form-group">
                         <label for="responsibilities">Responsibilities</label>
-                        <input class="trix-editor" id="responsibilities" type="hidden" name="responsibilities">
+                        <input class="trix-editor" id="responsibilities" type="hidden" name="responsibilities" value="{{ old('responsibilities') }}">
                         <trix-editor input="responsibilities"></trix-editor>
                         @error('responsibilities')
                         <span class="text-danger">{{ $message }}</span>
@@ -123,7 +136,7 @@
                     <!-- Requirements -->
                     <div class="form-group">
                         <label for="requirements">Requirements</label>
-                        <input class="trix-editor" id="requirements" type="hidden" name="requirements">
+                        <input class="trix-editor" id="requirements" type="hidden" name="requirements" value="{{ old('requirements') }}">
                         <trix-editor input="requirements"></trix-editor>
                         @error('requirements')
                         <span class="text-danger">{{ $message }}</span>
@@ -131,15 +144,12 @@
                     </div>
 
                     <!-- Status Published (Hidden Input) -->
-
                     <div class="form-group d-none">
                         <input type="hidden" name="status_published" value="0">
                         @error('status_published')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-
-
 
                 </div>
                 <div class="card-footer">
@@ -150,12 +160,13 @@
         </div>
     </div>
 </form>
-<link rel="stylesheet" type="text/css" href="{{ asset('css/jobs.create.css')}}"> {{-- library untuk text editor --}}
+
+<link rel="stylesheet" type="text/css" href="{{ asset('css/jobs.create.css') }}"> {{-- library untuk text editor --}}
 
 @push('js')
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css"> {{-- library untuk text editor --}}
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css"> {{-- library untuk text editor --}}
 @endpush
-<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script> {{-- library untuk text editor --}}
 
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script> {{-- library untuk text editor --}}
 
 @stop
