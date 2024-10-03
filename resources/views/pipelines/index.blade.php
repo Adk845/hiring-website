@@ -53,8 +53,7 @@
                                 </div>
                             </td>
                             <td>{{ $applicant->email }}</td>
-                            <td>{{ dd($applicant->job->workLocation) }}</td>
-
+                            <td>{{ optional($applicant->job)->work_location }}</td>
                             <td>{{ $applicant->number }}</td>
                             <td class="pipeline_stage">
                                 <div>
