@@ -9,7 +9,7 @@
 @section('content')
 <form action="{{ route('jobs.update', $job->id) }}" method="post">
     @csrf
-    @method('PUT') <!-- Metode PUT untuk update -->
+    @method('PUT') <!-- Metode HTTP PUT untuk update data -->
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -31,11 +31,27 @@
 
                             <!-- Work Location -->
                             <div class="form-group">
-                                <label for="work_location">Work Location</label>
-                                <input type="text" class="form-control @error('work_location') is-invalid @enderror"
-                                    id="work_location" placeholder="Masukkan lokasi kerja" name="work_location"
-                                    value="{{ old('work_location', $job->work_location) }}">
-                                @error('work_location')
+                                <label for="work_location_id">Work Location</label>
+                                <select class="form-control @error('work_location_id') is-invalid @enderror" id="work_location_id" name="work_location_id">
+                                    <option value="">Pilih Lokasi Kerja</option>
+                                    @foreach( $work_locations as $location)
+                                    <option value="{{ $location->id }}" {{ old('work_location_id', $job->work_location_id) == $location->id ? 'selected' : '' }}>
+                                        {{ $location->location }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('work_location_id')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Spesifikasi -->
+                            <div class="form-group">
+                                <label for="spesifikasi">Spesifikasi</label>
+                                <input type="text" class="form-control @error('spesifikasi') is-invalid @enderror"
+                                    id="spesifikasi" placeholder="Masukkan spesifikasi pekerjaan" name="spesifikasi"
+                                    value="{{ old('spesifikasi', $job->spesifikasi) }}">
+                                @error('spesifikasi')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -71,11 +87,10 @@
                             <div class="form-group">
                                 <label for="department">Departemen</label>
                                 <select class="form-control @error('department') is-invalid @enderror"
-                                    id="department" name="department" required>
+                                    id="department" name="department">
                                     <option value="">Pilih Departemen</option>
-                                    @foreach($departements as $departement)
-                                    <option value="{{ $departement->id }}" 
-                                        {{ old('department', $job->department) == $departement->id ? 'selected' : '' }}>
+                                    @foreach($departments as $departement)
+                                    <option value="{{ $departement->id }}" {{ old('department', $job->department) == $departement->id ? 'selected' : '' }}>
                                         {{ $departement->dep_name }}
                                     </option>
                                     @endforeach
@@ -102,7 +117,7 @@
                     <div class="form-group">
                         <label for="benefit">Benefit</label>
                         <input class="trix-editor" id="benefit" type="hidden" name="benefit" value="{{ old('benefit', $job->benefit) }}">
-                        <trix-editor input="benefit">{{ old('benefit', $job->benefit) }}</trix-editor>
+                        <trix-editor input="benefit"></trix-editor>
                         @error('benefit')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -112,7 +127,7 @@
                     <div class="form-group">
                         <label for="responsibilities">Responsibilities</label>
                         <input class="trix-editor" id="responsibilities" type="hidden" name="responsibilities" value="{{ old('responsibilities', $job->responsibilities) }}">
-                        <trix-editor input="responsibilities">{{ old('responsibilities', $job->responsibilities) }}</trix-editor>
+                        <trix-editor input="responsibilities"></trix-editor>
                         @error('responsibilities')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -122,16 +137,8 @@
                     <div class="form-group">
                         <label for="requirements">Requirements</label>
                         <input class="trix-editor" id="requirements" type="hidden" name="requirements" value="{{ old('requirements', $job->requirements) }}">
-                        <trix-editor input="requirements">{{ old('requirements', $job->requirements) }}</trix-editor>
+                        <trix-editor input="requirements"></trix-editor>
                         @error('requirements')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- Status Published (Hidden Input) -->
-                    <div class="form-group d-none">
-                        <input type="hidden" name="status_published" value="0"> 
-                        @error('status_published')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -145,6 +152,13 @@
         </div>
     </div>
 </form>
+
+<link rel="stylesheet" type="text/css" href="{{ asset('css/jobs.edit.css') }}"> {{-- library untuk text editor --}}
+
+@push('js')
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css"> {{-- library untuk text editor --}}
+@endpush
+
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script> {{-- library untuk text editor --}}
+
 @stop

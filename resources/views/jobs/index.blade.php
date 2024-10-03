@@ -15,13 +15,16 @@
                 <div class="ms-auto d-flex">
                     <!-- Form Search Job dengan tampilan modern -->
                     <div class="search-bar me-3">
-                        <form action="{{ route('pipelines.index') }}" method="GET">
-                            <input type="text" name="search" placeholder="Search applicants..." value="{{ request()->get('search') }}">
+                        <form action="{{ route('jobs.index') }}" method="GET">
+                            <input type="text" name="search" placeholder="Search jobs..." value="{{ request()->get('search') }}">
                             <button type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
-                        </form>
+                          </form>
                     </div>
+                    <a href="{{ route('jobs.create') }}" class="btn btn-primary btn-extended">
+                        <i class="fa fa-plus"></i> Create Job
+                    </a>
                 </div>
             </div>
             <div class="card-body">

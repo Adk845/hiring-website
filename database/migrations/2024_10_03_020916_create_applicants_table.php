@@ -27,10 +27,10 @@ return new class extends Migration
                 $table->string('experience_period');
                 $table->string('photo_pass');
                 $table->text('profile');
-                $table->text('languages');
-                $table->text('mbti');
-                $table->text('iq');
-                $table->text('achievement');
+                $table->text('languages')->nullable();
+                $table->text('mbti')->nullable();
+                $table->text('iq')->nullable();
+                $table->text('achievement')->nullable();;
                 $table->text('skills');
                 $table->decimal('salary_expectation', 10, 2);
                 $table->enum('status', ['applied', 'interview', 'offer', 'accepted', 'rejected'])->default('applied');

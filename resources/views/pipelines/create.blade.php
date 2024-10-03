@@ -39,7 +39,7 @@
                         <div class="col-md-6">
                             <!-- Name -->
                             <div class="form-group">
-                                <label for="name">Nama</label>
+                                <label for="name">Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Nama Applicant" required>
                                 @error('name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -50,8 +50,8 @@
                         <div class="col-md-6">
                             <!-- Address -->
                             <div class="form-group">
-                                <label for="address">Alamat</label>
-                                <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" placeholder="Alamat Applicant" required>{{ old('address') }}</textarea>
+                                <label for="address">domicile</label>
+                                <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" placeholder="Domicile" required>{{ old('address') }}</textarea>
                                 @error('address')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -61,8 +61,8 @@
                         <div class="col-md-6">
                             <!-- Number -->
                             <div class="form-group">
-                                <label for="number">Nomor Telepon</label>
-                                <input type="text" class="form-control @error('number') is-invalid @enderror" id="number" name="number" value="{{ old('number') }}" placeholder="Nomor Telepon" required>
+                                <label for="number">Phone Number</label>
+                                <input type="text" class="form-control @error('number') is-invalid @enderror" id="number" name="number" value="{{ old('number') }}" placeholder="Phone Number" required>
                                 @error('number')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -83,8 +83,8 @@
                         <div class="col-md-6">
                             <!-- LinkedIn Profile -->
                             <div class="form-group">
-                                <label for="profil_linkedin">Link Profil LinkedIn</label>
-                                <input type="url" class="form-control @error('profil_linkedin') is-invalid @enderror" id="profil_linkedin" name="profil_linkedin" value="{{ old('profil_linkedin') }}" placeholder="Link Profil LinkedIn">
+                                <label for="profil_linkedin">Link Profile LinkedIn</label>
+                                <input type="url" class="form-control @error('profil_linkedin') is-invalid @enderror" id="profil_linkedin" name="profil_linkedin" value="{{ old('profil_linkedin') }}" placeholder="Link Profile LinkedIn">
                                 @error('profil_linkedin')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -94,8 +94,8 @@
                         <div class="col-md-6">
                             <!-- Certificates -->
                             <div class="form-group">
-                                <label for="certificates">Sertifikat</label>
-                                <input type="text" class="form-control @error('certificates') is-invalid @enderror" id="certificates" name="certificates" value="{{ old('certificates') }}" placeholder="Sertifikat yang dimiliki">
+                                <label for="certificates">Certificate</label>
+                                <input type="text" class="form-control @error('certificates') is-invalid @enderror" id="certificates" name="certificates" value="{{ old('certificates') }}" placeholder="Certificate">
                                 @error('certificates')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -239,6 +239,16 @@
                                         @enderror
                                     </div>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name_company[]">Nama Perusahaan</label>
+                                        <input type="text" class="form-control @error('name_company.*') is-invalid @enderror" name="name_company[]" placeholder="Jabatan" required>
+                                        @error('name_company.*')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="desc_kerja[]">Deskripsi Pekerjaan</label>
@@ -340,7 +350,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name_ref[]">Nama</label>
-                                        <input type="text" class="form-control @error('name_ref.*') is-invalid @enderror" name="name_ref[]" placeholder="Jabatan" required>
+                                        <input type="text" class="form-control @error('name_ref.*') is-invalid @enderror" name="name_ref[]" placeholder="Name Referace">
                                         @error('name_ref.*')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -350,7 +360,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone[]">Nomor</label>
-                                        <input type="text" class="form-control @error('phone.*') is-invalid @enderror" name="phone[]" placeholder="Jabatan" required>
+                                        <input type="text" class="form-control @error('phone.*') is-invalid @enderror" name="phone[]" placeholder="Phone Number reference" >
                                         @error('phone.*')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -359,7 +369,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="email_ref[]">email_ref</label>
-                                        <textarea class="form-control @error('email_ref.*') is-invalid @enderror" name="email_ref[]" placeholder="Deskripsi Pekerjaan" required></textarea>
+                                        <textarea class="form-control @error('email_ref.*') is-invalid @enderror" name="email_ref[]" placeholder="Email Reference" ></textarea>
                                         @error('email_ref.*')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror

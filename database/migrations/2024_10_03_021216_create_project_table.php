@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('project', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('applicant_id'); // Foreign key column
-            $table->string('project_name');
-            $table->text('desc_project');
-            $table->string('client');
-            $table->date('mulai_project');
-            $table->date('selesai_project');
+            $table->string('project_name')->nullable();
+            $table->text('desc_project')->nullable();
+            $table->string('client')->nullable();
+            $table->date('mulai_project')->nullable();
+            $table->date('selesai_project')->nullable();
             $table->timestamps();
             $table->foreign('applicant_id')->references('id')->on('applicants')->onDelete('cascade');
 

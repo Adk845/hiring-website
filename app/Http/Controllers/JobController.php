@@ -12,24 +12,35 @@ class JobController extends Controller
     // Display all jobs or filter by department
     public function index(Request $request)
     {
-        $departmentId = $request->get('department');
+        // Mulai query dari Model Job
+        $query = ModelsJob::query();
 
-        // Filter by department if it's provided, otherwise show all jobs
-        if ($departmentId) {
-            $jobs = ModelsJob::where('department', $departmentId)->get();
-        } else {
-            $jobs = ModelsJob::all(); 
+        // Filter berdasarkan kata kunci pencarian jika ada
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('job_name', 'like', '%' . $search . '%');
         }
-        
+
+        // Filter berdasarkan department jika ada
+        if ($request->has('department')) {
+            $departmentId = $request->get('department');
+            $query->where('department', $departmentId);
+        }
+
+        // Ambil semua data setelah filter
+        $jobs = $query->get();
+
+        // Kirim data ke view
         return view('jobs.index', compact('jobs'));
     }
+
 
     // Show the form for creating a new job
     public function create()
     {
         $departements = Departement::all(); // Fetch all departments
         $workLocations = WorkLocation::all(); // Fetch all work locations
-        
+
         return view('jobs.create', compact('departements', 'workLocations'));
     }
 
@@ -47,50 +58,57 @@ class JobController extends Controller
             'benefit' => 'nullable|string',
             'responsibilities' => 'nullable|string',
             'requirements' => 'nullable|string',
+            'spesifikasi' => 'nullable|string',
+
         ]);
-    
+
         // dd($request->all()); // This will dump the request data and halt execution
         ModelsJob::create($request->all());
-        
-    
+
+
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
-    
+
     // Show the form to edit an existing job
     public function edit($id)
     {
-        $job = ModelsJob::findOrFail($id); // Fetch the job by ID
-        $departements = Departement::all(); // Fetch all departments
-        $workLocations = WorkLocation::all(); // Fetch all work locations
-    
-        return view('jobs.edit', compact('job', 'departements', 'workLocations'));
+        // Ambil job berdasarkan ID
+        $job = ModelsJob::findOrFail($id);
+        
+        // Ambil data work_location dan departement jika ingin ditampilkan dalam dropdown
+        $work_locations = WorkLocation::all();
+        $departments = Departement::all();
+        
+        // Tampilkan halaman edit dengan data job
+        return view('jobs.edit', compact('job', 'work_locations', 'departments'));
     }
     
-    // Update the job in the database
     public function update(Request $request, $id)
     {
-        // Validate the request input based on your database schema
+        // Validasi input
         $request->validate([
             'job_name' => 'required|string|max:255',
-            'work_location_id' => 'required|exists:work_location,id',
-            'spesifikasi' => 'nullable|string',
-            'department' => 'required|exists:departements,id', // Make sure department exists
+            'work_location_id' => 'required|exists:work_location,id', // Validasi bahwa work_location_id ada
+            'department' => 'required|exists:departements,id',
             'employment_type' => 'required|string',
             'minimum_salary' => 'required|numeric',
             'maximum_salary' => 'required|numeric',
             'benefit' => 'nullable|string',
             'responsibilities' => 'nullable|string',
             'requirements' => 'nullable|string',
-            'status_published' => 'required|boolean',
+            'spesifikasi' => 'nullable|string',
         ]);
-
-        // Update the job record
+    
+        // Cari job berdasarkan ID
         $job = ModelsJob::findOrFail($id);
+    
+        // Update data job
         $job->update($request->all());
-
+    
+        // Redirect kembali ke halaman index dengan pesan sukses
         return redirect()->route('jobs.index')->with('success', 'Job updated successfully.');
     }
-
+    
     // Delete a job from the database
     public function destroy($id)
     {

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('job_name');
             $table->unsignedBigInteger('work_location_id');
-            $table->string('spesifikasi');
+            $table->string('spesifikasi')->nullable();
             $table->unsignedBigInteger('department');
             $table->string('employment_type');
             $table->decimal('minimum_salary', 10, 2);
