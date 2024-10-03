@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('applicant_id'); // Foreign key column
             $table->string('role');
+            $table->string('name_company');
             $table->text('desc_kerja');
             $table->date('mulai');
             $table->date('selesai');

@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('reference', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('applicant_id'); // Foreign key column
-            $table->string('name_ref');
-            $table->text('phone');
-            $table->string('email_ref');
+            $table->string('name_ref')->nullable();
+            $table->text('phone')->nullable();
+            $table->string('email_ref')->nullable();
             $table->timestamps();
             $table->foreign('applicant_id')->references('id')->on('applicants')->onDelete('cascade');
         });

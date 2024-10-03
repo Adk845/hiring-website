@@ -12,6 +12,7 @@ class WorkExperience extends Model
     protected $table = 'work_experience'; // Optional: specify if your table is not following Laravel's naming conventions
 
     protected $fillable = [
+        'name_company',
         'role',
         'desc_kerja',
         'mulai',
