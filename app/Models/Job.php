@@ -15,7 +15,8 @@ class Job extends Model
     // Kolom yang bisa diisi secara massal (mass assignment)
     protected $fillable = [
         'job_name',
-        'work_location',
+        'work_location_id', // Corrected from 'work_location'
+        'spesifikasi',      // Added 'spesifikasi' as it's part of the schema
         'department',
         'employment_type',
         'minimum_salary',
@@ -26,16 +27,21 @@ class Job extends Model
         'status_published',
     ];
 
-    // Relasi ke model lain, jika ada
+   
     public function applicants()
     {
         return $this->hasMany(Applicant::class);
     }
 
+    // Relasi ke departemen
     public function departement()
     {
-        return $this->belongsTo(Departement::class);
+        return $this->belongsTo(Departement::class, 'department');
+    }
+
+    // Relasi ke lokasi kerja
+    public function workLocation()
+    {
+        return $this->belongsTo(WorkLocation::class, 'work_location_id');
     }
 }
-
-

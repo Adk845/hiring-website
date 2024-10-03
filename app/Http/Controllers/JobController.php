@@ -3,119 +3,101 @@
 namespace App\Http\Controllers;
 
 use App\Models\Departement;
+use App\Models\WorkLocation;
 use App\Models\Job as ModelsJob;
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Http\Request;
-
 
 class JobController extends Controller
 {
-   
+    // Display all jobs or filter by department
     public function index(Request $request)
-{
-    $departmentId = $request->get('department');
+    {
+        $departmentId = $request->get('department');
 
-    if ($departmentId) {
-        $jobs = ModelsJob::where('department', $departmentId)->get();
-    } else {
-        $jobs = ModelsJob::all(); 
-    }
+        // Filter by department if it's provided, otherwise show all jobs
+        if ($departmentId) {
+            $jobs = ModelsJob::where('department', $departmentId)->get();
+        } else {
+            $jobs = ModelsJob::all(); 
+        }
         
-    return view('jobs.index', compact('jobs'));
-}
+        return view('jobs.index', compact('jobs'));
+    }
 
-
-
-
+    // Show the form for creating a new job
     public function create()
     {
-        // Mengambil semua departemen dari database
-        $departements = Departement::all();
+        $departements = Departement::all(); // Fetch all departments
+        $workLocations = WorkLocation::all(); // Fetch all work locations
         
-        // Mengirim data departemen ke view create
-        return view('jobs.create', compact('departements'));
+        return view('jobs.create', compact('departements', 'workLocations'));
     }
 
-    // Menyimpan data job baru ke database
+    // Store a new job in the database
     public function store(Request $request)
     {
-        // Validasi input
+        // Validate input
         $request->validate([
             'job_name' => 'required|string|max:255',
-            'work_location' => 'required|string|max:255',
-            'department' => 'required|exists:departements,id', // Pastikan ini menggunakan ID
+            'work_location_id' => 'required|exists:work_location,id', // Validate that work_location_id exists
+            'department' => 'required|exists:departements,id',
             'employment_type' => 'required|string',
             'minimum_salary' => 'required|numeric',
             'maximum_salary' => 'required|numeric',
             'benefit' => 'nullable|string',
             'responsibilities' => 'nullable|string',
             'requirements' => 'nullable|string',
-            // 'status_published' => 'required|boolean',
         ]);
-
-        // Menyimpan job baru
+    
+        // dd($request->all()); // This will dump the request data and halt execution
         ModelsJob::create($request->all());
-        // ModelsJob::create(array_merge($request->all(), ['status_published' => 'unpublished']));
-
+        
+    
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
-
-    // Menampilkan form edit untuk job
+    
+    // Show the form to edit an existing job
     public function edit($id)
     {
-        // Fetch the job by ID
-        $job = ModelsJob::findOrFail($id);
-        // Fetch all departments
-        $departements = Departement::all();
+        $job = ModelsJob::findOrFail($id); // Fetch the job by ID
+        $departements = Departement::all(); // Fetch all departments
+        $workLocations = WorkLocation::all(); // Fetch all work locations
     
-        // Return the edit view with job and departments
-        return view('jobs.edit', compact('job', 'departements'));
+        return view('jobs.edit', compact('job', 'departements', 'workLocations'));
     }
     
-    // Memperbarui data job di database
+    // Update the job in the database
     public function update(Request $request, $id)
     {
-        // Validasi input
+        // Validate the request input based on your database schema
         $request->validate([
             'job_name' => 'required|string|max:255',
-            'work_location' => 'required|string|max:255',
-            'department' => 'required|string|max:255',
+            'work_location_id' => 'required|exists:work_location,id',
+            'spesifikasi' => 'nullable|string',
+            'department' => 'required|exists:departements,id', // Make sure department exists
             'employment_type' => 'required|string',
             'minimum_salary' => 'required|numeric',
             'maximum_salary' => 'required|numeric',
             'benefit' => 'nullable|string',
             'responsibilities' => 'nullable|string',
             'requirements' => 'nullable|string',
-            
+            'status_published' => 'required|boolean',
         ]);
 
-        // Memperbarui job
+        // Update the job record
         $job = ModelsJob::findOrFail($id);
         $job->update($request->all());
 
         return redirect()->route('jobs.index')->with('success', 'Job updated successfully.');
     }
 
-
-// public function updateStatus(Request $request, Job $job)
-// {
-//     $request->validate([
-//         'status_published' => 'required|boolean',
-//     ]);
-
-//     $job->status_published = $request->status_published;
-//     $job->save();
-
-//     return redirect()->route('jobs.index')->with('success', 'Status updated successfully.');
-// }
-
-public function destroy($id)
+    // Delete a job from the database
+    public function destroy($id)
     {
-        //Menghapus department
+        // Find and delete the job
         $job = ModelsJob::find($id);
 
         if ($job) $job->delete();
-        return redirect()->route('jobs.index')->with('success_message', 'Berhasil menghapus department');
+        return redirect()->route('jobs.index')->with('success_message', 'Job deleted successfully.');
     }
-
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PipelineController;
 use App\Http\Controllers\VacancyController;
+use App\Models\Applicant;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,7 @@ Route::put('/applicants/{id}/updateStatus', [ApplicantController::class, 'update
 Route::get('/pipelines/{id}/pdf', [ApplicantController::class, 'generatePdf'])->name('applicants.generatePdf');
 
 Route::delete('/pipelines/{applicant}', [ApplicantController::class, 'destroy'])->name('pipelines.destroy');
+Route::get('/get-jurusan/{education_id}', [ApplicantController::class, 'getJurusan']);
 
 // Route::resource('pipelines', PipelineController::class);
 

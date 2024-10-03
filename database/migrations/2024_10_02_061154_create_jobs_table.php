@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('job_name');
-            $table->string('work_location');
+            $table->unsignedBigInteger('work_location_id');
+            $table->string('spesifikasi');
             $table->unsignedBigInteger('department');
             $table->string('employment_type');
             $table->decimal('minimum_salary', 10, 2);
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->boolean('status_published')->default(0); // Nilai default 0 (Unpublished)
             $table->timestamps();
             $table->foreign('department')->references('id')->on('departements')->onDelete('cascade');
+            $table->foreign('work_location_id')->references('id')->on('work_location')->onDelete('cascade');
 
         });
     }
