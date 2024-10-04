@@ -9,14 +9,12 @@ class Job extends Model
 {
     use HasFactory;
 
-    // Nama tabel yang digunakan (opsional, jika berbeda dengan default plural)
+    
     protected $table = 'jobs';
-
-    // Kolom yang bisa diisi secara massal (mass assignment)
     protected $fillable = [
         'job_name',
-        'work_location_id', // Corrected from 'work_location'
-        'spesifikasi',      // Added 'spesifikasi' as it's part of the schema
+        'work_location_id', 
+        'spesifikasi',     
         'department',
         'employment_type',
         'minimum_salary',

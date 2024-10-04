@@ -34,7 +34,8 @@
                         <td>
                             <div class="kontainer_name_location" data-bs-toggle="modal" data-bs-target="#jobModal" data-job="{{ json_encode($job) }}">
                                 <p class="job_name" style="font-weight: bold;">{{ $job->job_name }}</p>
-                                <p class="text-muted">{{ $job->work_location }}</p>
+                                <p class="text-muted">{{ $job->workLocation->location }} - <span>{{ $job->spesifikasi }} </span></p>
+
                             </div>
                         </td>
                         @foreach (['applied', 'interview', 'offer', 'accepted', 'rejected'] as $status)
@@ -151,7 +152,7 @@
         $('.kontainer_name_location').on('click', function() {
             var job = $(this).data('job');
             $('#modal-job-name').text(job.job_name);
-            $('#modal-job-location').text(job.work_location);
+            $('#modal-job-location').text(job.work_location_id); // Display 'No location' if null
             $('#modal-minimum-salary').text(job.minimum_salary);
             $('#modal-maximum-salary').text(job.maximum_salary);
             $('#modal-employment-type').text(job.employment_type);

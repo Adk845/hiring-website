@@ -6,6 +6,7 @@ use App\Models\Applicant;
 use App\Models\Education;
 use App\Models\Job;
 use App\Models\jURUSAN;
+use App\Models\Project;
 use App\Models\Reference;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -186,8 +187,10 @@ class ApplicantController extends Controller
         $applicant = Applicant::with(['workExperiences', 'projects', 'references'])->findOrFail($id);
         $jobs = Job::all();
         $educations = Education::all();
-        $jurusans = Jurusan::all();
+        $jurusans = Jurusan::where('education_id', $applicant->education_id)->get(); 
         $references = Reference::all();
+        $project = Project::all();
+
 
     
         return view('pipelines.edit', compact('applicant', 'jobs', 'educations', 'jurusans'));
