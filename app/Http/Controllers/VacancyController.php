@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Education;
 use Illuminate\Http\Request;
 use App\Models\Job;
 
@@ -23,10 +24,17 @@ class VacancyController extends Controller
         return view('vacancy_list', compact('jobs'));
     }
 
+    public function submit_applicant(Request $request)
+    {
+        $data = $request;
+        return view('test', compact('data'));
+    }
+
     public function form($id)
     {
         $jobs = Job::findOrFail($id);
+        $educations = Education::all();
 
-        return view('vacancy_form', compact('jobs'));
+        return view('vacancy_form', compact('jobs', 'educations'));
     }
 }

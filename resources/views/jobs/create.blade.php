@@ -47,9 +47,9 @@
 
                             <!-- Spesifikasi -->
                             <div class="form-group">
-                                <label for="spesifikasi">Spesifikasi</label>
+                                <label for="spesifikasi">Company Name</label>
                                 <input type="text" class="form-control @error('spesifikasi') is-invalid @enderror"
-                                    id="spesifikasi" placeholder="Masukkan spesifikasi pekerjaan" name="spesifikasi"
+                                    id="spesifikasi" placeholder="isi jika lokasi pekerjaan berada di perusahaan spesifik" name="spesifikasi"
                                     value="{{ old('spesifikasi') }}">
                                 @error('spesifikasi')
                                 <span class="text-danger">{{ $message }}</span>
@@ -57,15 +57,7 @@
                             </div>
 
                             <!-- Minimum Salary -->
-                            <div class="form-group">
-                                <label for="minimum_salary">Minimum Salary</label>
-                                <input type="number" class="form-control @error('minimum_salary') is-invalid @enderror"
-                                    id="minimum_salary" placeholder="Gaji minimum" name="minimum_salary"
-                                    value="{{ old('minimum_salary') }}">
-                                @error('minimum_salary')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            
                         </div>
 
                         <!-- Kolom Kanan -->
@@ -101,14 +93,26 @@
                             </div>
 
                             <!-- Maximum Salary -->
-                            <div class="form-group">
-                                <label for="maximum_salary">Maximum Salary</label>
-                                <input type="number" class="form-control @error('maximum_salary') is-invalid @enderror"
-                                    id="maximum_salary" placeholder="Gaji maksimum" name="maximum_salary"
-                                    value="{{ old('maximum_salary') }}">
-                                @error('maximum_salary')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                            <div class="form-group row">
+                                
+                                <div class="col">
+                                    <label for="minimum_salary">Minimum Salary</label>
+                                    <input type="number" class="form-control @error('minimum_salary') is-invalid @enderror"
+                                        id="minimum_salary" placeholder="Gaji minimum" name="minimum_salary"
+                                        value="{{ old('minimum_salary') }}">
+                                    @error('minimum_salary')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col">
+                                    <label for="maximum_salary">Maximum Salary</label>
+                                    <input type="number" class="form-control @error('maximum_salary') is-invalid @enderror"
+                                        id="maximum_salary" placeholder="Gaji maksimum" name="maximum_salary"
+                                        value="{{ old('maximum_salary') }}">
+                                    @error('maximum_salary')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>
