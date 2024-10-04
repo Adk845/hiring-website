@@ -11,11 +11,20 @@
 </head>
 <body>
 
+    @if($_POST)
+        @dump($_POST);
+
+    @endif
 <div class="container">
     <div class="header">
-        <h1 class="job_title">Accountant</h1>
+        <h1 class="job_title">{{$jobs->job_name}}</h1>
     </div>
-    <form action="" @submit.prevent="submitForm">
+    <form action="{{ route('pipelines.store') }}" @submit.prevent="submitForm" enctype="multipart/form-data">
+        @csrf
+        <div class="hidden_input">
+            <input type="hidden" name="job_id" value="{{$jobs->id}}">
+            {{-- <input type="hidden" name="status" value="Applicant"> --}}
+        </div>
         <div class="form_kontainer">
             <div class="row mb-5">
                 <div class="col">
@@ -55,11 +64,9 @@
                         <label class="form-label" >Education</label>
                         <select class="form-select" name="education" id="education" aria-label="Default select example">
                             <option selected>Open this select menu</option>
-                            <option value="SMA">SMA</option>
-                            <option value="SMK">SMK</option>
-                            <option value="S1">S1</option>
-                            <option value="S2">S2</option>
-                            <option value="S3">S3</option>                 
+                            @foreach($educations as $education)
+                                <option value="{{$education->id}}">{{$education->name_education}}</option>
+                            @endforeach    
                         </select>
                         @error('education')
                         <span class="text-danger">{{ $message }}</span>
@@ -86,8 +93,8 @@
                 <div class="col">
                     
                     <div class="input">
-                        <label class="form-label" for="profil_linkdin" id="profil_linkdin">Link Profil Linkdin</label>
-                        <input class="form-control" type="text" name="profil_linkdin" placeholder="https://linkdin/....">
+                        <label class="form-label" for="profil_linkedin" id="profil_linkedin">Link Profil Linkdin</label>
+                        <input class="form-control" type="text" name="profil_linkedin" placeholder="https://linkdin/....">
                         @error('profil_linkdin')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -103,25 +110,7 @@
 
                     <div class="input">
                         <label class="form-label" >MBTI Test</label>
-                        <select class="form-select" name="mbti" id="mbti" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="ISTJ">ISTJ</option>
-                            <option value="ISTP">ISTP</option>
-                            <option value="ISFJ">ISFJ</option>
-                            <option value="ISFP">ISFP</option>
-                            <option value="INFJ">INFJ</option>
-                            <option value="INFP">INFP</option>
-                            <option value="INTJ">INTJ</option>
-                            <option value="INTP">INTP</option>
-                            <option value="ESTP">ESTP</option>
-                            <option value="ESTJ">ESTJ</option>
-                            <option value="ESFP">ESFP</option>
-                            <option value="ENFJ">ENFJ</option>
-                            <option value="ESFJ">ESFJ</option>
-                            <option value="ENFP">ENFP</option>
-                            <option value="ENTJ">ENTJ</option>
-                            <option value="ENTP">ENTP</option>                          
-                        </select>
+                        <input class="form-control" name="mbti" id="mbti">    
                         @error('mbti')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -139,13 +128,8 @@
                     <div class="input">
                         <label class="form-label" >Major</label>
                         <select class="form-select" name="jurusan" id="jurusan" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="IT">IT</option>
-                            <option value="HSE">HSE</option>
-                            <option value="Accountant">Accountant</option>
-                            <option value="Management">Management</option>
-                            <option value="Business">Business</option>
-                            <option value="Mechanical">Mechanical</option>                                                
+                            <option value="">Open this select menu</option>
+                                                                          
                         </select>
                         @error('jurusan')
                         <span class="text-danger">{{ $message }}</span>
@@ -153,9 +137,9 @@
                     </div>
 
                     <div class="input">
-                        <label class="form-label" for="exp_period" id="exp_period">Work Experience Period</label>
-                        <input class="form-control" type="number" name="exp_period" placeholder="Years">
-                        @error('exp_period')
+                        <label class="form-label" for="experience_period" id="experience_period">Work Experience Period</label>
+                        <input class="form-control" type="number" name="experience_period" placeholder="Years">
+                        @error('experience_period')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -183,7 +167,7 @@
 
             <div class="input certificate">
                 <label for="certificate">Certificate</label>
-                <input class="trix-editor" id="certificate" type="hidden" name="certificate">
+                <input class="trix-editor" id="certificates" type="hidden" name="certificate">
                 <trix-editor input="certificate"></trix-editor>
                 @error('certificate')
                 <span class="text-danger">{{ $message }}</span>
@@ -196,16 +180,25 @@
                 <div class="references_kontainer">
                     <div class="references" v-for="(reference, index) in references">
                         <div class="input references_name" >
-                            <label class="form-label" for="references_name">Instution / Company Name</label>
-                            <input class="form-control" type="text" name="references_name" id="references_name">
+                            <label class="form-label" for="name_ref[]">Instution / Company Name</label>
+                            <input class="form-control" type="text" name="name_ref[]" id="name_ref[]">
+                            @error('name_ref.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="input references_email">
-                            <label for="references_email" class="form-label">Email</label>
-                            <input type="email" name="references_email" id="references_email" class="form-control">
+                            <label for="email_ref[]" class="form-label">Email</label>
+                            <input type="email" name="email_ref[]" id="email_ref[]" class="form-control">
+                            @error('reference_mail')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="input references_number">
-                            <label for="references_number" class="form-label">Number</label>
-                            <input type="text" class="form-control">
+                            <label for="phone[]" class="form-label">Number</label>
+                            <input type="text" class="form-control" name="phone[]">
+                            @error('phone.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <button type="button" class="btn btn-danger" @click="removeInput3(index)">Delete</button>
                     </div>
@@ -218,31 +211,43 @@
                 <div  id="work_experience" class="work_experience" v-for='(experience, index) in experiences' :key='index'>
                     
                     <div class="input company_name">
-                        <label class="form-label" :for="'company_name_' + (index + 1)">Company Name @{{index + 1}}</label>
-                        <input class="form-control" :name="'company_name_' + (index + 1)" type="text">
+                        <label class="form-label" :for="'company_name[]'">Company Name @{{index + 1}}</label>
+                        <input class="form-control" :name="'company[]'" type="text">
+                        @error('role_name')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="input role_name">
-                        <label class="form-label" :for="'role_name_' + (index + 1)">Position Name @{{index + 1}}</label>
-                        <input class="form-control" :name="'role_name_' + (index + 1)" type="text">
+                        <label class="form-label" :for="'role[]'">Position Name @{{index + 1}}</label>
+                        <input class="form-control" :name="'role[]'" type="text">
+                        @error('role.*')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="input date_kontainer">
                         <div class="date work_start">
-                            <label class="form-label" :for="'work_start' + (index + 1)">Start</label>
-                            <input class="form-control" type="date" :name="'work_start' + (index + 1)">
+                            <label class="form-label" :for="'mulai[]'">Start</label>
+                            <input class="form-control" type="date" :name="'mulai[]'">
+                            @error('mulai.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
     
                         <div class="date work_end">
-                            <label class="form-label" :for="'work_end' + (index + 1)">End</label>
-                            <input class="form-control" type="date" :name="'work_end' + (index + 1)">
+                            <label class="form-label" :for="'selesai[]'">End</label>
+                            <input class="form-control" type="date" :name="'selesai[]'">
+                            @error('selesai.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="input job_description">
-                        <label class="form-label" :for="'job_description_' + (index + 1)">Job Description @{{index + 1}}</label>
-                        <input class="trix-editor" :id="'job_description_' + (index + 1)" :name="'job_description_' + (index + 1)" type="hidden">
-                        <trix-editor input="job_description"></trix-editor>
-                        @error('job_description')
+                        <label class="form-label" :for="'desc_kerja[]'">Job Description @{{index + 1}}</label>
+                        <input class="trix-editor" :id="'desc_kerja[]'" :name="'desc_kerja[]'" type="hidden">
+                        <trix-editor input="desc_kerja"></trix-editor>
+                        @error('desc_kerja')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -256,30 +261,43 @@
                 <div id="Project" class="Project" v-for='(project, index) in projects' :key='index'>
                 
                     <div class="input Project_name">
-                        <label class="form-label" :for="'Project_name' + (index + 1)">Project Name @{{index + 1}}</label>
-                        <input class="form-control" :name="'Project_name' + (index + 1)" type="text">
+                        <label class="form-label" :for="'Project_name[]'">Project Name @{{index + 1}}</label>
+                        <input class="form-control" :name="'Project_name[]'" type="text">
+                        @error('project_name.*')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="input client_name">
-                        <label class="form-label" :for="'client_name_' + (index + 1)">Client @{{index + 1}}</label>
-                        <input class="form-control" :name="'client_name_' + (index + 1)" type="text">
+                        <label class="form-label" :for="'client[]'">Client @{{index + 1}}</label>
+                        <input class="form-control" :name="'client[]'" type="text">
+                        @error('client.*')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="input date_kontainer">
                         <div class="date project_start">
-                            <label class="form-label" :for="'project_start' + (index + 1)">Start</label>
-                            <input class="form-control" type="date" :name="'project_start' + (index + 1)">
+                            <label class="form-label" :for="'mulai_project[]'">Start</label>
+                            <input class="form-control" type="date" :name="'mulai_project[]'">
+                            @error('mulai_project.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
     
                         <div class="date project_end">
-                            <label class="form-label" :for="'project_end' + (index + 1)">End</label>
-                            <input class="form-control" type="date" :name="'project_end' + (index + 1)">
+                            <label class="form-label" :for="'selesai_project[]'">End</label>
+                            <input class="form-control" type="date" :name="'selesai_project[]'">
+                            @error('selesai_project.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
+
                     </div>
 
                     <div class="input project_description">
-                        <label class="form-label" :for="'project_description_' + (index + 1)">Project Description @{{index + 1}}</label>
-                        <input class="trix-editor" :id="'project_description_' + (index + 1)" :name="'project_description_' + (index + 1)" type="hidden">
-                        <trix-editor input="project_description"></trix-editor>
+                        <label class="form-label" :for="'desc_project[]'">Project Description @{{index + 1}}</label>
+                        <input class="trix-editor" :id="'desc_project[]'" :name="'desc_project[]'" type="hidden">
+                        <trix-editor input="desc_project[]"></trix-editor>
                     </div>
 
                     <button type="button" class="btn btn-danger" @click="removeInput2(index)">Delete</button>
@@ -289,10 +307,14 @@
 
                 
             </div>
+
+            <div class="submit_button mb-5 mt-5 ">
+                <button class="btn btn-success btn-lg" type="submit" >Submit</button>
+            </div>
         </div>
     </form>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         const {createApp} = Vue
         createApp({
@@ -332,6 +354,30 @@
                 }
             }
         }).mount('#app')
+
+
+        $(document).ready(function () {
+            $('#education').on('change', function () {
+                var educationId = $(this).val();
+                if (educationId) {
+                    $.ajax({
+                        url: '/get-jurusan/' + educationId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $('#jurusan').empty();
+                            $('#jurusan').append('<option value="">Pilih Jurusan</option>');
+                            $.each(data, function (key, value) {
+                                $('#jurusan').append('<option value="' + value.id + '">' + value.name_jurusan + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#jurusan').empty();
+                    $('#jurusan').append('<option value="">Pilih Jurusan</option>');
+                }
+            });
+        });
     </script>
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css"> {{-- library untuk text editor --}}
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script> {{-- library untuk text editor --}}

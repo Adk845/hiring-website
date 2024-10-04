@@ -12,7 +12,6 @@ class Education extends Model
 
     protected $fillable = [
         'name_education',
-        'applicant_id', // Ensure this is included
     ];
 
     public function jurusan()
