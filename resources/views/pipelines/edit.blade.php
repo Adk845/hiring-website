@@ -279,7 +279,7 @@
                             </div>
                         </div>
                         @endforeach
-                        <button type="button" class="btn btn-secondary add-work-experience">Tambah Pengalaman Kerja</button>
+                        <!-- <button type="button" class="btn btn-secondary add-work-experience">Tambah Pengalaman Kerja</button> -->
 
 
                         <!-- Button to add more work experiences -->
@@ -355,7 +355,7 @@
                         </div>
                     </div>
                     @endforeach
-                    <button type="button" class="btn btn-secondary add-project">Tambah Project</button>
+                    <!-- <button type="button" class="btn btn-secondary add-project">Tambah Project</button> -->
 
 
                     @foreach ($applicant->references as $reference)
@@ -409,7 +409,7 @@
 
 
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-secondary add-reference">Tambah Reference</button>
+                        <!-- <button type="button" class="btn btn-secondary add-reference">Tambah Reference</button> -->
 
                         <button type="submit" class="btn btn-primary">Update Applicant</button>
                     </div>
