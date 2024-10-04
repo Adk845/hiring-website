@@ -74,15 +74,15 @@ class JobController extends Controller
     {
         // Ambil job berdasarkan ID
         $job = ModelsJob::findOrFail($id);
-        
+
         // Ambil data work_location dan departement jika ingin ditampilkan dalam dropdown
         $work_locations = WorkLocation::all();
         $departments = Departement::all();
-        
+
         // Tampilkan halaman edit dengan data job
         return view('jobs.edit', compact('job', 'work_locations', 'departments'));
     }
-    
+
     public function update(Request $request, $id)
     {
         // Validasi input
@@ -98,17 +98,17 @@ class JobController extends Controller
             'requirements' => 'nullable|string',
             'spesifikasi' => 'nullable|string',
         ]);
-    
+
         // Cari job berdasarkan ID
         $job = ModelsJob::findOrFail($id);
-    
+
         // Update data job
         $job->update($request->all());
-    
+
         // Redirect kembali ke halaman index dengan pesan sukses
         return redirect()->route('jobs.index')->with('success', 'Job updated successfully.');
     }
-    
+
     // Delete a job from the database
     public function destroy($id)
     {
@@ -117,5 +117,13 @@ class JobController extends Controller
 
         if ($job) $job->delete();
         return redirect()->route('jobs.index')->with('success_message', 'Job deleted successfully.');
+    }
+    public function getJobData()
+    {
+        $jobs = ModelsJob::with('workLocation')->get();
+
+        dd($jobs->toArray());
+
+        return response()->json($jobs);
     }
 }

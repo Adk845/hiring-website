@@ -13,10 +13,10 @@
             <div class="card-body pe-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <div class="search-bar me-3">
-                        <form action="{{ route('pipelines.index') }}" method="GET" class="d-flex"> 
+                        <form action="{{ route('pipelines.index') }}" method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control" placeholder="Search Applicant..." value="{{ request()->get('search') }}">
                             <button type="submit">
-                                <i class="fas fa-search"></i> 
+                                <i class="fas fa-search"></i>
                             </button>
                         </form>
                     </div>
@@ -35,7 +35,7 @@
                             <th>Work Location</th>
                             <th>Phone</th>
                             <th>Move Stage</th>
-                            <th>Opsi</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,7 +53,8 @@
                                 </div>
                             </td>
                             <td>{{ $applicant->email }}</td>
-                            <td>{{ optional($applicant->job)->work_location }}</td>
+                            <td>{{ optional($applicant->job)->workLocation->location }} - <span> {{($applicant->job)->spesifikasi}}</span>
+                            </td>
                             <td>{{ $applicant->number }}</td>
                             <td class="pipeline_stage">
                                 <div>
@@ -76,22 +77,34 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="{{ route('pipelines.destroy', $applicant) }}"
-                                    onclick="event.preventDefault(); 
-                                     if (confirm('Are you sure you want to delete this item?')) {
-                                         document.getElementById('delete-form-{{ $applicant->id }}').submit();
-                                     }"
-                                    class="btn btn-danger btn-xs">
-                                    <i class="fa fa-trash"></i> Delete
-                                </a>
-                                <form id="delete-form-{{ $applicant->id }}"
-                                    action="{{ route('pipelines.destroy', $applicant) }}"
-                                    method="POST"
-                                    style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
+                                <div class="dropdown">
+                                    <button class="btn btn-danger dropdown-toggle btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Actions
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <!-- Edit button -->
+                                        <a href="{{ route('pipelines.edit', $applicant->id) }}" class="dropdown-item">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
+
+                                        <!-- Delete button -->
+                                        <a href="#" class="dropdown-item"
+                                            onclick="event.preventDefault(); 
+                         if (confirm('Are you sure you want to delete this item?')) {
+                             document.getElementById('delete-form-{{ $applicant->id }}').submit();
+                         }">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </a>
+
+                                        <!-- Hidden delete form -->
+                                        <form id="delete-form-{{ $applicant->id }}" action="{{ route('pipelines.destroy', $applicant) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </div>
+                                </div>
                             </td>
+
                         </tr>
                         @endforeach
                     </tbody>
@@ -127,7 +140,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer"> 
+            <div class="modal-footer">
                 <a id="download-cv" href="#" class="btn btn-primary">CV</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
