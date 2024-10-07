@@ -9,7 +9,7 @@
 <body>
     <h1>test page</h1>
     
-    @dd($data->references_name)
+    @dd($data);
 
 
 </body>

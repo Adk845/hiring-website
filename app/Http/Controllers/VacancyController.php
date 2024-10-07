@@ -37,4 +37,11 @@ class VacancyController extends Controller
 
         return view('vacancy_form', compact('jobs', 'educations'));
     }
+
+
+    public function test(Request $request)
+    {
+        $data = $request;
+        return view('test', compact('data'));
+    }
 }
