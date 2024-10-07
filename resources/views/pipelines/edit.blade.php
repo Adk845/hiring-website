@@ -103,6 +103,17 @@
                         </div>
 
                         <div class="col-md-6">
+                            <!-- Certificates -->
+                            <div class="form-group">
+                                <label for="achievement">Achievement</label>
+                                <input type="text" class="form-control @error('achievement') is-invalid @enderror" id="achievement" name="achievement" value="{{ old('achievement', $applicant->achievement) }}" placeholder="achievement">
+                                @error('achievement')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
                             <h4>Pendidikan</h4>
                             <div class="form-group">
                                 <select id="education" name="education" class="form-control">
