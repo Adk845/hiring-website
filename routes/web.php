@@ -36,7 +36,7 @@ Route::get('/get-jurusan/{education_id}', [ApplicantController::class, 'getJurus
 
 // Route::resource('pipelines', PipelineController::class);
 
-
+Route::post('/test', [VacancyController::class, 'test'])->name('test');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::patch('/jobs/{job}/update-status', [JobController::class, 'updateStatus'])->name('jobs.updateStatus');
 Route::get('/list', [VacancyController::class, 'list'])->name('vacancy_list');
