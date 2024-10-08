@@ -3,25 +3,64 @@
 @section('title', 'List Applicants')
 
 @section('content_header')
-<h1 class="m-0 text-dark">List Applicants</h1>
+<div class="d-flex justify-content-between align-items-center">
+    <h1 class="m-0 text-dark">
+        List Applicants
+        @if(isset($jobTitle))
+        - {{ $jobTitle }}
+        @endif
+    </h1>
+
+</div>
 @stop
+
+
+
 
 @section('content')
 <div class="row">
     <div class="col-12">
         <div class="card overflow-scroll">
             <div class="card-body pe-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
+
+
+                <!-- Search bar and filters -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="search-bar me-3">
-                        <form action="{{ route('pipelines.index') }}" method="GET" class="d-flex">
-                            <input type="text" name="search" class="form-control" placeholder="Search Applicant..." value="{{ request()->get('search') }}">
-                            <button type="submit">
+                        <form action="{{ route('pipelines.index') }}" method="GET" class="d-flex align-items-center">
+                            <input type="hidden" name="job_id" value="{{ $request->get('job_id') }}">
+
+                            <!-- Search Input -->
+                            <input type="text" name="search" class="form-control me-2" placeholder="Search Applicant..." value="{{ $request->get('search') }}" aria-label="Search Applicant">
+
+                            <!-- Filter by Education -->
+                            <select name="education" class="form-select me-2" id="education-dropdown">
+                                <option value="">Edu</option>
+                                @foreach($educations as $education)
+                                <option value="{{ $education->id }}" {{ $request->get('education') == $education->id ? 'selected' : '' }}>
+                                    {{ $education->name_education }}
+                                </option>
+                                @endforeach
+                            </select>
+
+                            <!-- Filter by Jurusan -->
+                            <select name="jurusan" class="form-select me-2" id="jurusan-dropdown">
+                                <option value="">Major</option>
+                                @foreach($jurusans as $jurusan)
+                                <option value="{{ $jurusan->id }}" data-education-id="{{ $jurusan->education_id }}" {{ $request->get('jurusan') == $jurusan->id ? 'selected' : '' }}>
+                                    {{ $jurusan->name_jurusan }}
+                                </option>
+                                @endforeach
+                            </select>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-secondary">
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
                     </div>
 
-                    <a href="{{ route('pipelines.create') }}" class="btn btn-primary mb-2">
+                    <a href="{{ route('pipelines.create') }}" class="btn btn-primary">
                         <i class="fa fa-plus"></i> Create Applicant
                     </a>
                 </div>
@@ -152,6 +191,8 @@
 <link rel="stylesheet" href="{{ asset('css/applicant.index.css') }}">
 
 @push('js')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#example2').DataTable({
@@ -160,9 +201,6 @@
     });
 
     function showApplicantInfo(applicant) {
-        console.log(applicant); // Debugging to check if data is passed correctly
-
-        // Populate modal with applicant data
         $('#applicant-photo').attr('src', applicant.photo_pass ? "{{ asset('storage/') }}/" + applicant.photo_pass : 'https://via.placeholder.com/100');
         $('#applicant-name').text(applicant.name);
         $('#applicant-email').text(applicant.email);
@@ -171,12 +209,54 @@
         $('#applicant-job').text(applicant.job ? applicant.job.job_name : 'N/A');
         $('#applicant-skills').text(applicant.skills ? applicant.skills : 'N/A');
         $('#applicant-salary').text(applicant.salary_expectation);
-
-        // Update CV download link dynamically
         $('#download-cv').attr('href', "{{ url('/pipelines') }}/" + applicant.id + "/pdf");
-
-        // Show the modal
         $('#applicantInfoModal').modal('show');
     }
 </script>
+
+<script>
+    $(document).ready(function() {
+
+        $('#education-dropdown').change(function() {
+            var selectedEducationId = $(this).val();
+
+
+            $('#jurusan-dropdown option').each(function() {
+                if ($(this).data('education-id') == selectedEducationId || selectedEducationId == '') {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+
+
+            if (selectedEducationId == '') {
+                $('#jurusan-dropdown').val('').change();
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+
+        $('.filter-stage').click(function() {
+            var selectedStage = $(this).data('stage');
+
+
+            $('.applicant-card').each(function() {
+                var applicantStage = $(this).data('stage');
+
+                if (selectedStage === '' || applicantStage === selectedStage) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
 @endpush

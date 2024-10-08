@@ -1,48 +1,48 @@
-/* Gaya untuk form pencarian */
+/* Style for search bar */
 .search-bar {
     position: relative;
     width: 100%;
-    max-width: 400px;
+    max-width: 600px; 
 }
 
 .search-bar input {
     width: 100%;
-    padding: 12px 20px;
-    border-radius: 50px;
-    border: 1px solid #ced4da;
-    box-shadow: none;
+    padding: 8px 15px; 
+    border-radius: 25px; 
+    border: 1px solid #aae3ea;
     transition: border-color 0.3s ease;
+    font-size: 0.875rem; 
 }
 
 .search-bar input:focus {
     border-color: #007bff;
     outline: none;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.1);
 }
 
+.search-bar select {
+    border-radius: 25px;
+    border: 1px solid #aae3ea;
+    padding: 8px 10px;
+    font-size: 0.875rem; 
+}
 .search-bar button {
-    position: absolute;
-    right: 10px;
-    top: 38%;
-    transform: translateY(-50%);
-    border: none;
-    background: transparent;
-    padding: 0;
-    font-size: 1.2em;
-    color: #007bff;
-    cursor: pointer;
+    border-radius: 25px; 
+    padding: 8px 15px; 
+    font-size: 0.875rem;
 }
-
 .search-bar button:hover {
-    color: #0056b3;
+    background-color: #0056b3; 
+    color: #fff; 
+}
+.btn-group .btn {
+    margin-right: 5px;
 }
 
-.btn-extended {
-    width: 180px;
-    height: 40px;
-
+.applicant-card {
+    border: 1px solid #8ff0ff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px; 
 }
 
-.search-bar icon{
-    margin-bottom: 15px;
-}
+
