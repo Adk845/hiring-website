@@ -28,6 +28,9 @@ hr{
     flex-wrap: wrap;
 }
 
+.bagian_atas{
+    gap: 10px;
+}
 .references{
     width: 300px;
 }
