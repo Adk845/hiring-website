@@ -28,26 +28,60 @@ class ApplicantController extends Controller
         return $pdf->stream('applicant-cv-' . $applicant->name . '.pdf');
     }
 
+    
+
     public function index(Request $request)
     {
-        $query = Applicant::with('job');
+        $query = Applicant::with('job', 'education', 'jurusan');
+    
+       
         $jobId = $request->get('job_id');
-
+        $jobTitle = $jobId ? Job::find($jobId)->job_name : null;
+    
+        if ($jobId) {
+            $query->where('job_id', $jobId);
+        }
+    
+        
+        if ($request->has('stage') && $request->get('stage') !== '') {
+            $query->where('stage', $request->get('stage'));
+        }
+    
         if ($request->has('search')) {
             $search = $request->get('search');
             $query->where('name', 'like', '%' . $search . '%');
         }
+    
         if ($request->has('status')) {
             $status = $request->get('status');
-            $query->where('status', $status)
-                ->where('job_id', $jobId);
+            $query->where('status', $status);
         }
+    
+      
+        if (!$request->has('stage')) {
+            if ($request->has('education') && !empty($request->get('education'))) {
+                $educationId = $request->get('education');
+                $query->where('education_id', $educationId);
+            }
+    
+            if ($request->has('jurusan') && !empty($request->get('jurusan'))) {
+                $jurusanId = $request->get('jurusan');
+                $query->where('jurusan_id', $jurusanId);
+            }
+        }
+    
+        
         $applicants = $query->get();
-
+    
+   
         $jobs = Job::all();
-
-        return view('pipelines.index', compact('applicants', 'jobs'));
+        $educations = Education::all();
+        $jurusans = Jurusan::all();
+    
+        return view('pipelines.index', compact('applicants', 'jobs', 'jobTitle', 'educations', 'jurusans', 'request'));
     }
+    
+
 
     public function getJurusan($education_id)
     {
@@ -330,6 +364,19 @@ class ApplicantController extends Controller
 
         return redirect()->back()->with('success', 'Applicant status updated successfully!');
     }
+
+    public function show($id)
+    {
+        // Eager load the relationships
+        $applicant = Applicant::with('education', 'jurusan')->find($id);
+    
+        if (!$applicant) {
+            return response()->json(['error' => 'Applicant not found'], 404);
+        }
+    
+        return response()->json($applicant);
+    }
+    
 
     
 
