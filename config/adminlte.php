@@ -322,7 +322,7 @@ return [
         ],
 
         [
-            'text' => 'Derpartment',
+            'text' => 'Department',
             'url' => '/departements',
             'icon' => 'fa fa-id-card',
         ],
