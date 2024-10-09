@@ -28,59 +28,60 @@ class ApplicantController extends Controller
         return $pdf->stream('applicant-cv-' . $applicant->name . '.pdf');
     }
 
-    
+
 
     public function index(Request $request)
     {
         $query = Applicant::with('job', 'education', 'jurusan');
-    
-       
+
         $jobId = $request->get('job_id');
-        $jobTitle = $jobId ? Job::find($jobId)->job_name : null;
-    
+        $jobTitle = $jobId ? optional(Job::find($jobId))->job_name : null;
+
         if ($jobId) {
             $query->where('job_id', $jobId);
         }
-    
-        
-        if ($request->has('stage') && $request->get('stage') !== '') {
-            $query->where('stage', $request->get('stage'));
+
+        // Ganti 'stage' dengan 'status'
+        if ($request->has('status') && $request->get('status') !== '') {
+            $query->where('status', $request->get('status'));
         }
-    
+        // Dapatkan jumlah pelamar berdasarkan status
+        $statusCounts = [
+            'applied' => Applicant::where('status', 'applied')->count(),
+            'interview' => Applicant::where('status', 'interview')->count(),
+            'offer' => Applicant::where('status', 'offer')->count(),
+            'accepted' => Applicant::where('status', 'accepted')->count(),
+        ];
+
         if ($request->has('search')) {
             $search = $request->get('search');
             $query->where('name', 'like', '%' . $search . '%');
         }
-    
-        if ($request->has('status')) {
-            $status = $request->get('status');
-            $query->where('status', $status);
-        }
-    
-      
-        if (!$request->has('stage')) {
+
+        if (!$request->has('status')) {
             if ($request->has('education') && !empty($request->get('education'))) {
                 $educationId = $request->get('education');
                 $query->where('education_id', $educationId);
             }
-    
+
             if ($request->has('jurusan') && !empty($request->get('jurusan'))) {
                 $jurusanId = $request->get('jurusan');
                 $query->where('jurusan_id', $jurusanId);
             }
         }
-    
-        
+
         $applicants = $query->get();
-    
-   
+
         $jobs = Job::all();
         $educations = Education::all();
         $jurusans = Jurusan::all();
-    
-        return view('pipelines.index', compact('applicants', 'jobs', 'jobTitle', 'educations', 'jurusans', 'request'));
+
+        return view('pipelines.index', compact('applicants', 'jobs', 'jobTitle', 'educations', 'jurusans', 'request', 'statusCounts'));
     }
-    
+
+
+
+
 
 
     public function getJurusan($education_id)
@@ -99,7 +100,7 @@ class ApplicantController extends Controller
         return view('pipelines.create', compact('jobs', 'educations', 'jurusans'));
     }
 
-   
+
 
 
     public function store(Request $request)
@@ -141,8 +142,8 @@ class ApplicantController extends Controller
             'phone.*' => 'nullable|string|max:255',
             'email_ref.*' => 'nullable|string',
 
-            'education' => 'required|exists:education,id', 
-            'jurusan' => 'nullable|exists:jurusan,id',    
+            'education' => 'required|exists:education,id',
+            'jurusan' => 'nullable|exists:jurusan,id',
         ]);
 
         // Handle file upload for photo_pass if provided
@@ -221,15 +222,15 @@ class ApplicantController extends Controller
         $applicant = Applicant::with(['workExperiences', 'projects', 'references'])->findOrFail($id);
         $jobs = Job::all();
         $educations = Education::all();
-        $jurusans = Jurusan::where('education_id', $applicant->education_id)->get(); 
+        $jurusans = Jurusan::where('education_id', $applicant->education_id)->get();
         $references = Reference::all();
         $project = Project::all();
 
 
-    
+
         return view('pipelines.edit', compact('applicant', 'jobs', 'educations', 'jurusans'));
     }
-    
+
     public function update(Request $request, $id)
     {
         // Validate input
@@ -250,36 +251,36 @@ class ApplicantController extends Controller
             'achievement' => 'nullable|string',
             'skills' => 'nullable|string',
             'salary_expectation' => 'required|numeric|min:0',
-    
+
             'role.*' => 'required|string|max:255',
             'desc_kerja.*' => 'required|string',
             'name_company.*' => 'required|string',
             'mulai.*' => 'required|date',
             'selesai.*' => 'required|date',
-    
+
             'project_name.*' => 'nullable|string|max:255',
             'client.*' => 'nullable|string|max:255',
             'desc_project.*' => 'nullable|string',
             'mulai_project.*' => 'nullable|date',
             'selesai_project.*' => 'nullable|date',
-    
+
             'name_ref.*' => 'nullable|string|max:255',
             'phone.*' => 'nullable|string|max:255',
             'email_ref.*' => 'nullable|string',
-    
+
             'education' => 'required|exists:education,id',
             'jurusan' => 'nullable|exists:jurusan,id',
         ]);
-    
+
         // Retrieve the applicant
         $applicant = Applicant::findOrFail($id);
-    
+
         // Handle file upload for photo_pass if provided
         if ($request->hasFile('photo_pass')) {
             $path = $request->file('photo_pass')->store('photos', 'public');
             $applicant->update(['photo_pass' => $path]);
         }
-    
+
         // Update applicant data
         $applicant->update([
             'job_id' => $request->job_id,
@@ -300,7 +301,7 @@ class ApplicantController extends Controller
             'education_id' => $request->education,
             'jurusan_id' => $request->jurusan,
         ]);
-    
+
         // Update or create work experiences
         $applicant->workExperiences()->delete(); // Delete previous work experiences
         if ($request->has('role')) {
@@ -314,7 +315,7 @@ class ApplicantController extends Controller
                 ]);
             }
         }
-    
+
         // Update or create projects
         $applicant->projects()->delete(); // Delete previous projects
         if ($request->has('project_name')) {
@@ -328,7 +329,7 @@ class ApplicantController extends Controller
                 ]);
             }
         }
-    
+
         // Update or create references
         $applicant->references()->delete(); // Delete previous references
         if ($request->has('name_ref')) {
@@ -340,10 +341,10 @@ class ApplicantController extends Controller
                 ]);
             }
         }
-    
+
         return redirect()->route('pipelines.index')->with('success', 'Applicant updated successfully.');
     }
-    
+
 
     public function destroy($id)
     {
@@ -369,15 +370,11 @@ class ApplicantController extends Controller
     {
         // Eager load the relationships
         $applicant = Applicant::with('education', 'jurusan')->find($id);
-    
+
         if (!$applicant) {
             return response()->json(['error' => 'Applicant not found'], 404);
         }
-    
+
         return response()->json($applicant);
     }
-    
-
-    
-
 }

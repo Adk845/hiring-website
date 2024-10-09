@@ -5,15 +5,36 @@
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center">
     <h1 class="m-0 text-dark">
-        List Applicants
+        <b> List Applicants 
         @if(isset($jobTitle))
         - {{ $jobTitle }}
-        @endif
+        @endif </b>
     </h1>
 
+    <!-- Filter Status Stage -->
+    <div class="status-boxes">
+        <a href="{{ route('pipelines.index', ['stage' => 'all', 'education' => $request->get('education')]) }}" class="status-box status-all {{ $request->get('stage') == 'all' ? 'active' : '' }}">
+            <small>All</small>
+        </a>
+        <a href="{{ route('pipelines.index', ['status' => 'applied', 'education' => $request->get('education')]) }}" class="status-box status-applied {{ $request->get('status') == 'applied' ? 'active' : '' }}">
+            <p>{{ $statusCounts['applied'] }}</p>
+            <small>Applied</small>
+        </a>
+        <a href="{{ route('pipelines.index', ['status' => 'interview', 'education' => $request->get('education')]) }}" class="status-box status-interview {{ $request->get('status') == 'interview' ? 'active' : '' }}">
+            <p>{{ $statusCounts['interview'] }}</p>
+            <small>Interview</small>
+        </a>
+        <a href="{{ route('pipelines.index', ['status' => 'offer', 'education' => $request->get('education')]) }}" class="status-box status-offer {{ $request->get('status') == 'offer' ? 'active' : '' }}">
+            <p>{{ $statusCounts['offer'] }}</p>
+            <small>Offer</small>
+        </a>
+        <a href="{{ route('pipelines.index', ['status' => 'accepted', 'education' => $request->get('education')]) }}" class="status-box status-accepted {{ $request->get('status') == 'accepted' ? 'active' : '' }}">
+            <p>{{ $statusCounts['accepted'] }}</p>
+            <small>Accepted</small>
+        </a>
+    </div>
 </div>
 @stop
-
 
 
 
@@ -189,9 +210,10 @@
 @stop
 
 <link rel="stylesheet" href="{{ asset('css/applicant.index.css') }}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @push('js')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <script>
     $(document).ready(function() {

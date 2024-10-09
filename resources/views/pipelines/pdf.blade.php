@@ -5,115 +5,113 @@
     <meta charset="UTF-8">
     <title>CV for {{ $applicant->name }}</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 30px;
-            padding: 0;
-            background-color: white;
-            color: #333;
-        }
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 20px;
+        padding: 0;
+        background-color: white;
+        color: #333;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0px auto;
-            padding: 0px;
-            border-radius: 8px;
+    .container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0px auto;
+        padding: 0px;
+        border-radius: 8px;
+    }
 
-        }
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    .header img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #10375C;
+        margin-bottom: 10px;
+    }
 
-        .header img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #10375C;
-            margin-bottom: 15px;
-        }
+    .logo {
+        margin-left: 270px;
+        width: 80px;
+    }
 
-        .logo {
-            margin-left: 270px;
-            width: 100px;
-        }
+    h1 {
+        font-size: 22px;
+        margin: 8px 0;
+        color: #10375C;
+    }
 
+    .contact-info {
+        font-size: 14px;
+        margin: 3px 0;
+    }
 
-        h1 {
-            font-size: 28px;
-            margin: 10px 0;
-            color: #10375C;
-        }
+    .section {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background-color: white;
+    }
 
-        .contact-info {
-            font-size: 16px;
-            margin: 5px 0;
-        }
+    .section p {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        margin: 0;
+        max-width: 100%;
+    }
 
-        .section {
-            margin-bottom: 30px;
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: white;
-        }
+    h2 {
+        font-size: 20px;
+        margin-bottom: 8px;
+        color: #10375C;
+        border-bottom: 2px solid #10375C;
+        padding-bottom: 3px;
+    }
 
-        .section p {
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            margin: 0;
-            max-width: 100%;
-        }
+    h3 {
+        font-size: 16px;
+        margin-bottom: 3px;
+        color: #0056b3;
+    }
 
+    p {
+        margin: 3px 0;
+        line-height: 1.4;
+    }
 
-        h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #10375C;
-            border-bottom: 2px solid #10375C;
-            padding-bottom: 5px;
-        }
+    .skills-list,
+    .languages-list {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
 
-        h3 {
-            font-size: 18px;
-            margin-bottom: 5px;
-            color: #0056b3;
-        }
+    .skills-list li,
+    .languages-list li {
+        background-color: #10375C;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+    }
 
-        p {
-            margin: 5px 0;
-            line-height: 1.5;
-        }
+    .footer {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 15px;
+        color: #666;
+        padding: 8px 0;
+    }
+</style>
 
-        .skills-list,
-        .languages-list {
-            list-style-type: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .skills-list li,
-        .languages-list li {
-            background-color: #10375C;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 14px;
-            margin-top: 20px;
-            color: #666;
-            padding: 10px 0;
-        }
-    </style>
 </head>
 
 <body>
