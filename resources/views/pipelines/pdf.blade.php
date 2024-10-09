@@ -81,7 +81,7 @@
     }
 
     p {
-        margin: 3px 0;
+        margin: 3px 0; 
         line-height: 1.4;
     }
 

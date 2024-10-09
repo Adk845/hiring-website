@@ -92,26 +92,26 @@
     display: block;
 }
 
-
 .status-applied {
-    background: linear-gradient(145deg, #007bff, #0056b3); /
+    background: linear-gradient(145deg, #4a90e2, #357abd); /* Lighter Blue */
 }
 
 .status-interview {
-    background: linear-gradient(145deg, #28a745, #218838); 
+    background: linear-gradient(145deg, #007bff, #0056b3); /* Standard Blue */
 }
 
 .status-offer {
-    background: linear-gradient(145deg, #ffc107, #d39e00); 
+    background: linear-gradient(145deg, #0056b3, #003f88); /* Darker Blue */
 }
 
 .status-accepted {
-    background: linear-gradient(145deg, #dc3545, #c82333); 
+    background: linear-gradient(145deg, #003f88, #002b5c); /* Even Darker Blue */
 }
 
 .status-all {
-    background: linear-gradient(145deg, #6f42c1, #5a32a1); 
+    background: linear-gradient(145deg, #85c1e9, #4a90e2); /* Light Blue */
 }
+
 
 /* Animation Keyframes */
 @keyframes fadeIn {
