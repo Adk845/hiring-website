@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Tambah Job')
+@section('title', 'Create Job')
 
 @section('content_header')
 <h1 class="m-0 text-dark">Create Job</h1>
@@ -21,7 +21,7 @@
                             <div class="form-group">
                                 <label for="job_name">Job Name</label>
                                 <input type="text" class="form-control @error('job_name') is-invalid @enderror"
-                                    id="job_name" placeholder="Masukkan nama pekerjaan" name="job_name"
+                                    id="job_name" placeholder="fill in the job name" name="job_name"
                                     value="{{ old('job_name') }}">
                                 @error('job_name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -32,7 +32,7 @@
                             <div class="form-group">
                                 <label for="work_location_id">Work Location</label>
                                 <select class="form-control @error('work_location_id') is-invalid @enderror" id="work_location_id" name="work_location_id">
-                                    <option value="">Pilih Lokasi Kerja</option>
+                                    <option value="">Select Work Location</option>
                                     @foreach($workLocations as $location)
                                     <option value="{{ $location->id }}" {{ old('work_location_id') == $location->id ? 'selected' : '' }}>
                                         {{ $location->location }}
@@ -49,7 +49,7 @@
                             <div class="form-group">
                                 <label for="spesifikasi">Company Name</label>
                                 <input type="text" class="form-control @error('spesifikasi') is-invalid @enderror"
-                                    id="spesifikasi" placeholder="isi jika lokasi pekerjaan berada di perusahaan spesifik" name="spesifikasi"
+                                    id="spesifikasi" placeholder="fill in the company name" name="spesifikasi"
                                     value="{{ old('spesifikasi') }}">
                                 @error('spesifikasi')
                                 <span class="text-danger">{{ $message }}</span>
@@ -66,7 +66,7 @@
                             <div class="form-group">
                                 <label for="employment_type">Employment Type</label>
                                 <select class="form-control @error('employment_type') is-invalid @enderror" id="employment_type" name="employment_type">
-                                    <option value="">Pilih Tipe Pekerjaan</option>
+                                    <option value="">Select Job Type</option>
                                     <option value="permanent" {{ old('employment_type') == 'permanent' ? 'selected' : '' }}>Permanent</option>
                                     <option value="contract" {{ old('employment_type') == 'contract' ? 'selected' : '' }}>Contract</option>
                                 </select>
@@ -77,10 +77,10 @@
 
                             <!-- Department -->
                             <div class="form-group">
-                                <label for="department">Departemen</label>
+                                <label for="department">Department</label>
                                 <select class="form-control @error('department') is-invalid @enderror"
-                                    id="department" name="department" required>
-                                    <option value="">Pilih Departemen</option>
+                                    id="department" name="Select Department" required>
+                                    <option value="">Select Department</option>
                                     @foreach($departements as $departement)
                                     <option value="{{ $departement->id }}" {{ old('department') == $departement->id ? 'selected' : '' }}>
                                         {{ $departement->dep_name }}
@@ -98,7 +98,7 @@
                                 <div class="col">
                                     <label for="minimum_salary">Minimum Salary</label>
                                     <input type="number" class="form-control @error('minimum_salary') is-invalid @enderror"
-                                        id="minimum_salary" placeholder="Gaji minimum" name="minimum_salary"
+                                        id="minimum_salary" placeholder="Minimum salary" name="minimum_salary"
                                         value="{{ old('minimum_salary') }}">
                                     @error('minimum_salary')
                                     <span class="text-danger">{{ $message }}</span>
@@ -107,7 +107,7 @@
                                 <div class="col">
                                     <label for="maximum_salary">Maximum Salary</label>
                                     <input type="number" class="form-control @error('maximum_salary') is-invalid @enderror"
-                                        id="maximum_salary" placeholder="Gaji maksimum" name="maximum_salary"
+                                        id="maximum_salary" placeholder="Maximum Salary" name="maximum_salary"
                                         value="{{ old('maximum_salary') }}">
                                     @error('maximum_salary')
                                     <span class="text-danger">{{ $message }}</span>

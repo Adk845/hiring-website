@@ -3,41 +3,60 @@
 @section('title', 'Hiring')
 
 @section('content_header')
-<h1 class="m-0 text-dark">Dashboard</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="m-0 text-dark">
+        <i class="fas fa-tachometer-alt text-primary"></i> Dashboard
+    </h1>
+</div>
+
+<div class="alert alert-info shadow-sm p-4 rounded" style="background: linear-gradient(45deg, #007bff, #0056b3); color: white;">
+    <div class="d-flex align-items-center">
+        <div style="font-size: 2.5rem; margin-right: 15px;">
+            <i class="fas fa-handshake"></i>
+        </div>
+        <div>
+            <h4 class="alert-heading">Welcome to the Hiring Dashboard!</h4>
+            <p class="mb-1" style="font-size: 1.1rem;">Hello {{ Auth::user()->name }}, we hope you're having a productive day! Below you will find key data on applicants and job listings Let's get things done!</p>
+            <hr class="my-2" style="border-color: rgba(255, 255, 255, 0.5);">
+        </div>
+    </div>
+</div>
 @stop
 
 @section('content')
 <div class="row">
+    <!-- Applicants Chart -->
     <div class="col-6">
         <div class="card border-primary mb-3">
+            <!-- <div class="card-header bg-primary text-white">Applicants Overview</div> -->
             <div class="card-body">
-                <h5 class="card-title">Applicants</h5>
+                <h5 class="card-title">Monthly Applicants</h5>
                 <canvas id="applicantChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>
-    
-    <div class="col-md-6 ">
-        <div class="card">
+
+    <!-- Applicants per Job Chart -->
+    <div class="col-6">
+        <div class="card border-primary mb-3">
+            <!-- <div class="card-header bg-primary text-white">Applicants by Job</div> -->
             <div class="card-body">
-                <h5 class="card-title">Applicants per Job</h5> 
+                <h5 class="card-title">Applicants per Job</h5>
                 <canvas id="jobChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>
 
-    
- 
-    <div class="col-md-6">
-        <div class="card border-success mb-3">
+    <!-- Jobs by Department Chart -->
+    <div class="col-6">
+        <div class="card border-primary mb-3">
+            <!-- <div class="card-header bg-primary text-white">Jobs by Department</div> -->
             <div class="card-body">
                 <h5 class="card-title">Jobs by Department</h5>
                 <canvas id="departmentChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>
-
-  
 </div>
 @stop
 
@@ -50,25 +69,22 @@
 
         // Grouping by month and year
         const monthlyData = {};
-        
         applicantData.forEach(item => {
             const date = new Date(item.date);
             const monthYear = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`; // Format: YYYY-MM
-            
             if (!monthlyData[monthYear]) {
                 monthlyData[monthYear] = 0;
             }
             monthlyData[monthYear] += item.count;
         });
 
-        // Prepare labels and data for the chart
         const labels = Object.keys(monthlyData);
         const data = Object.values(monthlyData);
 
-        // Chart applicant
+        // Blue gradient for the line chart
         var gradient1 = ctx1.createLinearGradient(0, 0, 0, 400);
-        gradient1.addColorStop(0, 'rgba(75, 192, 192, 0.6)');
-        gradient1.addColorStop(1, 'rgba(75, 192, 192, 0.1)');
+        gradient1.addColorStop(0, 'rgba(0, 123, 255, 0.6)'); // Light blue
+        gradient1.addColorStop(1, 'rgba(0, 86, 179, 0.6)'); // Darker blue
 
         var chart1 = new Chart(ctx1, {
             type: 'line',
@@ -78,16 +94,13 @@
                     label: 'Monthly Applicants',
                     data: data,
                     backgroundColor: gradient1,
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderColor: 'rgba(0, 123, 255, 1)', // Solid blue for line
                     fill: true,
-                    tension: 0.3,
-                    pointBackgroundColor: 'rgba(255, 99, 132, 1)',
-                    pointBorderColor: 'rgba(255, 159, 64, 1)',
+                    tension: 0.4,
+                    pointBackgroundColor: 'rgba(0, 123, 255, 1)', // Solid blue for points
+                    pointBorderColor: 'rgba(255, 255, 255, 1)', // White for border
                     pointHoverRadius: 8,
-                    pointHoverBackgroundColor: 'rgba(255, 99, 132, 1)',
-                    pointHoverBorderColor: 'rgba(255, 159, 64, 1)',
-                    pointRadius: 5, 
-                    pointStyle: 'circle' 
+                    pointRadius: 5
                 }]
             },
             options: {
@@ -95,124 +108,88 @@
                 scales: {
                     x: {
                         title: { display: true, text: 'Month' },
-                        grid: { color: 'rgba(153, 102, 255, 0.2)' },
-                        ticks: {
-                            padding: 10, 
-                            autoSkip: true,
-                            maxTicksLimit: 100
-                        }
                     },
                     y: {
                         title: { display: true, text: 'Number of Applicants' },
                         beginAtZero: true,
-                        ticks: {
-                            stepSize: 1
-                        }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                        titleColor: 'white',
-                        bodyColor: 'white'
+                        ticks: { stepSize: 1 }
                     }
                 }
             }
         });
 
-        // Department Chart
-        var ctx2 = document.getElementById('departmentChart').getContext('2d');
-        var departmentData = @json($departmentCounts);
-        var departmentLabels = Object.keys(departmentData);
-        var departmentCounts = Object.values(departmentData);
+// Department Chart
+var ctx2 = document.getElementById('departmentChart').getContext('2d');
+var departmentData = @json($departmentCounts);
+var departmentLabels = Object.keys(departmentData);
+var departmentCounts = Object.values(departmentData);
 
-        var gradient2 = ctx2.createLinearGradient(0, 0, 0, 400);
-        gradient2.addColorStop(0, 'rgba(153, 102, 255, 0.8)');
-        gradient2.addColorStop(1, 'rgba(153, 102, 255, 0.2)');
+// Soft purple gradient for the bar chart
+var gradient2 = ctx2.createLinearGradient(0, 0, 0, 400);
+gradient2.addColorStop(0, 'rgba(230, 190, 255, 0.8)'); // Soft light purple
+gradient2.addColorStop(1, 'rgba(180, 100, 255, 0.2)'); // Lighter soft purple
 
-        var chart2 = new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: departmentLabels,
-                datasets: [{
-                    label: 'Number of Jobs',
-                    data: departmentCounts,
-                    backgroundColor: gradient2,
-                    borderColor: 'rgba(153, 102, 255, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Department' }
-                    },
-                    y: {
-                        title: { display: true, text: 'Number of Jobs' },
-                        beginAtZero: false, 
-                        min: 0, 
-                        ticks: {
-                            stepSize: 1 
-                        }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                        titleColor: 'white',
-                        bodyColor: 'white'
-                    }
-                }
+var chart2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: departmentLabels,
+        datasets: [{
+            label: 'Number of Jobs',
+            data: departmentCounts,
+            backgroundColor: gradient2,
+            borderColor: 'rgba(180, 100, 255, 1)', // Solid soft purple
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: { title: { display: true, text: 'Department' } },
+            y: {
+                title: { display: true, text: 'Number of Jobs' },
+                beginAtZero: false,
+                ticks: { stepSize: 1 }
             }
-        });
+        }
+    }
+});
 
-        // Chart for job applicants
-        var ctx3 = document.getElementById('jobChart').getContext('2d'); 
-        var jobData = @json($jobCounts);
-        var jobLabels = Object.keys(jobData);
-        var jobCounts = Object.values(jobData);
 
-        var gradient3 = ctx3.createLinearGradient(0, 0, 0, 400);
-        gradient3.addColorStop(0, 'rgba(255, 159, 64, 0.6)'); 
-        gradient3.addColorStop(1, 'rgba(255, 159, 64, 0.1)');
 
-        var chart3 = new Chart(ctx3, {
-            type: 'bar',
-            data: {
-                labels: jobLabels,
-                datasets: [{
-                    label: 'Number of Applicants per Job',
-                    data: jobCounts,
-                    backgroundColor: gradient3,
-                    borderColor: 'rgba(255, 159, 64, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Job' }
-                    },
-                    y: {
-                        title: { display: true, text: 'Number of Jobs' },
-                        beginAtZero: false, 
-                        min: 0, 
-                        ticks: {
-                            stepSize: 1 
-                        }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                        titleColor: 'white',
-                        bodyColor: 'white'
-                    }
-                }
+      // Job Chart
+var ctx3 = document.getElementById('jobChart').getContext('2d');
+var jobData = @json($jobCounts);
+var jobLabels = Object.keys(jobData);
+var jobCounts = Object.values(jobData);
+
+// Soft orange gradient for the bar chart
+var gradient3 = ctx3.createLinearGradient(0, 0, 0, 400);
+gradient3.addColorStop(0, 'rgba(255, 165, 0, 0.8)'); // Soft orange
+gradient3.addColorStop(1, 'rgba(255, 215, 0, 0.2)'); // Lighter orange
+
+var chart3 = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+        labels: jobLabels,
+        datasets: [{
+            label: 'Number of Applicants per Job',
+            data: jobCounts,
+            backgroundColor: gradient3,
+            borderColor: 'rgba(255, 140, 0, 1)', // Solid orange
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: { title: { display: true, text: 'Job' } },
+            y: {
+                title: { display: true, text: 'Number of Applicants' },
+                beginAtZero: false,
+                ticks: { stepSize: 1 }
             }
-        });
+        }
+    }
+});
+
     });
 </script>
 @stop

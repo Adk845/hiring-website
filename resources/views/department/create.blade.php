@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'Tambah Departemen')
+@section('title', 'Create Department')
 @section('content_header')
-    <h1 class="m-0 text-dark">Tambah Departemen</h1>
+    <h1 class="m-0 text-dark">Create Department</h1>
 @stop
 @section('content')
 <div class="row">
@@ -11,8 +11,8 @@
                 <form action="{{ route('departements.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label for="dep_name">Nama Departemen</label>
-                        <input type="text" class="form-control" id="dep_name" name="dep_name" placeholder="Masukkan nama departemen" required>
+                        <label for="dep_name">Department Name</label>
+                        <input type="text" class="form-control" id="dep_name" name="dep_name" placeholder="fill in the department name" required>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Simpan</button>
