@@ -28,7 +28,7 @@
         </div>
         <div class="form_kontainer">
             <div class="row mb-5">
-                <div class="kiri col">
+                <div class="kiri col-md-7">
                     <div class="input">
                         <label for="name">Name</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Nama Applicant" required>
@@ -61,41 +61,44 @@
                         @enderror
                     </div>
 
-                    <div class="input">
-                        <label for="education" class="form-label" >Pendidikan</label>
-                        <select id="education" name="education" class="form-control">
-                            <option value="">Pilih Pendidikan</option>
-                            @foreach ($educations as $education)
-                            <option value="{{ $education->id }}">{{ $education->name_education }}</option>
-                            @endforeach
-                        </select>  
-                        </select>
-                        @error('education')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                    <div class="input row">
+                        <div class="pendidikan col-md-3">
+                            <label for="education" class="form-label" >Pendidikan</label>
+                            <select id="education" name="education" class="form-control">
+                                <option value="">Pilih Pendidikan</option>
+                                @foreach ($educations as $education)
+                                <option value="{{ $education->id }}">{{ $education->name_education }}</option>
+                                @endforeach
+                            </select>  
+                            @error('education')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="jurusan col-md-9">
+                            <div class="input">
+                                <label for="jurusan" class="form-label">Jurusan</label>
+                                <select id="jurusan" name="jurusan" class="form-control">
+                                    <option value="">Pilih Jurusan</option>
+                                    <!-- Jurusan options akan diisi secara dinamis -->
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="input">
-                        <label for="languages">Bahasa</label>
-                        <input type="text" class="form-control @error('languages') is-invalid @enderror" id="languages" name="languages" value="{{ old('languages') }}" placeholder="Bahasa yang dikuasai">
-                        @error('languages')
+                        <label for="profile">Profil Diri</label>
+                        <textarea class="form-control @error('profile') is-invalid @enderror" id="profile" name="profile" placeholder="Profil Diri">{{ old('profile') }}</textarea>
+                        @error('profile')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <div class="input">
-                        <label for="salary_expectation">Ekspektasi Gaji</label>
-                        <input type="number" class="form-control @error('salary_expectation') is-invalid @enderror" id="salary_expectation" name="salary_expectation" value="{{ old('salary_expectation') }}" placeholder="Ekspektasi Gaji" required>
-                        @error('salary_expectation')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    
 
                 </div>
-                <div class="kanan col">
+                <div class="kanan col-md-5">
                     
                     <div class="input">
-                        <div class="form-group row">
                         <label for="profil_linkedin">Link Profile LinkedIn</label>
                         <input type="url" class="form-control @error('profil_linkedin') is-invalid @enderror" id="profil_linkedin" name="profil_linkedin" value="{{ old('profil_linkedin') }}" placeholder="Link Profile LinkedIn">
                         @error('profil_linkedin')
@@ -111,29 +114,22 @@
                         @enderror
                     </div>
 
-                    <div class="input">
-                        <label for="mbti">MBTI</label>
-                        <input type="text" class="form-control @error('mbti') is-invalid @enderror" id="mbti" name="mbti" value="{{ old('mbti') }}" placeholder="MBTI">
-                        @error('mbti')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <div class="input row">
+                        <div class="mbti col-md-6">
+                            <label for="mbti">MBTI</label>
+                            <input type="text" class="form-control @error('mbti') is-invalid @enderror" id="mbti" name="mbti" value="{{ old('mbti') }}" placeholder="MBTI">
+                            @error('mbti')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-
-                    <div class="input" style="width: 100px">
-                        <label for="iq">IQ</label>
-                        <input type="text" class="form-control @error('iq') is-invalid @enderror" id="iq" name="iq" value="{{ old('iq') }}" placeholder="IQ">
-                        @error('iq')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input">
-                        <label for="jurusan" class="form-label">Jurusan</label>
-                        <select id="jurusan" name="jurusan" class="form-control">
-                            <option value="">Pilih Jurusan</option>
-                            <!-- Jurusan options akan diisi secara dinamis -->
-                        </select>
+                        <div class="iq col-md-6">
+                            <label for="iq">IQ</label>
+                            <input type="text" class="form-control @error('iq') is-invalid @enderror" id="iq" name="iq" value="{{ old('iq') }}" placeholder="IQ">
+                            @error('iq')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="input">
@@ -145,188 +141,193 @@
                     </div>
 
                     <div class="input">
-                        <label for="profile">Profil Diri</label>
-                        <textarea class="form-control @error('profile') is-invalid @enderror" id="profile" name="profile" placeholder="Profil Diri">{{ old('profile') }}</textarea>
-                        @error('profile')
+                        <label for="salary_expectation">Ekspektasi Gaji</label>
+                        <input type="number" class="form-control @error('salary_expectation') is-invalid @enderror" id="salary_expectation" name="salary_expectation" value="{{ old('salary_expectation') }}" placeholder="Ekspektasi Gaji" required>
+                        @error('salary_expectation')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
 
-                </div>
-            </div>
+                    <div class="input">
+                        <label for="languages">Bahasa</label>
+                        <input type="text" class="form-control @error('languages') is-invalid @enderror" id="languages" name="languages" value="{{ old('languages') }}" placeholder="Bahasa yang dikuasai">
+                        @error('languages')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-            <div class="input skills">
-                <label for="skills">Keahlian</label>
-                <textarea class="form-control @error('skills') is-invalid @enderror" id="skills" name="skills" placeholder="Keahlian">{{ old('skills') }}</textarea>
-                @error('skills')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror
-                {{-- <label for="skills">Skills</label>
-                <input class="trix-editor" id="skills" type="hidden" name="skills">
-                <trix-editor input="skills"></trix-editor>
-                @error('skills')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror --}}
-            </div>
-
-            <div class="input achievement mb-5">
-                <label for="achievement">Prestasi</label>
-                <textarea class="form-control @error('achievement') is-invalid @enderror" id="achievement" name="achievement" placeholder="Prestasi">{{ old('achievement') }}</textarea>
-                @error('achievement')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror
-                {{-- <label for="achievement">Achievement</label>
-                <input class="trix-editor" id="achievement" name="achievement" type="hidden">
-                <trix-editor input="achievement"></trix-editor>
-                @error('achievement')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror --}}
-            </div>
-
-            <div class="input certificate">
-                <label for="certificates">Certificate</label>
-                <input type="text" class="form-control @error('certificates') is-invalid @enderror" id="certificates" name="certificates" value="{{ old('certificates') }}" placeholder="Certificate">
-                @error('certificates')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror
-                {{-- <label for="certificate">Certificate</label>
-                <input class="trix-editor" id="certificates" type="hidden" name="certificates">
-                <trix-editor input="certificates"></trix-editor>
-                @error('certificate')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror --}}
-            </div>
-            
-
-            <div id="app" class="mt-5">
-                
-
-                <h1>Work experience</h1>
-                <div  id="work_experience" class="work_experience" v-for='(experience, index) in experiences' :key='index'>
                     
-                    <div class="input company_name">
-                        <label class="form-label" for="name_company[]">Company Name @{{index + 1}}</label>
-                        <input class="form-control" name="name_company[]" type="text">
-                        @error('role_name')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="input role_name">
-                        <label class="form-label" for="role[]">Position Name @{{index + 1}}</label>
-                        <input class="form-control" name="role[]" type="text">
-                        @error('role.*')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
 
-                    <div class="input date_kontainer">
-                        <div class="date work_start">
-                            <label class="form-label" for="mulai[]">Start</label>
-                            <input class="form-control" type="date" name="mulai[]">
-                            @error('mulai.*')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-    
-                        <div class="date work_end">
-                            <label class="form-label" for="selesai[]">End</label>
-                            <input class="form-control" type="date" name="selesai[]">
-                            @error('selesai.*')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="input job_description">
-                        <label class="form-label" for="desc_kerja[]">Job Description @{{index + 1}}</label>
-                        <input class="trix-editor" :id="'desc_kerja' + (index + 1)" name="desc_kerja[]" type="hidden">
-                        <trix-editor :input="'desc_kerja' + (index + 1)"></trix-editor>
-                        @error('desc_kerja')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <button type="button" class="btn btn-danger" @click="removeInput1(index)">Delete</button>
                 </div>
-                <button type="button" class="btn btn-secondary mb-5 ms-4" @click="addInput1" >Add</button> 
-                
-                <h1 style="margin-top: 30px">Project</h1>
-                
-                <div id="Project" class="Project" v-for='(project, index) in projects' :key='index'>
-                
-                    <div class="input Project_name">
-                        <label class="form-label" for="project_name[]">Project Name @{{index + 1}}</label>
-                        <input class="form-control" name="project_name[]" type="text">
-                        @error('project_name.*')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="input client_name">
-                        <label class="form-label" for="client[]">Client @{{index + 1}}</label>
-                        <input class="form-control" name="client[]" type="text">
-                        @error('client.*')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+            </div>
+            <div id="app" class="mt-5">
 
-                    <div class="input date_kontainer">
-                        <div class="date project_start">
-                            <label class="form-label" for="mulai_project[]">Start</label>
-                            <input class="form-control" type="date" name="mulai_project[]">
-                            @error('mulai_project.*')
+                <div class="tengah">
+                    <label for="skills">Keahlian</label>
+                    <div class="keahlian d-flex flex-grow-* row" v-for="">
+
+                        <div v-for="(skill, index) in skills" :key='index' class="input skills d-flex flex-grow-* col-md-3 row-sm-10">
+                            <input type="text" class="form-control @error('skills') is-invalid @enderror" id="skills" name="skills[]" :placeholder="'skills' + (index + 1)">
+                            {{-- <textarea >{{ old('skills') }}</textarea> --}}
+                            @error('skills')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
+                            <button @click="removeInput4(index)" class="btn  btn-danger">-</button>
                         </div>
+
+                        <div class="button ms-3 col">
+                            <button @click="addInput4" type="button" class="btn btn-secondary">+</button>
+                        </div>
+                        
+                    </div>
+                    
     
-                        <div class="date project_end">
-                            <label class="form-label" for="selesai_project[]">End</label>
-                            <input class="form-control" type="date" name="selesai_project[]">
-                            @error('selesai_project.*')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
+                    <div class="input achievement mb-5">
+                        <label for="achievement">Prestasi</label>
+                        <textarea class="form-control @error('achievement') is-invalid @enderror" id="achievement" name="achievement" placeholder="Prestasi">{{ old('achievement') }}</textarea>
+                        @error('achievement')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-
-                    <div class="input project_description">
-                        <label class="form-label" for="desc_project[]">Project Description @{{index + 1}}</label>
-                        <input class="trix-editor" :id="'desc_project' + (index + 1)" name="desc_project[]" type="hidden">
-                        <trix-editor :input="'desc_project' + (index + 1)"></trix-editor>
+    
+                    <div class="input certificate">
+                        <label for="certificates">Certificate</label>
+                        <input type="text" class="form-control @error('certificates') is-invalid @enderror" id="certificates" name="certificates" value="{{ old('certificates') }}" placeholder="Certificate">
+                        @error('certificates')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-
-                    <button type="button" class="btn btn-danger" @click="removeInput2(index)">Delete</button>
                 </div>
-                    <button type="button" class="btn btn-secondary ms-4" @click="addInput2" >Add</button> 
-               
-                    <h1 style="margin-top: 30px">References</h1>
-                    <div class="references_kontainer">
-                        <div class="references" v-for="(reference, index) in references">
-                            <div class="input references_name" >
-                                <label class="form-label" for="name_ref[]">Instution / Company Name</label>
-                                <input class="form-control" type="text" name="name_ref[]" id="name_ref[]">
-                                @error('name_ref.*')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="input references_email">
-                                <label for="email_ref[]" class="form-label">Email</label>
-                                <input type="email" name="email_ref[]" id="email_ref[]" class="form-control">
-                                @error('reference_mail')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="input references_number">
-                                <label for="phone[]" class="form-label">Number</label>
-                                <input type="text" class="form-control" name="phone[]">
-                                @error('phone.*')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <button type="button" class="btn btn-danger" @click="removeInput3(index)">Delete</button>
+                
+                
+                <div class="bawah">
+                    <h1>Work experience</h1>
+                    <div  id="work_experience" class="work_experience" v-for='(experience, index) in experiences' :key='index'>
+                        
+                        <div class="input company_name">
+                            <label class="form-label" for="name_company[]">Company Name @{{index + 1}}</label>
+                            <input class="form-control" name="name_company[]" type="text">
+                            @error('role_name')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
+                        <div class="input role_name">
+                            <label class="form-label" for="role[]">Position Name @{{index + 1}}</label>
+                            <input class="form-control" name="role[]" type="text">
+                            @error('role.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="input date_kontainer">
+                            <div class="date work_start">
+                                <label class="form-label" for="mulai[]">Start</label>
+                                <input class="form-control" type="date" name="mulai[]">
+                                @error('mulai.*')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+        
+                            <div class="date work_end">
+                                <label class="form-label" for="selesai[]">End</label>
+                                <input class="form-control" type="date" name="selesai[]">
+                                @error('selesai.*')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="input job_description">
+                            <label class="form-label" for="desc_kerja[]">Job Description @{{index + 1}}</label>
+                            <input class="trix-editor" :id="'desc_kerja' + (index + 1)" name="desc_kerja[]" type="hidden">
+                            <trix-editor :input="'desc_kerja' + (index + 1)"></trix-editor>
+                            @error('desc_kerja')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <button type="button" class="btn btn-danger" @click="removeInput1(index)">Delete</button>
                     </div>
-    
-                    <button type="button" class="btn btn-secondary mb-5 ms-4" @click="addInput3" >Add</button> 
+                    <button type="button" class="btn btn-secondary mb-5 ms-4" @click="addInput1" >Add</button> 
+                    
+                    <h1 style="margin-top: 30px">Project</h1>
+                    
+                    <div id="Project" class="Project" v-for='(project, index) in projects' :key='index'>
+                    
+                        <div class="input Project_name">
+                            <label class="form-label" for="project_name[]">Project Name @{{index + 1}}</label>
+                            <input class="form-control" name="project_name[]" type="text">
+                            @error('project_name.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="input client_name">
+                            <label class="form-label" for="client[]">Client @{{index + 1}}</label>
+                            <input class="form-control" name="client[]" type="text">
+                            @error('client.*')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="input date_kontainer">
+                            <div class="date project_start">
+                                <label class="form-label" for="mulai_project[]">Start</label>
+                                <input class="form-control" type="date" name="mulai_project[]">
+                                @error('mulai_project.*')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+        
+                            <div class="date project_end">
+                                <label class="form-label" for="selesai_project[]">End</label>
+                                <input class="form-control" type="date" name="selesai_project[]">
+                                @error('selesai_project.*')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                        </div>
+
+                        <div class="input project_description">
+                            <label class="form-label" for="desc_project[]">Project Description @{{index + 1}}</label>
+                            <input class="trix-editor" :id="'desc_project' + (index + 1)" name="desc_project[]" type="hidden">
+                            <trix-editor :input="'desc_project' + (index + 1)"></trix-editor>
+                        </div>
+
+                        <button type="button" class="btn btn-danger" @click="removeInput2(index)">Delete</button>
+                    </div>
+                        <button type="button" class="btn btn-secondary ms-4" @click="addInput2" >Add</button> 
+                
+                        <h1 style="margin-top: 30px">References</h1>
+                        <div class="references_kontainer">
+                            <div class="references" v-for="(reference, index) in references">
+                                <div class="input references_name" >
+                                    <label class="form-label" for="name_ref[]">Instution / Company Name</label>
+                                    <input class="form-control" type="text" name="name_ref[]" id="name_ref[]">
+                                    @error('name_ref.*')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="input references_email">
+                                    <label for="email_ref[]" class="form-label">Email</label>
+                                    <input type="email" name="email_ref[]" id="email_ref[]" class="form-control">
+                                    @error('reference_mail')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="input references_number">
+                                    <label for="phone[]" class="form-label">Number</label>
+                                    <input type="text" class="form-control" name="phone[]">
+                                    @error('phone.*')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <button type="button" class="btn btn-danger" @click="removeInput3(index)">Delete</button>
+                            </div>
+                        </div>
+        
+                        <button type="button" class="btn btn-secondary mb-5 ms-4" @click="addInput3" >Add</button> 
+                </div>
                 
             </div>
 
@@ -351,6 +352,9 @@
                     references : [
                         {value: ''}
                     ],
+                    skills : [
+                        {value: ''}
+                    ]
                 }
             },
             methods: {
@@ -373,6 +377,13 @@
                 },
                 removeInput3(index) {
                     this.references.splice(index, 1);
+                },
+
+                addInput4() {
+                    this.skills.push({value:''});
+                },
+                removeInput4(index) {
+                    this.skills.splice(index, 1);
                 }
             }
         }).mount('#app')
