@@ -1,153 +1,198 @@
-/* jobs.index.css */
 body {
-    background-color: #f0f4f8; /* Warna latar belakang halaman */
+    background: linear-gradient(135deg, #e0f7fa, #bbdefb); /* Gradasi biru sebagai latar belakang */
+    font-family: 'Roboto', sans-serif; /* Font modern */
+    color: #333; /* Warna teks lebih lembut */
+    margin: 0;
+    padding: 0;
 }
 
 .card {
-    border: none; /* Menghilangkan border pada card */
-    border-radius: 12px; /* Radius sudut card */
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bayangan lebih lembut */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Efek hover mengangkat */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Bayangan saat hover */
 }
 
 .card-header {
-    background-color: #007bff; /* Warna latar belakang header card */
-    color: white; /* Warna teks header card */
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Gradasi biru untuk header */
+    color: white;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+}
+
+.table {
+    font-size: 1.1rem;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Jarak antar baris tabel */
+}
+
+.kontainer_name_location {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.kontainer_name_location:hover {
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px); /* Efek hover */
+}
+
+
+
+.pipeline_stage:hover {
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Biru lebih pekat saat hover */
+    color: white;
+}
+
+
+    .pipeline_stage {
+    background-color: #007bff; /* Warna biru */
+    border-radius: 12px; /* Sudut melengkung */
+    padding: 15px;
+    margin: 10px;
+    text-align: center;
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animasi transform dan bayangan */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    cursor: pointer;
+}
+
+.pipeline_stage:hover {
+    transform: scale(1.05); /* Efek memperbesar sedikit saat hover */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Bayangan lebih besar saat hover */
+}
+
+/* Gaya untuk jumlah (angka) di dalam pipeline */
+.pipeline_stage .amount {
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 0;
+    color: #dfe6e9; /* Warna teks putih */
+}
+
+.pipeline_stage small {
+    display: block;
+    font-size: 0.9rem;
+    color: #dfe6e9; /* Warna teks lebih lembut */
+    margin-top: 8px;
+}
+
+/* Responsif dan grid layout */
+.pipeline_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Grid yang fleksibel */
+    gap: 15px; /* Jarak antar elemen */
+    justify-items: center;
+    align-items: center;
+}
+
+.dropdown-menu {
+    background-color: #007bff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Bayangan dropdown */
+}
+
+.dropdown-item:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+.modal-content {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Bayangan modal */
+}
+
+.modal-header {
+    background-color: #007bff;
+    color: white;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
 }
 
-.table {
-    font-size: 1.1rem; /* Ukuran font tabel */
-}
-
-.kontainer_name_location {
-    background-color: #ffffff; /* Warna latar belakang elemen pekerjaan */
-    border-radius: 8px; /* Sudut melengkung */
-    padding: 15px; /* Padding yang lebih besar */
-    transition: box-shadow 0.3s; /* Efek transisi */
-    cursor: pointer; /* Menunjukkan bahwa ini dapat diklik */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan halus */
-}
-
-.kontainer_name_location:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lebih kuat saat hover */
-}
-
-.pipeline_stage {
-    background-color: #d1ecf1; /* Warna latar belakang untuk tahap */
-    border-radius: 8px;
-    padding: 10px;
-    margin: 5px; /* Margin untuk memberi jarak antar elemen */
-    text-align: center; /* Rata tengah teks */
-}
-
-.pipeline_stage .amount {
-    font-weight: bold; /* Tebalkan jumlah */
-    font-size: 1.5rem; /* Ukuran font lebih besar untuk jumlah */
-}
-
-.dropdown-menu {
-    background-color: #ffc107; /* Warna dropdown */
-}
-
-.dropdown-item:hover {
-    background-color: #e0a800; /* Warna saat hover di dropdown */
-}
-
-.modal-content {
-    background-color: #ffffff; /* Latar belakang modal */
-    border-radius: 10px; /* Radius sudut modal */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan modal */
-}
-
-.modal-header {
-    background-color: #2890a7; /* Warna latar belakang header modal */
-    color: white; /* Warna teks header modal */
-}
-
 .modal-footer {
-    background-color: #f1f1f1; /* Warna latar belakang footer modal */
+    background-color: #f1f1f1;
 }
 
 .modal-body p {
-    font-size: 1.1rem; /* Ukuran font di modal */
-    color: #333; /* Warna teks modal */
+    font-size: 1.1rem;
+    color: #444;
+}
+
+/* Gaya untuk form pencarian */
+.search-bar {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 50px;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+.search-bar button {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-size: 1.2em;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    color: #0056b3;
+}
+
+.btn-extended {
+    width: 180px;
+    height: 40px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-extended:hover {
+    background-color: #0056b3;
+}
+
+.stage-link {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+.stage-link:hover {
+    color: #bcd5f1;
+    cursor: pointer;
 }
 
 
-    /* Gaya untuk form pencarian */
-    .search-bar {
-        position: relative;
-        width: 100%;
-        max-width: 400px;
-    }
 
-    .search-bar input {
-        width: 100%;
-        padding: 12px 20px;
-        border-radius: 50px;
-        border: 1px solid #ced4da;
-        box-shadow: none;
-        transition: border-color 0.3s ease;
-    }
-
-    .search-bar input:focus {
-        border-color: #007bff;
-        outline: none;
-        box-shadow: 0 0 10px rgba(0, 123, 255, 0.1);
-    }
-
-    .search-bar button {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        border: none;
-        background: transparent;
-        padding: 0;
-        font-size: 1.2em;
-        color: #007bff;
-        cursor: pointer;
-    }
-
-    .search-bar button:hover {
-        color: #0056b3;
-    }
-
-    .btn-extended {
-        width: 180px;
-        height: 40px;
-
-    }
-
-    .stage-link {
-        text-decoration: none; 
-        color: inherit; 
-    }
-
-   
-    .stage-link:hover {
-        color: #0056b3; 
-        cursor: pointer;
-    }
-
-    /* .pipeline_stage div {
-        padding: 10px;
-        border: 1px solid #e0e0e0; 
-        text-align: center;
-    } */
-
-    .pipeline_stage p.amount {
-        font-size: 24px;
-        margin: 0;
-    }
-
-    .pipeline_stage small {
-        font-size: 14px;
-        color: #888888;
-    }
-
-    /* Atur tampilan agar lebih terpusat */
-    .pipeline_stage {
-        width: 100px;
-        text-align: center;
-    }

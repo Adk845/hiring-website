@@ -88,7 +88,7 @@
 
                 <table class="table table-hover table-bordered table-striped" id="example2">
                     <thead>
-                        <tr class="table-primary">
+                        <tr  class="blue-gradient">
                             <th>No.</th>
                             <th>Name</th>
                             <th>Email</th>

@@ -11,7 +11,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Jobs List</h5>
+                <h5 class="mb-0 "><b style="color: white;">Jobs List</b></h5>
                 <div class="ms-auto d-flex">
                     <!-- Form Search Job dengan tampilan modern -->
                     <div class="search-bar me-3">

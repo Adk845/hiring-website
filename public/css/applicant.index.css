@@ -125,3 +125,37 @@
     }
 }
 
+.table {
+    width: 100%;
+    border-collapse: collapse; /* Menghilangkan jarak antara sel */
+}
+
+.blue-gradient {
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Gradasi biru pada baris */
+    color: white; /* Warna teks untuk baris */
+}
+
+.blue-gradient th {
+    background-color: transparent !important; /* Pastikan latar belakang th transparan */
+    color: white !important; /* Warna teks th tetap putih */
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+    color: black;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-bordered th, .table-bordered td {
+    border: 1px solid #dee2e6;
+}
+
+
