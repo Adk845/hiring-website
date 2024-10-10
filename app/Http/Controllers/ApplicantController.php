@@ -113,15 +113,15 @@ class ApplicantController extends Controller
             'number' => 'required|string|max:15',
             'email' => 'required|email',
             'profil_linkedin' => 'nullable|url',
-            'certificates' => 'nullable|string',
+            'certificates.*' => 'nullable|string',
             'experience_period' => 'nullable|string',
             'photo_pass' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'profile' => 'nullable|string',
             'languages' => 'nullable|string',
             'mbti' => 'nullable|string',
             'iq' => 'nullable|string',
-            'achievement' => 'nullable|string',
-            'skills' => 'nullable|string',
+            'achievement.*' => 'nullable|string',
+            'skills.*' => 'nullable|string',
             'salary_expectation' => 'required|numeric|min:0',
 
 
@@ -151,8 +151,6 @@ class ApplicantController extends Controller
         if ($request->hasFile('photo_pass')) {
             $path = $request->file('photo_pass')->store('photos', 'public');
         }
-
-        // Create a new applicant
         $applicant = Applicant::create([
             'job_id' => $request->job_id,
             'name' => $request->name,
@@ -160,15 +158,15 @@ class ApplicantController extends Controller
             'number' => $request->number,
             'email' => $request->email,
             'profil_linkedin' => $request->profil_linkedin,
-            'certificates' => $request->certificates,
+            'certificates' => implode("|", $request->certificates),
             'experience_period' => $request->experience_period,
             'photo_pass' => $path,
             'profile' => $request->profile,
             'languages' => $request->languages,
             'mbti' => $request->mbti,
             'iq' => $request->iq,
-            'achievement' => $request->achievement,
-            'skills' => $request->skills,
+            'achievement' => implode("|", $request->achievements),
+            'skills' => implode("|", $request->skills),
             'salary_expectation' => $request->salary_expectation,
             'education_id' => $request->education,
             'jurusan_id' => $request->jurusan,

@@ -63,9 +63,9 @@
 
                     <div class="input row">
                         <div class="pendidikan col-md-3">
-                            <label for="education" class="form-label" >Pendidikan</label>
+                            <label for="education" class="form-label" >Last Education</label>
                             <select id="education" name="education" class="form-control">
-                                <option value="">Pilih Pendidikan</option>
+                                <option value="">Choose Education</option>
                                 @foreach ($educations as $education)
                                 <option value="{{ $education->id }}">{{ $education->name_education }}</option>
                                 @endforeach
@@ -77,9 +77,9 @@
 
                         <div class="jurusan col-md-9">
                             <div class="input">
-                                <label for="jurusan" class="form-label">Jurusan</label>
+                                <label for="jurusan" class="form-label">Major</label>
                                 <select id="jurusan" name="jurusan" class="form-control">
-                                    <option value="">Pilih Jurusan</option>
+                                    <option value="">Choose Major</option>
                                     <!-- Jurusan options akan diisi secara dinamis -->
                                 </select>
                             </div>
@@ -87,7 +87,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="profile">Profil Diri</label>
+                        <label for="profile">Profile</label>
                         <textarea class="form-control @error('profile') is-invalid @enderror" id="profile" name="profile" placeholder="Profil Diri">{{ old('profile') }}</textarea>
                         @error('profile')
                         <span class="text-danger">{{ $message }}</span>
@@ -99,7 +99,7 @@
                 <div class="kanan col-md-5">
                     
                     <div class="input">
-                        <label for="profil_linkedin">Link Profile LinkedIn</label>
+                        <label for="profil_linkedin">LinkedIn Profile Link</label>
                         <input type="url" class="form-control @error('profil_linkedin') is-invalid @enderror" id="profil_linkedin" name="profil_linkedin" value="{{ old('profil_linkedin') }}" placeholder="Link Profile LinkedIn">
                         @error('profil_linkedin')
                         <span class="text-danger">{{ $message }}</span>
@@ -163,40 +163,60 @@
             <div id="app" class="mt-5">
 
                 <div class="tengah">
-                    <label for="skills">Keahlian</label>
-                    <div class="keahlian d-flex flex-grow-* row" v-for="">
+
+                    <label for="skills" class="mb-1">Skills</label>
+                    <div class="keahlian d-flex flex-grow-* row mb-3" v-for="">
 
                         <div v-for="(skill, index) in skills" :key='index' class="input skills d-flex flex-grow-* col-md-3 row-sm-10">
-                            <input type="text" class="form-control @error('skills') is-invalid @enderror" id="skills" name="skills[]" :placeholder="'skills' + (index + 1)">
+                            <input type="text" class="form-control @error('skills.*') is-invalid @enderror" id="skills" name="skills[]" :placeholder="'skills' + (index + 1)">
                             {{-- <textarea >{{ old('skills') }}</textarea> --}}
-                            @error('skills')
+                            @error('skills.*')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <button @click="removeInput4(index)" class="btn  btn-danger">-</button>
                         </div>
 
-                        <div class="button ms-3 col">
+                        <div class="button ms-1 col-md-1">
                             <button @click="addInput4" type="button" class="btn btn-secondary">+</button>
                         </div>
                         
                     </div>
                     
     
-                    <div class="input achievement mb-5">
-                        <label for="achievement">Prestasi</label>
-                        <textarea class="form-control @error('achievement') is-invalid @enderror" id="achievement" name="achievement" placeholder="Prestasi">{{ old('achievement') }}</textarea>
-                        @error('achievement')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                    <div class="input achievement">
+
+                        <label for="achievement" class="mb-1">achievement</label>
+                        <div class="achievement d-flex flex-grow-* row">
+                            <div v-for="(achievement, index) in achievements" :key='index' class="input achievements d-flex flex-grow-* col-md-6 row-sm-10">
+                                <input type="text" class="form-control @error('achievement.*') is-invalid @enderror" id="achievement" name="achievements[]" placeholder="Prestasi">
+                                @error('achievement.*')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                                <button @click="removeInput5(index)" class="btn  btn-danger">-</button>
+                            </div>
+                            <div class="button ms-1 col">
+                                <button @click="addInput5" type="button" class="btn btn-secondary">+</button>
+                            </div>
+                        </div>
+
                     </div>
     
                     <div class="input certificate">
                         <label for="certificates">Certificate</label>
-                        <input type="text" class="form-control @error('certificates') is-invalid @enderror" id="certificates" name="certificates" value="{{ old('certificates') }}" placeholder="Certificate">
-                        @error('certificates')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                        <div class="certificates d-flex flex-grow-* row">
+                            <div v-for="(certificates, index) in certificates" :key='index' class="input certificatess d-flex flex-grow-* col-md-6 row-sm-10">
+                                <input type="text" class="form-control @error('certificates.*') is-invalid @enderror" id="certificates" name="certificates[]" value="{{ old('certificates') }}" placeholder="Certificate">
+                                @error('certificates.*')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                                <button @click="removeInput6(index)" class="btn  btn-danger">-</button>
+                            </div>
+                            <div class="button ms-1 col">
+                                <button @click="addInput6" type="button" class="btn btn-secondary">+</button>
+                            </div>
+                        </div>
                     </div>
+                    
                 </div>
                 
                 
@@ -354,6 +374,12 @@
                     ],
                     skills : [
                         {value: ''}
+                    ],
+                    achievements : [
+                        {value: ''}
+                    ],
+                    certificates : [
+                        {value: ''}
                     ]
                 }
             },
@@ -378,12 +404,23 @@
                 removeInput3(index) {
                     this.references.splice(index, 1);
                 },
-
                 addInput4() {
                     this.skills.push({value:''});
                 },
                 removeInput4(index) {
                     this.skills.splice(index, 1);
+                },
+                addInput5() {
+                    this.achievements.push({value:''});
+                },
+                removeInput5(index) {
+                    this.achievements.splice(index, 1);
+                },
+                addInput6() {
+                    this.certificates.push({value:''});
+                },
+                removeInput6(index) {
+                    this.certificates.splice(index, 1);
                 }
             }
         }).mount('#app')
