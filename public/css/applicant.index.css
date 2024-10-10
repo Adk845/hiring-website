@@ -127,27 +127,27 @@
 
 .table {
     width: 100%;
-    border-collapse: collapse; /* Menghilangkan jarak antara sel */
+    border-collapse: collapse; 
 }
 
 .blue-gradient {
-    background: linear-gradient(135deg, #007bff, #0056b3); /* Gradasi biru pada baris */
-    color: white; /* Warna teks untuk baris */
+    background: linear-gradient(135deg, #007bff, #0056b3); 
+    color: white;
 }
 
 .blue-gradient th {
-    background-color: transparent !important; /* Pastikan latar belakang th transparan */
-    color: white !important; /* Warna teks th tetap putih */
+    background-color:linear-gradient(135deg, #007bff, #0056b3); 
+    color: white !important; 
 }
 
 .table th, .table td {
     padding: 15px;
     text-align: left;
-    color: black;
+    color: black; 
 }
 
 .table-hover tbody tr:hover {
-    background-color: rgba(0, 123, 255, 0.1);
+    background-color: rgba(0, 123, 255, 0.1); 
 }
 
 .table-bordered {
@@ -157,5 +157,23 @@
 .table-bordered th, .table-bordered td {
     border: 1px solid #dee2e6;
 }
+.table-wrapper {
+    max-height: 650px; 
+    overflow-y: auto;  
+    margin-top: 20px;
+}
+
+.table thead th, 
+.table tbody tr.sticky-row {
+    position: sticky; 
+    top: 0;          
+    background-color: #007bff; 
+    color: white;
+    z-index: 2;        
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+
 
 

@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label for="job_name">Job Name</label>
                                 <input type="text" class="form-control @error('job_name') is-invalid @enderror"
-                                    id="job_name" placeholder="Masukkan nama pekerjaan" name="job_name"
+                                    id="job_name" placeholder="fill in the job name" name="job_name"
                                     value="{{ old('job_name', $job->job_name) }}">
                                 @error('job_name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -33,7 +33,7 @@
                             <div class="form-group">
                                 <label for="work_location_id">Work Location</label>
                                 <select class="form-control @error('work_location_id') is-invalid @enderror" id="work_location_id" name="work_location_id">
-                                    <option value="">Pilih Lokasi Kerja</option>
+                                    <option value="">Select Work Location</option>
                                     @foreach( $work_locations as $location)
                                     <option value="{{ $location->id }}" {{ old('work_location_id', $job->work_location_id) == $location->id ? 'selected' : '' }}>
                                         {{ $location->location }}
@@ -47,9 +47,9 @@
 
                             <!-- Spesifikasi -->
                             <div class="form-group">
-                                <label for="spesifikasi">Spesifikasi</label>
+                                <label for="spesifikasi">Company Name</label>
                                 <input type="text" class="form-control @error('spesifikasi') is-invalid @enderror"
-                                    id="spesifikasi" placeholder="Masukkan spesifikasi pekerjaan" name="spesifikasi"
+                                    id="spesifikasi" placeholder="fill in the company name" name="spesifikasi"
                                     value="{{ old('spesifikasi', $job->spesifikasi) }}">
                                 @error('spesifikasi')
                                 <span class="text-danger">{{ $message }}</span>
@@ -60,7 +60,7 @@
                             <div class="form-group">
                                 <label for="minimum_salary">Minimum Salary</label>
                                 <input type="number" class="form-control @error('minimum_salary') is-invalid @enderror"
-                                    id="minimum_salary" placeholder="Gaji minimum" name="minimum_salary"
+                                    id="minimum_salary" placeholder="Minimum Salary" name="minimum_salary"
                                     value="{{ old('minimum_salary', $job->minimum_salary) }}">
                                 @error('minimum_salary')
                                 <span class="text-danger">{{ $message }}</span>
@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 <label for="employment_type">Employment Type</label>
                                 <select class="form-control @error('employment_type') is-invalid @enderror" id="employment_type" name="employment_type">
-                                    <option value="">Pilih Tipe Pekerjaan</option>
+                                    <option value="">Select Job Type</option>
                                     <option value="permanent" {{ old('employment_type', $job->employment_type) == 'permanent' ? 'selected' : '' }}>Permanent</option>
                                     <option value="contract" {{ old('employment_type', $job->employment_type) == 'contract' ? 'selected' : '' }}>Contract</option>
                                 </select>
@@ -85,10 +85,10 @@
 
                             <!-- Department -->
                             <div class="form-group">
-                                <label for="department">Departemen</label>
+                                <label for="department">Department</label>
                                 <select class="form-control @error('department') is-invalid @enderror"
                                     id="department" name="department">
-                                    <option value="">Pilih Departemen</option>
+                                    <option value="">Select Department</option>
                                     @foreach($departments as $departement)
                                     <option value="{{ $departement->id }}" {{ old('department', $job->department) == $departement->id ? 'selected' : '' }}>
                                         {{ $departement->dep_name }}
@@ -104,7 +104,7 @@
                             <div class="form-group">
                                 <label for="maximum_salary">Maximum Salary</label>
                                 <input type="number" class="form-control @error('maximum_salary') is-invalid @enderror"
-                                    id="maximum_salary" placeholder="Gaji maksimum" name="maximum_salary"
+                                    id="maximum_salary" placeholder="Maximum Salary" name="maximum_salary"
                                     value="{{ old('maximum_salary', $job->maximum_salary) }}">
                                 @error('maximum_salary')
                                 <span class="text-danger">{{ $message }}</span>

@@ -85,7 +85,7 @@
                         <i class="fa fa-plus"></i> Create Applicant
                     </a>
                 </div>
-
+                <div class="table-wrapper">
                 <table class="table table-hover table-bordered table-striped" id="example2">
                     <thead>
                         <tr  class="blue-gradient">
@@ -169,6 +169,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
