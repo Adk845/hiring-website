@@ -4,20 +4,20 @@
 
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center">
-<h1 class="m-0 text-dark">
-    <b> List Applicants 
-    @if(isset($jobTitle) && isset($stageName))
-        - {{ $jobTitle }} ({{ $stageName }})
-    @endif
-    </b>
-</h1>
+    <h1 class="m-0 text-dark">
+        <b> List Applicants
+            @if(isset($jobTitle) && isset($stageName))
+            - {{ $jobTitle }} ({{ $stageName }})
+            @endif
+        </b>
+    </h1>
 
 
 
 
     <!-- Filter Status Stage -->
-   <!-- Only show the status boxes if no job_id is provided -->
-@if (!$request->has('job_id'))
+    <!-- Only show the status boxes if no job_id is provided -->
+    @if (!$request->has('job_id'))
     <div class="status-boxes">
         <a href="{{ route('pipelines.index', ['stage' => 'all', 'education' => $request->get('education')]) }}" class="status-box status-all {{ $request->get('stage') == 'all' ? 'active' : '' }}">
             <small>All</small>
@@ -39,7 +39,7 @@
             <small>Accepted</small>
         </a>
     </div>
-@endif
+    @endif
 
 </div>
 @stop
@@ -94,100 +94,99 @@
                     </a>
                 </div>
                 <div class="table-wrapper">
-                <table class="table table-hover table-bordered table-striped" id="example2">
-                    <thead>
-                        <tr  class="blue-gradient">
-                            <th>No.</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Work Location</th>
-                            <th>Phone</th>
-                            <th>Move Stage</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($applicants as $key => $applicant)
-                        <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>
-                                <div style="display: flex; align-items: center; cursor: pointer;" onclick="showApplicantInfo({{ json_encode($applicant) }})">
-                                    @if($applicant->photo_pass)
-                                    <img src="{{ asset('storage/' . $applicant->photo_pass) }}" alt="Applicant Photo" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
-                                    @else
-                                    <span style="width: 50px; height: 50px; display: inline-block; background-color: #f0f0f0; margin-right: 10px; border-radius: 50%;"></span>
-                                    @endif
-                                    <span>{{ $applicant->name }}</span>
-                                </div>
-                            </td>
-                            <td>{{ $applicant->email }}</td>
-                            <td>{{ optional($applicant->job)->workLocation->location }} - <span> {{($applicant->job)->spesifikasi}}</span>
-                            </td>
-                            <td>{{ $applicant->number }}</td>
-                            <td class="pipeline_stage">
-                                <div>
-                                    <form action="{{ route('applicants.updateStatus', $applicant->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="dropdown">
-                                            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{ ucfirst($applicant->status) ?: 'Pilih Status' }}
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <button type="submit" name="status" value="applied" class="dropdown-item">Applicant</button>
-                                                <button type="submit" name="status" value="interview" class="dropdown-item">Interview</button>
-                                                <button type="submit" name="status" value="offer" class="dropdown-item">Offer</button>
-                                                <button type="submit" name="status" value="accepted" class="dropdown-item">Accepted</button>
-                                                <button type="submit" name="status" value="rejected" class="dropdown-item">Rejected</button>
+                    <table class="table table-hover table-bordered table-striped" id="example2">
+                        <thead>
+                            <tr class="blue-gradient">
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Work Location</th>
+                                <th>Phone</th>
+                                <th>Move Stage</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($applicants as $key => $applicant)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td>
+                                    <div style="display: flex; align-items: center; cursor: pointer;" onclick="showApplicantInfo({{ json_encode($applicant) }})">
+                                        @if($applicant->photo_pass)
+                                        <img src="{{ asset('storage/' . $applicant->photo_pass) }}" alt="Applicant Photo" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                        @else
+                                        <span style="width: 50px; height: 50px; display: inline-block; background-color: #f0f0f0; margin-right: 10px; border-radius: 50%;"></span>
+                                        @endif
+                                        <span>{{ $applicant->name }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ $applicant->email }}</td>
+                                <td>{{ optional($applicant->job)->workLocation->location }} - <span> {{($applicant->job)->spesifikasi}}</span>
+                                </td>
+                                <td>{{ $applicant->number }}</td>
+                                <td class="pipeline_stage">
+                                    <div>
+                                        <form action="{{ route('applicants.updateStatus', $applicant->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="dropdown">
+                                                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{ ucfirst($applicant->status) ?: 'Pilih Status' }}
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <button type="submit" name="status" value="applied" class="dropdown-item">Applicant</button>
+                                                    <button type="submit" name="status" value="interview" class="dropdown-item">Interview</button>
+                                                    <button type="submit" name="status" value="offer" class="dropdown-item">Offer</button>
+                                                    <button type="submit" name="status" value="accepted" class="dropdown-item">Accepted</button>
+                                                    <button type="submit" name="status" value="rejected" class="dropdown-item">Rejected</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-danger dropdown-toggle btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Actions
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <!-- Edit button -->
-                                        <a href="{{ route('pipelines.edit', $applicant->id) }}" class="dropdown-item">
-                                            <i class="fa fa-edit"></i> Edit
-                                        </a>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-danger dropdown-toggle btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Actions
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <!-- Edit button -->
+                                            <a href="{{ route('pipelines.edit', $applicant->id) }}" class="dropdown-item">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
 
-                                        <!-- Delete button -->
-                                        <a href="#" class="dropdown-item"
-                                            onclick="event.preventDefault(); 
+                                            <!-- Delete button -->
+                                            <a href="#" class="dropdown-item"
+                                                onclick="event.preventDefault(); 
                          if (confirm('Are you sure you want to delete this item?')) {
                              document.getElementById('delete-form-{{ $applicant->id }}').submit();
                          }">
-                                            <i class="fa fa-trash"></i> Delete
-                                        </a>
+                                                <i class="fa fa-trash"></i> Delete
+                                            </a>
 
-                                        <!-- Hidden delete form -->
-                                        <form id="delete-form-{{ $applicant->id }}" action="{{ route('pipelines.destroy', $applicant) }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+                                            <!-- Hidden delete form -->
+                                            <form id="delete-form-{{ $applicant->id }}" action="{{ route('pipelines.destroy', $applicant) }}" method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
+                                </td>
 
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Modal for applicant information -->
 <div class="modal fade" id="applicantInfoModal" tabindex="-1" role="dialog" aria-labelledby="applicantInfoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #007bff, #0056b3);" >
+            <div class="modal-header" style="background: linear-gradient(135deg, #007bff, #0056b3);">
                 <h5 class="modal-title" id="applicantInfoModalLabel">Applicant Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -206,13 +205,18 @@
                         <p><strong>Job:</strong> <span id="applicant-job"></span></p>
                         <p><strong>Skills:</strong> <span id="applicant-skills"></span></p>
                         <p><strong>Salary Expectation:</strong> Rp.<span id="applicant-salary"></span></p>
+                        <textarea id="applicant-notes" placeholder="Add notes here..." style="width: 100%; height: 100px;" disabled></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <a id="download-cv" href="#" class="btn btn-primary">CV</a>
+                <button id="save-notes-button" onclick="saveNotes()" class="btn btn-primary">Save Notes</button>
+                <button id="edit-notes-button" onclick="editNotes()" class="btn btn-secondary" style="display: none;">Edit</button>
+                <button onclick="deleteNotes()" class="btn btn-danger">Delete Notes</button>
+                <a id="download-cv" href="#" class="btn btn-success">CV</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
+
         </div>
     </div>
 </div>
@@ -222,28 +226,90 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @push('js')
-
-
 <script>
-    $(document).ready(function() {
-        $('#example2').DataTable({
-            "responsive": true,
-        });
+$(document).ready(function() {
+   
+    $('#example2').DataTable({
+        "responsive": true,
     });
 
-    function showApplicantInfo(applicant) {
-        $('#applicant-photo').attr('src', applicant.photo_pass ? "{{ asset('storage/') }}/" + applicant.photo_pass : 'https://via.placeholder.com/100');
-        $('#applicant-name').text(applicant.name);
-        $('#applicant-email').text(applicant.email);
-        $('#applicant-number').text(applicant.number);
-        $('#applicant-address').text(applicant.address);
-        $('#applicant-job').text(applicant.job ? applicant.job.job_name : 'N/A');
-        $('#applicant-skills').text(applicant.skills ? applicant.skills : 'N/A');
-        $('#applicant-salary').text(applicant.salary_expectation);
-        $('#download-cv').attr('href', "{{ url('/pipelines') }}/" + applicant.id + "/pdf");
-        $('#applicantInfoModal').modal('show');
+    
+    $('#applicantInfoModal').on('hidden.bs.modal', function() {
+        $('#applicant-notes').prop('disabled', true); 
+        $('#save-notes-button').hide(); 
+        $('#edit-notes-button').show(); 
+    });
+});
+
+let currentApplicantId = null;
+
+function showApplicantInfo(applicant) {
+    $('#applicant-photo').attr('src', applicant.photo_pass ? "{{ asset('storage/') }}/" + applicant.photo_pass : 'https://via.placeholder.com/100');
+    $('#applicant-name').text(applicant.name);
+    $('#applicant-email').text(applicant.email);
+    $('#applicant-number').text(applicant.number);
+    $('#applicant-address').text(applicant.address);
+    $('#applicant-job').text(applicant.job ? applicant.job.job_name : 'N/A');
+    $('#applicant-skills').text(applicant.skills ? applicant.skills : 'N/A');
+    $('#applicant-salary').text(applicant.salary_expectation);
+    $('#download-cv').attr('href', "{{ url('/pipelines') }}/" + applicant.id + "/pdf");
+
+    // Get applicant ID for saving notes
+    currentApplicantId = applicant.id;
+
+  
+    const savedNotes = localStorage.getItem(`notes_${currentApplicantId}`);
+    $('#applicant-notes').val(savedNotes ? savedNotes : '');
+
+    
+    if (savedNotes) {
+        $('#applicant-notes').prop('disabled', true); 
+        $('#save-notes-button').hide(); 
+        $('#edit-notes-button').show(); 
+    } else {
+        $('#applicant-notes').prop('disabled', false); 
+        $('#save-notes-button').show(); 
+        $('#edit-notes-button').hide(); 
     }
+
+    $('#applicantInfoModal').modal('show');
+}
+
+function saveNotes() {
+    if (currentApplicantId) {
+        const notes = $('#applicant-notes').val();
+        localStorage.setItem(`notes_${currentApplicantId}`, notes);
+        alert('Notes saved!');
+
+        $('#applicant-notes').prop('disabled', true); 
+        $('#save-notes-button').hide(); 
+        $('#edit-notes-button').show(); 
+    }
+}
+
+function editNotes() {
+    $('#applicant-notes').prop('disabled', false);
+    $('#edit-notes-button').hide(); 
+    $('#save-notes-button').show(); 
+}
+
+function deleteNotes() {
+    if (currentApplicantId) {
+        localStorage.removeItem(`notes_${currentApplicantId}`);
+        $('#applicant-notes').val(''); 
+        alert('Notes deleted!');
+
+        $('#applicant-notes').prop('disabled', false); 
+        $('#save-notes-button').show(); 
+        $('#edit-notes-button').hide(); 
+    }
+}
+
+
+
 </script>
+
+
 
 <script>
     $(document).ready(function() {
@@ -286,7 +352,6 @@
         });
     });
 </script>
-
 
 
 
