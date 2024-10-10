@@ -34,6 +34,9 @@ hr{
 .references{
     width: 300px;
 }
+/* .skills{
+    width: 200px;
+} */
 
 .work_experience, .references, .Project{
     border: 1px solid black;
