@@ -29,55 +29,66 @@ class ApplicantController extends Controller
     }
 
 
-
     public function index(Request $request)
     {
         $query = Applicant::with('job', 'education', 'jurusan');
-
+    
         $jobId = $request->get('job_id');
+        
+        // Get job title only if job ID is provided
         $jobTitle = $jobId ? optional(Job::find($jobId))->job_name : null;
-
+    
         if ($jobId) {
             $query->where('job_id', $jobId);
         }
-
-        // Ganti 'stage' dengan 'status'
-        if ($request->has('status') && $request->get('status') !== '') {
-            $query->where('status', $request->get('status'));
+    
+        // Retrieve the current status filter if it exists
+        $currentStatus = $request->get('status');
+    
+        // Change 'stage' to 'status'
+        if ($currentStatus && $currentStatus !== '') {
+            $query->where('status', $currentStatus);
         }
-        // Dapatkan jumlah pelamar berdasarkan status
+    
+        // Get the count of applicants based on status
         $statusCounts = [
             'applied' => Applicant::where('status', 'applied')->count(),
             'interview' => Applicant::where('status', 'interview')->count(),
             'offer' => Applicant::where('status', 'offer')->count(),
             'accepted' => Applicant::where('status', 'accepted')->count(),
         ];
-
+    
         if ($request->has('search')) {
             $search = $request->get('search');
             $query->where('name', 'like', '%' . $search . '%');
         }
-
+    
+        // Additional filtering logic for education and jurusan
         if (!$request->has('status')) {
             if ($request->has('education') && !empty($request->get('education'))) {
                 $educationId = $request->get('education');
                 $query->where('education_id', $educationId);
             }
-
+    
             if ($request->has('jurusan') && !empty($request->get('jurusan'))) {
                 $jurusanId = $request->get('jurusan');
                 $query->where('jurusan_id', $jurusanId);
             }
         }
-
+    
         $applicants = $query->get();
-
+    
+        // Get the stage name only if a job ID is provided
+        $stageName = $jobId && $applicants->isNotEmpty() ? $applicants->first()->status : null;
+    
         $jobs = Job::all();
         $educations = Education::all();
         $jurusans = Jurusan::all();
-
-        return view('pipelines.index', compact('applicants', 'jobs', 'jobTitle', 'educations', 'jurusans', 'request', 'statusCounts'));
+    
+        return view('pipelines.index', compact('applicants', 'jobs', 'jobTitle', 'educations', 'jurusans', 'request', 'statusCounts', 'stageName'));
     }
+    
+    
 
 
 
@@ -364,15 +375,19 @@ class ApplicantController extends Controller
         return redirect()->back()->with('success', 'Applicant status updated successfully!');
     }
 
-    public function show($id)
+    public function show($jobId)
     {
-        // Eager load the relationships
-        $applicant = Applicant::with('education', 'jurusan')->find($id);
-
-        if (!$applicant) {
-            return response()->json(['error' => 'Applicant not found'], 404);
-        }
-
-        return response()->json($applicant);
+        // Get the job title
+        $job = Job::find($jobId);
+        $jobTitle = $job ? $job->job_name : null;
+    
+        // Get applicants for this job
+        $applicants = Applicant::where('job_id', $jobId)->get();
+    
+        // Get the stage name for the first applicant (or however you want to decide)
+        $stageName = $applicants->isNotEmpty() ? $applicants->first()->status : null;
+    
+        return view('jobs.show', compact('applicants', 'jobTitle', 'stageName'));
     }
+    
 }

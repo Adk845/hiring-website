@@ -4,14 +4,20 @@
 
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center">
-    <h1 class="m-0 text-dark">
-        <b> List Applicants 
-        @if(isset($jobTitle))
-        - {{ $jobTitle }}
-        @endif </b>
-    </h1>
+<h1 class="m-0 text-dark">
+    <b> List Applicants 
+    @if(isset($jobTitle) && isset($stageName))
+        - {{ $jobTitle }} ({{ $stageName }})
+    @endif
+    </b>
+</h1>
+
+
+
 
     <!-- Filter Status Stage -->
+   <!-- Only show the status boxes if no job_id is provided -->
+@if (!$request->has('job_id'))
     <div class="status-boxes">
         <a href="{{ route('pipelines.index', ['stage' => 'all', 'education' => $request->get('education')]) }}" class="status-box status-all {{ $request->get('stage') == 'all' ? 'active' : '' }}">
             <small>All</small>
@@ -33,6 +39,8 @@
             <small>Accepted</small>
         </a>
     </div>
+@endif
+
 </div>
 @stop
 
@@ -179,7 +187,7 @@
 <div class="modal fade" id="applicantInfoModal" tabindex="-1" role="dialog" aria-labelledby="applicantInfoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #2890a7;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #007bff, #0056b3);" >
                 <h5 class="modal-title" id="applicantInfoModalLabel">Applicant Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

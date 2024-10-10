@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Hiring')
+@section('title', 'Dashboard')
 
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center mb-3">
