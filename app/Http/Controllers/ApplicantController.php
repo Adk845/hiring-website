@@ -240,6 +240,16 @@ class ApplicantController extends Controller
         return view('pipelines.edit', compact('applicant', 'jobs', 'educations', 'jurusans'));
     }
 
+    public function edit_api($id)
+    {
+        $applicant = Applicant::with(['workExperiences', 'projects', 'references'])->findOrFail($id);
+        $jobs = Job::all();
+        $educations = Education::all();
+        $jurusans = Jurusan::where('education_id', $applicant->education_id)->get();
+
+        return json_encode($applicant);
+    }
+
     public function update(Request $request, $id)
     {
         // Validate input
