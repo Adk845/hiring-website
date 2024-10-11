@@ -37,7 +37,7 @@
                             <a href="{{ route('jobs.index', ['department' => $departement->id]) }}" class="text-decoration-none text-dark">
                                 <h4 class="">{{ $departement->dep_name }}</h4>
                             </a>
-                            <a href="{{ route('departements.edit', $departement) }}" class="fa fa-edit btn btn-success btn-xs"> Edit</a>
+                            <a href="{{ route('departements.edit', $departement) }}" class="btn btn-success btn-xs"> <i class="fa fa-edit"></i>  Edit</a>
                             <a href="{{ route('departements.destroy', $departement) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
                                 <i class="fa fa-trash"></i> Delete
                             </a>

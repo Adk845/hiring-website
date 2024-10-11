@@ -174,6 +174,68 @@
 }
 
 
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    position: relative;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px; 
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+}
+
+.btn:hover {
+    transform: translateY(-4px); 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); 
+}
+
+.btn-primary {
+    background-color: #ff3d00; 
+}
+
+.btn-primary:hover {
+    background-color: #e53935; 
+}
+
+.btn-secondary {
+    background-color: #007bff; 
+}
+
+.btn-secondary:hover {
+    background-color: #0056b3; 
+}
+
+.btn-danger {
+    background-color: #dc3545; 
+}
+
+.btn-danger:hover {
+    background-color: #b21f3a; 
+}
+
+.btn-success {
+    background-color: #28a745; 
+}
+
+.btn-success:hover {
+    background-color: #218838; 
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2); 
+}
+
+
 
 
 

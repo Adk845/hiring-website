@@ -128,7 +128,6 @@ var departmentCounts = Object.values(departmentData);
 var gradient2 = ctx2.createLinearGradient(0, 0, 0, 400);
 gradient2.addColorStop(0, 'rgba(230, 190, 255, 0.8)'); // Soft light purple
 gradient2.addColorStop(1, 'rgba(180, 100, 255, 0.2)'); // Lighter soft purple
-
 var chart2 = new Chart(ctx2, {
     type: 'bar',
     data: {
@@ -146,12 +145,13 @@ var chart2 = new Chart(ctx2, {
             x: { title: { display: true, text: 'Department' } },
             y: {
                 title: { display: true, text: 'Number of Jobs' },
-                beginAtZero: false,
+                beginAtZero: true, // Mulai dari 0
                 ticks: { stepSize: 1 }
             }
         }
     }
 });
+
 
 
 
