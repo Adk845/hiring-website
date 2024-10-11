@@ -252,7 +252,12 @@ class ApplicantController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        
         // Validate input
+        //khusus validate yang sifatnya array maka harus ditambahkan '.*' setelah nama atribut $requestnya 
+        //misal 'skills.*' => 'nullable|string',
+        //kalau gak dia bakal refresh refresh terus di form dan gak kemana mana 
         $request->validate([
             'job_id' => 'required|exists:jobs,id',
             'name' => 'required|string|max:255',
@@ -260,15 +265,15 @@ class ApplicantController extends Controller
             'number' => 'required|string|max:15',
             'email' => 'required|email',
             'profil_linkedin' => 'nullable|url',
-            'certificates' => 'nullable|string',
+            'certificates.*' => 'nullable|string',
             'experience_period' => 'nullable|string',
             'photo_pass' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'profile' => 'nullable|string',
             'languages' => 'nullable|string',
             'mbti' => 'nullable|string',
             'iq' => 'nullable|string',
-            'achievement' => 'nullable|string',
-            'skills' => 'nullable|string',
+            'achievement.*' => 'nullable|string',
+            'skills.*' => 'nullable|string',
             'salary_expectation' => 'required|numeric|min:0',
 
             'role.*' => 'required|string|max:255',
@@ -290,7 +295,7 @@ class ApplicantController extends Controller
             'education' => 'required|exists:education,id',
             'jurusan' => 'nullable|exists:jurusan,id',
         ]);
-
+        
         // Retrieve the applicant
         $applicant = Applicant::findOrFail($id);
 
@@ -308,14 +313,14 @@ class ApplicantController extends Controller
             'number' => $request->number,
             'email' => $request->email,
             'profil_linkedin' => $request->profil_linkedin,
-            'certificates' => $request->certificates,
+            'certificates' => implode("|", $request->certificates),
             'experience_period' => $request->experience_period,
             'profile' => $request->profile,
             'languages' => $request->languages,
             'mbti' => $request->mbti,
             'iq' => $request->iq,
-            'achievement' => $request->achievement,
-            'skills' => $request->skills,
+            'achievement' => implode("|", $request->achievements),
+            'skills' => implode("|", $request->skills),
             'salary_expectation' => $request->salary_expectation,
             'education_id' => $request->education,
             'jurusan_id' => $request->jurusan,
