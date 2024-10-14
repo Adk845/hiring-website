@@ -47,6 +47,7 @@ class JobController extends Controller
     // Store a new job in the database
     public function store(Request $request)
     {
+        
         // Validate input
         $request->validate([
             'job_name' => 'required|string|max:255',
@@ -61,6 +62,7 @@ class JobController extends Controller
             'spesifikasi' => 'nullable|string',
 
         ]);
+        // @dd($request);
 
         // dd($request->all()); // This will dump the request data and halt execution
         ModelsJob::create($request->all());

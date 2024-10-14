@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/vacancy.form.css')}}">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="{{asset('js/vue.global.js')}}"></script>
     <title>vacancy Form</title>
 </head>
 <body>
@@ -31,7 +31,7 @@
                 <div class="kiri col-md-7">
                     <div class="input">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Nama Applicant" required>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Applicant Name" required>
                         @error('name')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -88,7 +88,7 @@
 
                     <div class="input">
                         <label for="profile">Profile</label>
-                        <textarea class="form-control @error('profile') is-invalid @enderror" id="profile" name="profile" placeholder="Profil Diri">{{ old('profile') }}</textarea>
+                        <textarea class="form-control @error('profile') is-invalid @enderror" id="profile" name="profile" placeholder="describe yourself">{{ old('profile') }}</textarea>
                         @error('profile')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="photo_pass" class="form-label">Unggah Foto</label>
+                        <label for="photo_pass" class="form-label">Upload Photo</label>
                         <input type="file" class="form-control @error('photo_pass') is-invalid @enderror" id="photo_pass" name="photo_pass" required>
                         @error('photo_pass')
                         <span class="text-danger">{{ $message }}</span>
@@ -133,24 +133,24 @@
                     </div>
 
                     <div class="input">
-                        <label for="experience_period">Pengalaman Kerja (Periode)</label>
-                        <input type="text" class="form-control @error('experience_period') is-invalid @enderror" id="experience_period" name="experience_period" value="{{ old('experience_period') }}" placeholder="Pengalaman Kerja">
+                        <label for="experience_period">Work Experience Period</label>
+                        <input type="text" class="form-control @error('experience_period') is-invalid @enderror" id="experience_period" name="experience_period" value="{{ old('experience_period') }}" placeholder="based on year">
                         @error('experience_period')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div class="input">
-                        <label for="salary_expectation">Ekspektasi Gaji</label>
-                        <input type="number" class="form-control @error('salary_expectation') is-invalid @enderror" id="salary_expectation" name="salary_expectation" value="{{ old('salary_expectation') }}" placeholder="Ekspektasi Gaji" required>
+                        <label for="salary_expectation">Salary Expectation</label>
+                        <input type="number" class="form-control @error('salary_expectation') is-invalid @enderror" id="salary_expectation" name="salary_expectation" value="{{ old('salary_expectation') }}" placeholder="Ex. 15000000" required>
                         @error('salary_expectation')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div class="input">
-                        <label for="languages">Bahasa</label>
-                        <input type="text" class="form-control @error('languages') is-invalid @enderror" id="languages" name="languages" value="{{ old('languages') }}" placeholder="Bahasa yang dikuasai">
+                        <label for="languages">Languages Skills</label>
+                        <input type="text" class="form-control @error('languages') is-invalid @enderror" id="languages" name="languages" value="{{ old('languages') }}" placeholder="Ex. English, Russian">
                         @error('languages')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -165,10 +165,10 @@
                 <div class="tengah">
 
                     <label for="skills" class="mb-1">Skills</label>
-                    <div class="keahlian d-flex flex-grow-* row mb-3" v-for="">
+                    <div class="keahlian d-flex flex-grow-* row mb-3">
 
                         <div v-for="(skill, index) in skills" :key='index' class="input skills d-flex flex-grow-* col-md-3 row-sm-10">
-                            <input type="text" class="form-control @error('skills.*') is-invalid @enderror" id="skills" name="skills[]" :placeholder="'skills' + (index + 1)">
+                            <input type="text" class="form-control @error('skills.*') is-invalid @enderror" id="skills" name="skills[]" :placeholder="'skills ' + (index + 1)">
                             {{-- <textarea >{{ old('skills') }}</textarea> --}}
                             @error('skills.*')
                             <span class="text-danger">{{ $message }}</span>
@@ -188,7 +188,7 @@
                         <label for="achievement" class="mb-1">achievement</label>
                         <div class="achievement d-flex flex-grow-* row">
                             <div v-for="(achievement, index) in achievements" :key='index' class="input achievements d-flex flex-grow-* col-md-6 row-sm-10">
-                                <input type="text" class="form-control @error('achievement.*') is-invalid @enderror" id="achievement" name="achievements[]" placeholder="Prestasi">
+                                <input type="text" class="form-control @error('achievement.*') is-invalid @enderror" id="achievement" name="achievements[]" :placeholder="'achievement ' + (index + 1)">
                                 @error('achievement.*')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -205,7 +205,7 @@
                         <label for="certificates">Certificate</label>
                         <div class="certificates d-flex flex-grow-* row">
                             <div v-for="(certificates, index) in certificates" :key='index' class="input certificatess d-flex flex-grow-* col-md-6 row-sm-10">
-                                <input type="text" class="form-control @error('certificates.*') is-invalid @enderror" id="certificates" name="certificates[]" value="{{ old('certificates') }}" placeholder="Certificate">
+                                <input type="text" class="form-control @error('certificates.*') is-invalid @enderror" id="certificates" name="certificates[]" value="{{ old('certificates') }}" :placeholder="'certificate ' + (index + 1)">
                                 @error('certificates.*')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -259,8 +259,7 @@
 
                         <div class="input job_description">
                             <label class="form-label" for="desc_kerja[]">Job Description @{{index + 1}}</label>
-                            <input class="trix-editor" :id="'desc_kerja' + (index + 1)" name="desc_kerja[]" type="hidden">
-                            <trix-editor :input="'desc_kerja' + (index + 1)"></trix-editor>
+                            <textarea class="form-control @error('desc_kerja.*') is-invalid @enderror" name="desc_kerja[]" placeholder="Job Description" required></textarea>
                             @error('desc_kerja')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -310,15 +309,14 @@
 
                         <div class="input project_description">
                             <label class="form-label" for="desc_project[]">Project Description @{{index + 1}}</label>
-                            <input class="trix-editor" :id="'desc_project' + (index + 1)" name="desc_project[]" type="hidden">
-                            <trix-editor :input="'desc_project' + (index + 1)"></trix-editor>
+                            <textarea class="form-control @error('desc_project.*') is-invalid @enderror" :id="'desc_project' + (index + 1)"  name="desc_project[]" placeholder="Project Description"></textarea>
                         </div>
 
                         <button type="button" class="btn btn-danger" @click="removeInput2(index)">Delete</button>
                     </div>
                         <button type="button" class="btn btn-secondary ms-4" @click="addInput2" >Add</button> 
                 
-                        <h1 style="margin-top: 30px">References</h1>
+                        <h1 style="margin-top: 30px">Contacts References</h1>
                         <div class="references_kontainer">
                             <div class="references" v-for="(reference, index) in references">
                                 <div class="input references_name" >
@@ -452,6 +450,7 @@
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css"> {{-- library untuk text editor --}}
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script> {{-- library untuk text editor --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
     
 </body>
 </html>
