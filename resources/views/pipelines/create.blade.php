@@ -280,9 +280,7 @@
 
                                 <div class="input job_description">
                                     <label class="form-label" for="desc_kerja[]">Job Description @{{index + 1}}</label>
-                                    {{-- <textarea class="form-control @error('desc_kerja.*') is-invalid @enderror" name="desc_kerja[]" placeholder="Deskripsi Pekerjaan" required></textarea> --}}
-                                    <input class="trix-editor" :id="'desc_kerja' + (index + 1)" name="desc_kerja[]" type="hidden">
-                                    <trix-editor :input="'desc_kerja' + (index + 1)"></trix-editor>
+                                    <textarea class="form-control @error('desc_kerja.*') is-invalid @enderror" name="desc_kerja[]" placeholder="Job Description" required v-model="experience.desc_kerja"></textarea>
                                     @error('desc_kerja')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -336,8 +334,7 @@
 
                             <div class="input project_description">
                                 <label class="form-label" for="desc_project[]">Project Description @{{index + 1}}</label>
-                                <input class="trix-editor" :id="'desc_project' + (index + 1)"  name="desc_project[]" type="hidden">
-                                <trix-editor :input="'desc_project' + (index +1)"></trix-editor>
+                                <textarea class="form-control @error('desc_project.*') is-invalid @enderror" :id="'desc_project' + (index + 1)"  name="desc_project[]" v-model="project.desc_project" placeholder="Project Description"></textarea>
                             </div>
 
                             <button type="button" class="btn btn-danger" @click="removeInput2(index)">Delete</button>

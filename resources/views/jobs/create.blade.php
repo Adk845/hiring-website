@@ -79,7 +79,7 @@
                             <div class="form-group">
                                 <label for="department">Department</label>
                                 <select class="form-control @error('department') is-invalid @enderror"
-                                    id="department" name="Select Department" required>
+                                    id="department" name="department" required>
                                     <option value="">Select Department</option>
                                     @foreach($departements as $departement)
                                     <option value="{{ $departement->id }}" {{ old('department') == $departement->id ? 'selected' : '' }}>
@@ -164,6 +164,7 @@
         </div>
     </div>
 </form>
+
 
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jobs.create.css') }}"> {{-- library untuk text editor --}}
 
