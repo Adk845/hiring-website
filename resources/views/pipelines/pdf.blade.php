@@ -86,7 +86,9 @@
         }
 
         /* Styles for skills, certificates, and achievements */
-        .skills-list, .achievement-list, .certificates-list {
+        .skills-list,
+        .achievement-list,
+        .certificates-list {
             display: flex;
             flex-wrap: wrap;
             padding: 0;
@@ -94,7 +96,9 @@
             margin: 0;
         }
 
-        .skills-list li, .achievement-list li, .certificates-list li {
+        .skills-list li,
+        .achievement-list li,
+        .certificates-list li {
             background-color: #f1f1f1;
             border-radius: 4px;
             padding: 5px 10px;
@@ -169,12 +173,13 @@
             <h3>{{ $experience->role }}</h3>
             <p><strong>Company:</strong> {{ $experience->name_company }}</p>
             <p><strong>Description:</strong> {{ $experience->desc_kerja }}</p>
-            <p><strong>From:</strong> {{ $experience->mulai }} <strong>Until:</strong> {{ $experience->selesai }}</p>
+            <p><strong>Period:</strong> {{ $experience->mulai }} - {{ $experience->selesai }}</p>
             @endforeach
             @else
             <p>No work experience available.</p>
             @endif
         </div>
+
 
         <div class="section">
             <h2>Skills</h2>
@@ -213,7 +218,7 @@
             <h3>{{ $project->project_name }}</h3>
             <p><strong>Client:</strong> {{ $project->client }}</p>
             <p><strong>Description:</strong> {{ $project->desc_project }}</p>
-            <p><strong>From:</strong> {{ $project->mulai_project }} <strong>Until:</strong> {{ $project->selesai_project }}</p>
+            <p><strong>Period:</strong> {{ $project->mulai_project }} - {{ $project->selesai_project }}</p>
             @endif
             @endforeach
         </div>
@@ -226,9 +231,10 @@
 
         <div class="section">
             <h2>Additional Information</h2>
-            <p><strong>MBTI:</strong> {{ $applicant->mbti}}</p>
-            <p><strong>IQ:</strong> {{ $applicant->iq }}</p>
+            <p><strong>MBTI:</strong> {{ $applicant->mbti ?? 'none' }}</p>
+            <p><strong>IQ:</strong> {{ $applicant->iq ?? 'none' }}</p>
         </div>
+
 
         @if($applicant->references->filter(function($reference) {
         return !is_null($reference->name_ref) && !is_null($reference->phone) && !is_null($reference->email_ref);
