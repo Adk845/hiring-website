@@ -11,6 +11,7 @@ use App\Models\Reference;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class ApplicantController extends Controller
 {
@@ -404,5 +405,33 @@ class ApplicantController extends Controller
     
         return view('jobs.show', compact('applicants', 'jobTitle', 'stageName'));
     }
+
+    public function saveNotes(Request $request)
+{
+    $request->validate([
+        'applicant_id' => 'required|exists:applicants,id',
+        'notes' => 'required|string',
+    ]);
+
+    // Simpan atau update notes di table
+    DB::table('notes')->updateOrInsert(
+        ['applicant_id' => $request->applicant_id], 
+        ['notes' => $request->notes, 'updated_at' => now()]
+    );
+
+    return response()->json(['message' => 'Notes saved successfully!']);
+}
+
+public function deleteNotes(Request $request)
+{
+    $request->validate([
+        'applicant_id' => 'required|exists:applicants,id',
+    ]);
+
+    DB::table('notes')->where('applicant_id', $request->applicant_id)->delete();
+
+    return response()->json(['message' => 'Notes deleted successfully!']);
+}
+
     
 }
