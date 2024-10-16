@@ -67,4 +67,9 @@ class Applicant extends Model
     {
         return $this->hasMany(Reference::class);
     }
+
+    public function notes()
+    {
+        return $this->hasMany(Notes::class);
+    }
 }
