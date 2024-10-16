@@ -99,9 +99,10 @@
                             <tr class="blue-gradient">
                                 <th>No.</th>
                                 <th>Name</th>
-                                <th>Email</th>
+                                <th>Education</th>
+                                <th>Job</th>
                                 <th>Work Location</th>
-                                <th>Phone</th>
+                                
                                 <th>Move Stage</th>
                                 <th></th>
                             </tr>
@@ -120,10 +121,11 @@
                                         <span>{{ $applicant->name }}</span>
                                     </div>
                                 </td>
-                                <td>{{ $applicant->email }}</td>
+                                <td>{{ $applicant->education->name_education }} - {{ $applicant->jurusan->name_jurusan }}</td>
+                                <td>{{ $applicant->job->job_name }}</td>
                                 <td>{{ optional($applicant->job)->workLocation->location }} - <span> {{($applicant->job)->spesifikasi}}</span>
                                 </td>
-                                <td>{{ $applicant->number }}</td>
+                                
                                 <td class="pipeline_stage">
                                     <div>
                                         <form action="{{ route('applicants.updateStatus', $applicant->id) }}" method="POST" style="display:inline;">
@@ -203,7 +205,7 @@
                         <p><strong>Phone:</strong> <span id="applicant-number"></span></p>
                         <p><strong>Address:</strong> <span id="applicant-address"></span></p>
                         <p><strong>Job:</strong> <span id="applicant-job"></span></p>
-                        <p><strong>Skills:</strong> <span id="applicant-skills"></span></p>
+                        <!-- <p><strong>Skills:</strong> <span id="applicant-skills"></span></p> -->
                         <p><strong>Salary Expectation:</strong> Rp.<span id="applicant-salary"></span></p>
                         <textarea id="applicant-notes" placeholder="Add notes here..." style="width: 100%; height: 100px;" disabled></textarea>
                     </div>
@@ -250,7 +252,7 @@ function showApplicantInfo(applicant) {
     $('#applicant-number').text(applicant.number);
     $('#applicant-address').text(applicant.address);
     $('#applicant-job').text(applicant.job ? applicant.job.job_name : 'N/A');
-    $('#applicant-skills').text(applicant.skills ? applicant.skills : 'N/A');
+
     $('#applicant-salary').text(applicant.salary_expectation);
     $('#download-cv').attr('href', "{{ url('/pipelines') }}/" + applicant.id + "/pdf");
 
