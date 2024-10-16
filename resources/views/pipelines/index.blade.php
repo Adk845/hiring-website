@@ -101,7 +101,7 @@
                                 <th>Name</th>
                                 <th>Education</th>
                                 <th>Job</th>
-                                <th>Work Location</th>
+                                {{-- <th>Work Location</th> --}}
                                 
                                 <th>Move Stage</th>
                                 <th></th>
@@ -123,7 +123,7 @@
                                 </td>
                                 <td>{{ $applicant->education->name_education }} - {{ $applicant->jurusan->name_jurusan }}</td>
                                 <td>{{ $applicant->job->job_name }}</td>
-                                <td>{{ optional($applicant->job)->workLocation->location }} - <span> {{($applicant->job)->spesifikasi}}</span>
+                                {{-- <td>{{ optional($applicant->job)->workLocation->location }} - <span> {{($applicant->job)->spesifikasi}}</span> --}}
                                 </td>
                                 
                                 <td class="pipeline_stage">

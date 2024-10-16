@@ -43,3 +43,45 @@ hr{
 .vacancy_kontainer:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lebih kuat saat hover */
 }
+
+.header{
+    width: 100%;
+    height: 300px;
+    color: white;
+}
+
+.footer{
+    margin-top: 50px;
+    width: 100%;
+    height: 300px;
+    background-color: #257180;
+}
+    
+
+
+.text{
+    font-size: larger;
+
+}
+.icon{
+    width: 30px;
+}
+
+.title-footer{
+    font-size: 18px;
+    font-weight: bolder;
+    padding: 0px;
+    margin: 0px;
+}
+.title-kontainer a{
+    color: white;
+}
+.icon-color{
+    fill: white;
+}
+.kanan{
+    color: white;
+}
+.alamat{
+
+}

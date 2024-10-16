@@ -7,10 +7,8 @@
     <title>test page</title>
 </head>
 <body>
-    <h1>test page</h1>
+    <h1>Form Telah Terkirim</h1>
     
-    @dd($data);
-
 
 </body>
 </html>
