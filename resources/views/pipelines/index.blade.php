@@ -102,7 +102,7 @@
                                 <th>Education</th>
                                 <th>Job</th>
                                 {{-- <th>Work Location</th> --}}
-                                
+
                                 <th>Move Stage</th>
                                 <th></th>
                             </tr>
@@ -125,7 +125,7 @@
                                 <td>{{ $applicant->job->job_name }}</td>
                                 {{-- <td>{{ optional($applicant->job)->workLocation->location }} - <span> {{($applicant->job)->spesifikasi}}</span> --}}
                                 </td>
-                                
+
                                 <td class="pipeline_stage">
                                     <div>
                                         <form action="{{ route('applicants.updateStatus', $applicant->id) }}" method="POST" style="display:inline;">
@@ -215,7 +215,7 @@
                 <button id="save-notes-button" onclick="saveNotes()" class="btn btn-primary">Save Notes</button>
                 <button id="edit-notes-button" onclick="editNotes()" class="btn btn-secondary" style="display: none;">Edit</button>
                 <button onclick="deleteNotes()" class="btn btn-danger">Delete Notes</button>
-                <a id="download-cv" href="#" class="btn btn-success">CV</a>
+                <a id="download-cv" href="#" class="btn btn-success">Download CV</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
 
@@ -229,86 +229,115 @@
 
 @push('js')
 <script>
-$(document).ready(function() {
-   
-    $('#example2').DataTable({
-        "responsive": true,
+    $(document).ready(function() {
+        $('#example2').DataTable({
+            "responsive": true,
+        });
+
+        $('#applicantInfoModal').on('hidden.bs.modal', function() {
+            $('#applicant-notes').prop('disabled', true);
+            $('#save-notes-button').hide();
+            $('#edit-notes-button').show();
+        });
     });
 
-    
-    $('#applicantInfoModal').on('hidden.bs.modal', function() {
-        $('#applicant-notes').prop('disabled', true); 
-        $('#save-notes-button').hide(); 
-        $('#edit-notes-button').show(); 
-    });
-});
+    let currentApplicantId = null;
 
-let currentApplicantId = null;
+    function showApplicantInfo(applicant) {
+        $('#applicant-photo').attr('src', applicant.photo_pass ? "{{ asset('storage/') }}/" + applicant.photo_pass : 'https://via.placeholder.com/100');
+        $('#applicant-name').text(applicant.name);
+        $('#applicant-email').text(applicant.email);
+        $('#applicant-number').text(applicant.number);
+        $('#applicant-address').text(applicant.address);
+        $('#applicant-job').text(applicant.job ? applicant.job.job_name : 'N/A');
+        $('#applicant-salary').text(applicant.salary_expectation);
+        $('#download-cv').attr('href', "{{ url('/pipelines') }}/" + applicant.id + "/pdf");
 
-function showApplicantInfo(applicant) {
-    $('#applicant-photo').attr('src', applicant.photo_pass ? "{{ asset('storage/') }}/" + applicant.photo_pass : 'https://via.placeholder.com/100');
-    $('#applicant-name').text(applicant.name);
-    $('#applicant-email').text(applicant.email);
-    $('#applicant-number').text(applicant.number);
-    $('#applicant-address').text(applicant.address);
-    $('#applicant-job').text(applicant.job ? applicant.job.job_name : 'N/A');
+        currentApplicantId = applicant.id;
 
-    $('#applicant-salary').text(applicant.salary_expectation);
-    $('#download-cv').attr('href', "{{ url('/pipelines') }}/" + applicant.id + "/pdf");
+        // AJAX request to get saved notes
+        $.ajax({
+            url: "/get-notes/" + currentApplicantId,
+            type: "GET",
+            success: function(response) {
+                const savedNotes = response.notes;
+                $('#applicant-notes').val(savedNotes ? savedNotes : '');
 
-    // Get applicant ID for saving notes
-    currentApplicantId = applicant.id;
+                if (savedNotes) {
+                    $('#applicant-notes').prop('disabled', true);
+                    $('#save-notes-button').hide();
+                    $('#edit-notes-button').show();
+                } else {
+                    $('#applicant-notes').prop('disabled', false);
+                    $('#save-notes-button').show();
+                    $('#edit-notes-button').hide();
+                }
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText); // Log the error response for debugging
+                alert('Error loading notes: ' + xhr.statusText);
+            }
+        });
 
-  
-    const savedNotes = localStorage.getItem(`notes_${currentApplicantId}`);
-    $('#applicant-notes').val(savedNotes ? savedNotes : '');
-
-    
-    if (savedNotes) {
-        $('#applicant-notes').prop('disabled', true); 
-        $('#save-notes-button').hide(); 
-        $('#edit-notes-button').show(); 
-    } else {
-        $('#applicant-notes').prop('disabled', false); 
-        $('#save-notes-button').show(); 
-        $('#edit-notes-button').hide(); 
+        $('#applicantInfoModal').modal('show');
     }
 
-    $('#applicantInfoModal').modal('show');
-}
+    function saveNotes() {
+        if (currentApplicantId) {
+            const notes = $('#applicant-notes').val();
 
-function saveNotes() {
-    if (currentApplicantId) {
-        const notes = $('#applicant-notes').val();
-        localStorage.setItem(`notes_${currentApplicantId}`, notes);
-        alert('Notes saved!');
-
-        $('#applicant-notes').prop('disabled', true); 
-        $('#save-notes-button').hide(); 
-        $('#edit-notes-button').show(); 
+            $.ajax({
+                url: "{{ route('save.notes') }}",
+                type: "POST",
+                data: {
+                    applicant_id: currentApplicantId,
+                    notes: notes,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    alert(response.message);
+                    $('#applicant-notes').prop('disabled', true);
+                    $('#save-notes-button').hide();
+                    $('#edit-notes-button').show();
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText); // Log the error response for debugging
+                    alert('Error saving notes: ' + xhr.statusText);
+                }
+            });
+        }
     }
-}
 
-function editNotes() {
-    $('#applicant-notes').prop('disabled', false);
-    $('#edit-notes-button').hide(); 
-    $('#save-notes-button').show(); 
-}
-
-function deleteNotes() {
-    if (currentApplicantId) {
-        localStorage.removeItem(`notes_${currentApplicantId}`);
-        $('#applicant-notes').val(''); 
-        alert('Notes deleted!');
-
-        $('#applicant-notes').prop('disabled', false); 
-        $('#save-notes-button').show(); 
-        $('#edit-notes-button').hide(); 
+    function editNotes() {
+        $('#applicant-notes').prop('disabled', false);
+        $('#edit-notes-button').hide();
+        $('#save-notes-button').show();
     }
-}
 
+    function deleteNotes() {
+        if (currentApplicantId) {
+            $.ajax({
+                url: "{{ route('delete.notes') }}",
+                type: "POST",
+                data: {
+                    applicant_id: currentApplicantId,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    alert(response.message);
 
-
+                    $('#applicant-notes').val('');
+                    $('#applicant-notes').prop('disabled', false);
+                    $('#save-notes-button').show();
+                    $('#edit-notes-button').hide();
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText); // Log the error response for debugging
+                    alert('Error deleting notes: ' + xhr.statusText);
+                }
+            });
+        }
+    }
 </script>
 
 
