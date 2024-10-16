@@ -92,14 +92,14 @@
             <div class="modal-body">
                 <h3 id="modal-job-name"></h3>
                 <table class="mt-5">
-                    <tr>
+                    {{-- <tr>
                         <td>
                             <p><strong>Location</strong></p>
                         </td>
                         <td>
                             <p>: <span id="modal-job-location"></span></p>
                         </td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <td>
                             <p><strong>Minimum Salary</strong></p>
@@ -152,7 +152,7 @@
         $('.kontainer_name_location').on('click', function() {
             var job = $(this).data('job');
             $('#modal-job-name').text(job.job_name);
-            $('#modal-job-location').text(job.work_location_id); // Display 'No location' if null
+          
             $('#modal-minimum-salary').text(job.minimum_salary);
             $('#modal-maximum-salary').text(job.maximum_salary);
             $('#modal-employment-type').text(job.employment_type);

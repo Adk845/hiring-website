@@ -20,7 +20,7 @@
     <div class="header">
         <h1 class="job_title">{{$jobs->job_name}}</h1>
     </div>
-    <form action="{{ route('pipelines.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('kirim') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="hidden_input">
             <input type="hidden" id="job_id" name="job_id" value="{{$jobs->id}}">
