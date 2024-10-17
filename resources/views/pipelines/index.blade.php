@@ -256,31 +256,65 @@
         currentApplicantId = applicant.id;
 
         // AJAX request to get saved notes
-        $.ajax({
-            url: "/get-notes/" + currentApplicantId,
-            type: "GET",
-            success: function(response) {
-                const savedNotes = response.notes;
-                $('#applicant-notes').val(savedNotes ? savedNotes : '');
+        // $.ajax({
+        //     url: "/api/getnotes/" + currentApplicantId,
+        //     type: "GET",
+        //     success: function(response) {
+        //         const savedNotes = response.notes;
+        //         const notes = response.notes;
+        //         console.log(notes);
+        //         $('#applicant-notes').val(savedNotes ? savedNotes : '');
 
-                if (savedNotes) {
-                    $('#applicant-notes').prop('disabled', true);
-                    $('#save-notes-button').hide();
-                    $('#edit-notes-button').show();
-                } else {
-                    $('#applicant-notes').prop('disabled', false);
-                    $('#save-notes-button').show();
-                    $('#edit-notes-button').hide();
-                }
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText); // Log the error response for debugging
-                alert('Error loading notes: ' + xhr.statusText);
-            }
-        });
+        //         if (savedNotes) {
+        //             $('#applicant-notes').prop('disabled', true);
+        //             $('#save-notes-button').hide();
+        //             $('#edit-notes-button').show();
+        //         } else {
+        //             $('#applicant-notes').prop('disabled', false);
+        //             $('#save-notes-button').show();
+        //             $('#edit-notes-button').hide();
+        //         }
+        //     },
+        //     error: function(xhr) {
+        //         console.error(xhr.responseText); // Log the error response for debugging
+        //         alert('Error loading notes: ' + xhr.statusText);
+                
+                
+        //     }
+        // });
 
-        $('#applicantInfoModal').modal('show');
-    }
+            fetch('/getnotes/' + currentApplicantId)
+                .then(response => {
+                    if(!response.ok) {
+                        // throw new Error('ada kesalahan');
+                        console.log('error')
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const savedNotes = data.notes;
+                    const notes = data.notes;
+                    console.log(notes);
+                    $('#applicant-notes').val(savedNotes ? savedNotes : '');
+
+                    if (savedNotes) {
+                        $('#applicant-notes').prop('disabled', true);
+                        $('#save-notes-button').hide();
+                        $('#edit-notes-button').show();
+                    } else {
+                        $('#applicant-notes').prop('disabled', false);
+                        $('#save-notes-button').show();
+                        $('#edit-notes-button').hide();
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
+
+                $('#applicantInfoModal').modal('show');
+        }
+    
+        
 
     function saveNotes() {
         if (currentApplicantId) {
@@ -305,6 +339,7 @@
                     alert('Error saving notes: ' + xhr.statusText);
                 }
             });
+
         }
     }
 

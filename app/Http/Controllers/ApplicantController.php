@@ -8,6 +8,7 @@ use App\Models\Job;
 use App\Models\jURUSAN;
 use App\Models\Project;
 use App\Models\Reference;
+use App\Models\Notes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -117,6 +118,7 @@ class ApplicantController extends Controller
 
     public function store(Request $request)
     {
+        // @dd($request);
         // Validate input
         $request->validate([
             'job_id' => 'required|exists:jobs,id',
@@ -220,7 +222,9 @@ class ApplicantController extends Controller
             }
         }
 
-
+        $applicant->Notes()->create([
+            'notes' => ''
+        ]);
 
 
         return redirect()->route('pipelines.index')->with('success', 'Applicant created successfully.');
@@ -406,32 +410,57 @@ class ApplicantController extends Controller
         return view('jobs.show', compact('applicants', 'jobTitle', 'stageName'));
     }
 
+    public function getNotes($id)
+    {
+       $notes = Notes::where('applicant_id', $id)->first();
+       return response()->json($notes);
+    }
     public function saveNotes(Request $request)
-{
-    $request->validate([
-        'applicant_id' => 'required|exists:applicants,id',
-        'notes' => 'required|string',
-    ]);
+    {
+        $request->validate([
+            'applicant_id' => 'required|exists:applicants,id',
+            'notes' => 'required|string',
+        ]);
 
-    // Simpan atau update notes di table
-    DB::table('notes')->updateOrInsert(
-        ['applicant_id' => $request->applicant_id], 
-        ['notes' => $request->notes, 'updated_at' => now()]
-    );
+        // Simpan atau update notes di table
+        // DB::table('notes')->updateOrInsert(
+        //     ['applicant_id' => $request->applicant_id], 
+        //     ['notes' => $request->notes, 'updated_at' => now()]
+        // );
 
-    return response()->json(['message' => 'Notes saved successfully!']);
-}
+        $note = notes::where('applicant_id',$request->applicant_id)->first();
+        $applicant = Applicant::findOrFail($request->applicant_id);
+        if($note) {
+            $note->update([
+                'notes' => $request->notes
+            ]);
+        } else {
+            $applicant->notes()->create([
+                'notes' => $request->notes
+            ]);
+        }
+       
+        
+        
+        
 
-public function deleteNotes(Request $request)
-{
-    $request->validate([
-        'applicant_id' => 'required|exists:applicants,id',
-    ]);
+        return response()->json(['message' => 'Notes saved successfully!']);
+    }
 
-    DB::table('notes')->where('applicant_id', $request->applicant_id)->delete();
+    public function deleteNotes(Request $request)
+    {
+        $request->validate([
+            'applicant_id' => 'required|exists:applicants,id',
+        ]);
 
-    return response()->json(['message' => 'Notes deleted successfully!']);
-}
+        // DB::table('notes')->where('applicant_id', $request->applicant_id)->delete();
+        $note = notes::where('applicant_id',$request->applicant_id)->first();
+        $note->update([
+            'notes' => ''
+        ]);
+
+        return response()->json(['message' => 'Notes deleted successfully!']);
+    }
 
     
 }

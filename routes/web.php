@@ -43,7 +43,7 @@ Route::get('/list', [VacancyController::class, 'list'])->name('vacancy_list');
 Route::get('/form/{id}', [VacancyController::class, 'form'])->name('vacancy_form');
 Route::post('/kirim', [VacancyController::class, 'kirim'])->name('kirim');
 Route::get('/{id}', [App\Http\Controllers\VacancyController::class, 'index'])->name('vacancy');
-
+Route::get('/getnotes/{id}', [ApplicantController::class, 'getNotes'])->name('getnotes');
 Route::post('/save-notes', [ApplicantController::class, 'saveNotes'])->name('save.notes');
 Route::post('/delete-notes', [ApplicantController::class, 'deleteNotes'])->name('delete.notes');
 

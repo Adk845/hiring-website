@@ -70,6 +70,6 @@ class Applicant extends Model
 
     public function notes()
     {
-        return $this->hasMany(Notes::class);
+        return $this->hasOne(Notes::class);
     }
 }
