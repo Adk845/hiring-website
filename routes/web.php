@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\DepartementController;
+use App\Http\Controllers\EducationController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\PipelineController;
 use App\Http\Controllers\VacancyController;
 use App\Models\Applicant;
@@ -27,6 +29,8 @@ Auth::routes();
 Route::resource('jobs', \App\Http\Controllers\JobController::class)->middleware('auth');
 Route::resource('departements', DepartementController::class)->middleware('auth');
 Route::resource('pipelines', ApplicantController::class)->middleware('auth');
+Route::resource('education', EducationController::class)->middleware('auth');
+Route::resource('jurusan', JurusanController::class)->middleware('auth');
 Route::get('pipelines', [ApplicantController::class, 'index'])->name('pipelines.index')->middleware('auth');
 Route::put('pipelines/{id}/updateStatus', [ApplicantController::class, 'updateStatus'])->name('applicants.updateStatus')->middleware('auth');
 Route::get('/pipelines/{id}/pdf', [ApplicantController::class, 'generatePdf'])->name('applicants.generatePdf')->middleware('auth');
@@ -46,4 +50,6 @@ Route::get('/{id}', [App\Http\Controllers\VacancyController::class, 'index'])->n
 Route::get('/getnotes/{id}', [ApplicantController::class, 'getNotes'])->name('getnotes');
 Route::post('/save-notes', [ApplicantController::class, 'saveNotes'])->name('save.notes');
 Route::post('/delete-notes', [ApplicantController::class, 'deleteNotes'])->name('delete.notes');
+
+
 
