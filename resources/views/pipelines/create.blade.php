@@ -227,8 +227,8 @@
                                 <div class="input certificate">
                                     <label for="certificates">Certificate</label>
                                     <div class="certificates d-flex flex-grow-* row">
-                                        <div v-for="(certificates, index) in certificates" :key='index' class="input certificatess d-flex flex-grow-* col-md-6 row-sm-10">
-                                            <input type="text" class="form-control @error('certificates.*') is-invalid @enderror" id="certificates" name="certificates[]" value="{{ old('certificates') }}" placeholder="Certificate">
+                                        <div v-for="(certificate, index) in certificates" :key='index' class="input certificates d-flex flex-grow-* col-md-6 row-sm-10">
+                                            <input type="text" class="form-control @error('certificates.*') is-invalid @enderror" id="certificates" name="certificates[]"  placeholder="Certificate">
                                             @error('certificates.*')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
