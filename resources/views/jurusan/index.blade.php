@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center">
     <h1 class="m-0 text-dark">
-        <b> List Major
+        <b> List Major {{isset($educationFilter) ? "in ".$educationFilter->name_education : ''}}
         </b>
     </h1>
 </div>
@@ -30,9 +30,17 @@
                         </form>
                     </div>
 
-                    <a href="{{ route('jurusan.create') }}" class="btn btn-primary">
-                        <i class="fa fa-plus"></i> Create Department
-                    </a>
+                    @if(isset($jurusanFilter))
+                        <a href="{{ route('educationMajorCreate', $educationFilter->id) }}" class="btn btn-primary">
+                            <i class="fa fa-plus"></i> Create Major for {{$educationFilter->name_education}}
+                        </a>
+                    @else
+                        <a href="{{ route('jurusan.create') }}" class="btn btn-primary">
+                            <i class="fa fa-plus"></i> Create Major
+                        </a>
+                    @endif
+
+
                 </div>
                 <!-- Search bar and filters -->
 
@@ -47,27 +55,47 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($jurusan as $key => $j)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $j->education->name_education }} - {{ $j->name_jurusan }}</td>
-                                <td>
-                                    <a href="{{route('jurusan.edit',
-$j)}}" class="fa fa-edit btn btn-success btn-xs">
-                                        Edit
-                                    </a>
-                                    <a href="{{route('jurusan.destroy',
-$j)}}" onclick="notificationBeforeDelete(event, this)" class="btn
-btn-dark btn-xs"><i class="fa fa-trash">
-                                            Delete
-                                        </i>
-                                    </a>
-                                </td>
+                            
+                                {{-- bagian yang semuanya  --}}
+                                @if(@isset($jurusanFilter))
 
+                                @foreach($jurusanFilter as $item)
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->name_jurusan }}</td>
+                                    <td>
+                                        <a href="{{ route('jurusan.edit', $item->id) }}" class="fa fa-edit btn btn-success btn-xs">
+                                            Edit
+                                        </a>
+                                        <a href="{{route('jurusan.destroy', $item->id)}}" onclick="notificationBeforeDelete(event, this)" class="btn btn-dark btn-xs"><i class="fa fa-trash">
+                                                Delete
+                                            </i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                
+                                {{-- bagian yang filter per education --}}
+                                @endforeach
+                                @else
 
+                                @foreach($jurusan as $key => $j)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $j->education->name_education }} - {{ $j->name_jurusan }}</td>
+                                    <td>
+                                        <a href="{{ route('jurusan.edit', $j) }}" class="fa fa-edit btn btn-success btn-xs">
+                                            Edit
+                                        </a>
+                                        <a href="{{route('jurusan.destroy', $j)}}" onclick="notificationBeforeDelete(event, this)" class="btn btn-dark btn-xs"><i class="fa fa-trash">
+                                                Delete
+                                            </i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
 
-                            </tr>
-                            @endforeach
+                                @endif
+
                         </tbody>
                     </table>
                 </div>

@@ -23,16 +23,18 @@
                     </div>
 
                     <a href="{{ route('education.create') }}" class="btn btn-primary">
-                        <i class="fa fa-plus"></i> Create Department
+                        <i class="fa fa-plus"></i> Create Education
                     </a>
                 </div>
 
                 <div class="kontainer_department mt-5 d-flex flex-wrap">
                     @foreach($education as $education)
                     <div class="card me-3 mb-3" style="width: 18rem;">
-                        <div class="image_department">
-                            <img src="{{ asset('assets/school.jpeg') }}" class="card-img-top" alt="...">
-                        </div>
+                        <a href="{{ route('showEducationMajor', $education->id) }}" class="major_page">
+                            <div class="image_department">
+                                <img src="{{ asset('assets/school.jpeg') }}" class="card-img-top" alt="...">
+                            </div>
+                        </a>
                         <div class="card-body">
                             <a href="{{ route('jobs.index', ['department' => $education->id]) }}" class="text-decoration-none text-dark">
                                 <h4 class="">{{ $education->name_education }}</h4>

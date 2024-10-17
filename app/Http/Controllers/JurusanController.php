@@ -25,7 +25,21 @@ class JurusanController extends Controller
         return view('jurusan.index', compact('jurusan')); // Memperbaiki nama variabel
     }
 
+    public function showEducationMajor($id)
+    {
+        $educationFilter = Education::with('jurusan')->where('id', $id)->first();
+        $jurusanFilter = $educationFilter->jurusan;
+        // return response()->json($jurusan);
+        return view('jurusan.index', compact('jurusanFilter', 'educationFilter'));
+       
+    }
 
+    public function educationMajorCreate($id)
+    {
+        $educationFilter = Education::findOrFail($id);
+
+        return view('jurusan.create', compact('educationFilter'));
+    }
 
 
     public function create()
@@ -47,9 +61,16 @@ class JurusanController extends Controller
         ]);
 
         // Simpan data ke database
-        Jurusan::create($request->all());
+        // Jurusan::create($request->all());
+        Jurusan::create([
+            'name_jurusan' => $request->name_jurusan,
+            'education_id' => $request->education_id,
+        ]);
 
         // Redirect ke halaman index dengan pesan sukses
+        if($request->education_id_page){
+            return redirect()->route('showEducationMajor', $request->education_id)->with('success', 'Jurusan created successfully.');    
+        }
         return redirect()->route('jurusan.index')->with('success', 'Jurusan created successfully.');
     }
 

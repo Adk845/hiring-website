@@ -40,7 +40,7 @@ Route::get('/get-jurusan/{education_id}', [ApplicantController::class, 'getJurus
 
 // Route::resource('pipelines', PipelineController::class);
 
-Route::post('/test', [VacancyController::class, 'test'])->name('test');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::patch('/jobs/{job}/update-status', [JobController::class, 'updateStatus'])->name('jobs.updateStatus');
 Route::get('/list', [VacancyController::class, 'list'])->name('vacancy_list');
@@ -51,5 +51,10 @@ Route::get('/getnotes/{id}', [ApplicantController::class, 'getNotes'])->name('ge
 Route::post('/save-notes', [ApplicantController::class, 'saveNotes'])->name('save.notes');
 Route::post('/delete-notes', [ApplicantController::class, 'deleteNotes'])->name('delete.notes');
 
+//route for major
+Route::get('showEducationMajor/{id}', [JurusanController::class, 'showEducationMajor'])->name('showEducationMajor');
+Route::get('educationMajorCreate/{id}', [JurusanController::class, 'educationMajorCreate'])->name('educationMajorCreate');
 
+//testing 
+Route::get('/test/{id}', [JurusanController::class, 'showEducationMajor'])->name('test');
 
