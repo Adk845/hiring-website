@@ -44,3 +44,7 @@ hr{
     padding: 20px;
     margin-bottom: 20px;
 }
+
+.important_input{
+    color: red;
+}
