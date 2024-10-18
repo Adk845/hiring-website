@@ -71,10 +71,12 @@
                             <form action="{{ route('jobs.updateStatus', $job->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <select name="status_published" onchange="this.form.submit()">
-                                    <option value="0" {{ $job->status_published == 0 ? 'selected' : '' }}>Unpublish</option>
-                                    <option value="1" {{ $job->status_published == 1 ? 'selected' : '' }}>Publish</option>
-                                </select>
+                                <div style="width: 150px">
+                                    <select class="form-select" name="status_published" onchange="this.form.submit()">
+                                        <option value="0" {{ $job->status_published == 0 ? 'selected' : '' }}>Unpublish</option>
+                                        <option value="1" {{ $job->status_published == 1 ? 'selected' : '' }}>Publish</option>
+                                    </select>
+                                <div>
                             </form>
                         </td>
 
