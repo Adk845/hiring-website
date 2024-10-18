@@ -145,7 +145,7 @@ class VacancyController extends Controller
         }
 
 
-        return view('test');
+        return redirect()->route('vacancy', $request->job_id)->with('success', 'your Application has been sent');
     }
 
     
