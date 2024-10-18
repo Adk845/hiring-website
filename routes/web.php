@@ -39,7 +39,7 @@ Route::delete('/pipelines/{applicant}', [ApplicantController::class, 'destroy'])
 Route::get('/get-jurusan/{education_id}', [ApplicantController::class, 'getJurusan']);
 
 // Route::resource('pipelines', PipelineController::class);
-
+Route::patch('/jobs/{id}/update-status', [JobController::class, 'updateStatus'])->name('jobs.updateStatus');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::patch('/jobs/{job}/update-status', [JobController::class, 'updateStatus'])->name('jobs.updateStatus');

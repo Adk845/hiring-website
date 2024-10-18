@@ -20,7 +20,7 @@
                             <button type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
-                          </form>
+                        </form>
                     </div>
                     <a href="{{ route('jobs.create') }}" class="btn btn-primary btn-extended">
                         <i class="fa fa-plus"></i> Create Job
@@ -67,6 +67,17 @@
                                 </ul>
                             </div>
                         </td>
+                        <td>
+                            <form action="{{ route('jobs.updateStatus', $job->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <select name="status_published" onchange="this.form.submit()">
+                                    <option value="0" {{ $job->status_published == 0 ? 'selected' : '' }}>Unpublish</option>
+                                    <option value="1" {{ $job->status_published == 1 ? 'selected' : '' }}>Publish</option>
+                                </select>
+                            </form>
+                        </td>
+
                     </tr>
                     @empty
                     <tr>
@@ -152,7 +163,7 @@
         $('.kontainer_name_location').on('click', function() {
             var job = $(this).data('job');
             $('#modal-job-name').text(job.job_name);
-          
+
             $('#modal-minimum-salary').text(job.minimum_salary);
             $('#modal-maximum-salary').text(job.maximum_salary);
             $('#modal-employment-type').text(job.employment_type);

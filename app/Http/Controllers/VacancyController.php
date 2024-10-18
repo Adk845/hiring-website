@@ -22,6 +22,7 @@ class VacancyController extends Controller
     public function list()
     {
         $jobs = Job::all();
+        $jobs = Job::where('status_published', 1)->get();
         return view('vacancy_list', compact('jobs'));
     }
 
