@@ -12,7 +12,7 @@
 <body>
     
 
-<div class="container mt-5">
+<div class="container">
     <div class="header d-flex flex-lg-row flex-sm-column justify-content-between" style="background-image: url({{asset('assets/bg.jpg')}}); background-repeat: no-repeat; background-size: cover">
         {{-- <div>
             <img src="{{asset('assets/bg.jpg')}}" width="40%" alt="">
