@@ -17,6 +17,7 @@
         {{-- <div>
             <img src="{{asset('assets/bg.jpg')}}" width="40%" alt="">
         </div> --}}
+        
         <div class="logo flex-lg">
             <img src="{{asset('assets/ISOLOGO.png')}}" width="200px" alt="">
         </div>
@@ -127,6 +128,37 @@
     </div>
 
 </div>
-       
+    
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #d1e7dd">
+            <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h3>Your Application successfully submited</h3>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        @if(session('success'))
+
+        $(document).ready(function(){
+            $('#successModal').modal('show');
+        })
+
+        @endif
+
+        // $(document).ready(function(){
+        //     $('#successModal').modal('show');
+        // })
+
+    </script>
 </body>
 </html>

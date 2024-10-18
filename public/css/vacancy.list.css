@@ -2,11 +2,27 @@
     width: 100%;
     height: 300px;
     color: white;
+    padding: 0px;
 }
 hr{
     margin: 0px;
 }
-
+.overley{
+    width: inherit;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.5);
+    margin: 0px;
+    padding: 0px;
+    position: absolute
+    ;
+    z-index: 2;
+}
+.logo{
+    z-index: 3;
+}
+.title{
+    z-index: 3;
+}
 
 .vacancy{
     margin: 0px;
@@ -81,7 +97,4 @@ hr{
 }
 .kanan{
     color: white;
-}
-.alamat{
-
 }
