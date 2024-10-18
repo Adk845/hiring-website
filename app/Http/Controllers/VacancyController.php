@@ -13,6 +13,9 @@ class VacancyController extends Controller
     {
         // cari jobs dengan id tertentu
         $jobs = Job::findOrfail($id);
+        if(!$jobs || $jobs->status_published == 0){
+            abort(404);
+        }
         
         // Kirim data jobs ke view vacancy
         return view('vacancy', compact('jobs'));
@@ -36,6 +39,10 @@ class VacancyController extends Controller
     {
         $jobs = Job::findOrFail($id);
         $educations = Education::all();
+
+        if(!$jobs || $jobs->status_published == 0){
+            abort(404);
+        }
 
         return view('vacancy_form', compact('jobs', 'educations'));
     }

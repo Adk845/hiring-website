@@ -30,7 +30,7 @@
             <div class="row mb-5">
                 <div class="kiri col-md-7">
                     <div class="input">
-                        <label for="name">Name</label>
+                        <label for="name">Name<span class="important_input"> *</span></label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Applicant Name" required>
                         @error('name')
                         <span class="text-danger">{{ $message }}</span>
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="email">Email</label>
+                        <label for="email">Email<span class="important_input"> *</span></label>
                         <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="Email" required>
                         @error('email')
                         <span class="text-danger">{{ $message }}</span>
@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="number">Phone Number</label>
+                        <label for="number">Phone Number<span class="important_input"> *</span></label>
                         <input type="text" class="form-control @error('number') is-invalid @enderror" id="number" name="number" value="{{ old('number') }}" placeholder="Phone Number" required>
                         @error('number')
                         <span class="text-danger">{{ $message }}</span>
@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="address">domicile</label>
+                        <label for="address">domicile<span class="important_input"> *</span></label>
                         <input class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{ old('address') }}" placeholder="Domicile" required>
                         @error('address')
                         <span class="text-danger">{{ $message }}</span>
@@ -63,7 +63,7 @@
 
                     <div class="input row">
                         <div class="pendidikan col-md-3">
-                            <label for="education" class="form-label" >Last Education</label>
+                            <label for="education" class="form-label" >Last Education<span class="important_input"> *</span></label>
                             <select id="education" name="education" class="form-control">
                                 <option value="">Choose Education</option>
                                 @foreach ($educations as $education)
@@ -77,7 +77,7 @@
 
                         <div class="jurusan col-md-9">
                             <div class="input">
-                                <label for="jurusan" class="form-label">Major</label>
+                                <label for="jurusan" class="form-label">Major<span class="important_input"> *</span></label>
                                 <select id="jurusan" name="jurusan" class="form-control">
                                     <option value="">Choose Major</option>
                                     <!-- Jurusan options akan diisi secara dinamis -->
@@ -87,7 +87,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="profile">Profile</label>
+                        <label for="profile">Profile<span class="important_input"> *</span></label>
                         <textarea class="form-control @error('profile') is-invalid @enderror" id="profile" name="profile" placeholder="describe yourself">{{ old('profile') }}</textarea>
                         @error('profile')
                         <span class="text-danger">{{ $message }}</span>
@@ -99,7 +99,7 @@
                 <div class="kanan col-md-5">
                     
                     <div class="input">
-                        <label for="profil_linkedin">LinkedIn Profile Link</label>
+                        <label for="profil_linkedin">LinkedIn Profile Link<span class="important_input"> *</span></label>
                         <input type="url" class="form-control @error('profil_linkedin') is-invalid @enderror" id="profil_linkedin" name="profil_linkedin" value="{{ old('profil_linkedin') }}" placeholder="Link Profile LinkedIn">
                         @error('profil_linkedin')
                         <span class="text-danger">{{ $message }}</span>
@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="photo_pass" class="form-label">Upload Photo</label>
+                        <label for="photo_pass" class="form-label">Upload Photo<span class="important_input"> *</span></label>
                         <input type="file" class="form-control @error('photo_pass') is-invalid @enderror" id="photo_pass" name="photo_pass" required>
                         @error('photo_pass')
                         <span class="text-danger">{{ $message }}</span>
@@ -133,7 +133,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="experience_period">Work Experience Period</label>
+                        <label for="experience_period">Work Experience Period<span class="important_input"> *</span></label>
                         <input type="text" class="form-control @error('experience_period') is-invalid @enderror" id="experience_period" name="experience_period" value="{{ old('experience_period') }}" placeholder="based on year">
                         @error('experience_period')
                         <span class="text-danger">{{ $message }}</span>
@@ -141,7 +141,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="salary_expectation">Salary Expectation</label>
+                        <label for="salary_expectation">Salary Expectation<span class="important_input"> *</span></label>
                         <input type="number" class="form-control @error('salary_expectation') is-invalid @enderror" id="salary_expectation" name="salary_expectation" value="{{ old('salary_expectation') }}" placeholder="Ex. 15000000" required>
                         @error('salary_expectation')
                         <span class="text-danger">{{ $message }}</span>
@@ -149,7 +149,7 @@
                     </div>
 
                     <div class="input">
-                        <label for="languages">Languages Skills</label>
+                        <label for="languages">Languages Skills<span class="important_input"> *</span></label>
                         <input type="text" class="form-control @error('languages') is-invalid @enderror" id="languages" name="languages" value="{{ old('languages') }}" placeholder="Ex. English, Russian">
                         @error('languages')
                         <span class="text-danger">{{ $message }}</span>
@@ -221,7 +221,7 @@
                 
                 
                 <div class="bawah">
-                    <h1>Work experience</h1>
+                    <h1>Work experience <span class="important_input"> *</span></h1>
                     <div  id="work_experience" class="work_experience" v-for='(experience, index) in experiences' :key='index'>
                         
                         <div class="input company_name">
