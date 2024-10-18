@@ -128,4 +128,12 @@ class JobController extends Controller
 
         return response()->json($jobs);
     }
+
+    public function updateStatus(Request $request, $id) {
+        $job = ModelsJob::find($id);
+        $job->status_published = $request->input('status_published');
+        $job->save();
+    
+        return redirect()->back()->with('success', 'Job status updated successfully.');
+    }
 }

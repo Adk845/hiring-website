@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text('benefit');
             $table->text('responsibilities');
             $table->text('requirements');
-            $table->boolean('status_published')->default(0); // Nilai default 0 (Unpublished)
+            $table->boolean('status_published')->default(0); 
             $table->timestamps();
             $table->foreign('department')->references('id')->on('departements')->onDelete('cascade');
             $table->foreign('work_location_id')->references('id')->on('work_location')->onDelete('cascade');
