@@ -1,28 +1,21 @@
 .header{
     width: 100%;
     height: 300px;
-    color: white;
+    color: #B8001F;
     padding: 0px;
 }
 hr{
     margin: 0px;
 }
 .overley{
-    width: inherit;
+    width: 100%;
     height: 100px;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.8);
     margin: 0px;
     padding: 0px;
-    position: absolute
-    ;
-    z-index: 2;
+    left: 10px;
 }
-.logo{
-    z-index: 3;
-}
-.title{
-    z-index: 3;
-}
+
 
 .vacancy{
     margin: 0px;
@@ -58,12 +51,6 @@ hr{
 
 .vacancy_kontainer:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lebih kuat saat hover */
-}
-
-.header{
-    width: 100%;
-    height: 300px;
-    color: white;
 }
 
 .footer{
