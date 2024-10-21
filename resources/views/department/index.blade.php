@@ -30,13 +30,13 @@
                 <div class="kontainer_department mt-5 d-flex flex-wrap">
                     @foreach($departements as $departement)
                     <div class="card me-3 mb-3" style="width: 18rem;">
-                        <div class="image_department">
-                            <img src="{{ asset('assets/marketing3.jpg') }}" class="card-img-top" alt="...">
-                        </div>
+                        <a href="{{ route('jobs.index', ['department' => $departement->id]) }}" class="text-decoration-none text-dark">
+                            <div class="image_department">
+                                <img src="{{ asset('assets/marketing3.jpg') }}" class="card-img-top" alt="...">
+                            </div>
+                        </a>
                         <div class="card-body">
-                            <a href="{{ route('jobs.index', ['department' => $departement->id]) }}" class="text-decoration-none text-dark">
                                 <h4 class="">{{ $departement->dep_name }}</h4>
-                            </a>
                             <a href="{{ route('departements.edit', $departement) }}" class="btn btn-success btn-xs"> <i class="fa fa-edit"></i>  Edit</a>
                             <a href="{{ route('departements.destroy', $departement) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
                                 <i class="fa fa-trash"></i> Delete
