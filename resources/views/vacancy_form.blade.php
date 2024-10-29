@@ -17,9 +17,17 @@
     @endif
     
 <div class="container">
-    <div class="header">
-        <h1 class="job_title">{{$jobs->job_name}}</h1>
+    <div class="header d-flex flex-lg-row flex-sm-column justify-content-between mb-5" style="background-image: url({{asset('assets/bg.jpg')}}); background-repeat: no-repeat; background-size: cover">
+        <div class="overley p-5 d-flex justify-content-between align-items-center">
+            <div class="logo flex-lg">
+                <img src="{{asset('assets/ISOLOGO.png')}}" width="200px" alt="">
+            </div>
+            <div class="title">
+                <h1 class="job_title">{{$jobs->job_name}}</h1>
+            </div>
+        </div>
     </div>
+
     <form action="{{ route('kirim') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="hidden_input">
