@@ -56,9 +56,9 @@
                         </thead>
                         <tbody>
                             
-                                {{-- bagian yang semuanya  --}}
+                                
                                 @if(@isset($jurusanFilter))
-
+                                {{-- bagian yang filter per education --}}
                                 @foreach($jurusanFilter as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
@@ -73,8 +73,7 @@
                                         </a>
                                     </td>
                                 </tr>
-                                
-                                {{-- bagian yang filter per education --}}
+                                {{-- bagian yang semuanya  --}}
                                 @endforeach
                                 @else
 

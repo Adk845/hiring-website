@@ -62,7 +62,7 @@ class ApplicantController extends Controller
     
         if ($request->has('search')) {
             $search = $request->get('search');
-            $query->where('name', 'like', '%' . $search . '%');
+            $query->where('name', 'like',$search . '%');
         }
     
         // Additional filtering logic for education and jurusan

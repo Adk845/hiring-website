@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $worklocations = [
-            'Luar Kota', 'Luar Negeri', 'Remote', 'Isolutions'
+            'Luar Kota', 'Luar Negeri', 'Remote', 'Company'
         ];
 
         foreach($worklocations as $worklocation)
