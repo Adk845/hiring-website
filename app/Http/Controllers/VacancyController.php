@@ -13,12 +13,16 @@ class VacancyController extends Controller
     {
         // cari jobs dengan id tertentu
         $jobs = Job::findOrfail($id);
+        $work_location = $jobs->workLocation->location; 
+        //diatas adalah contoh dari inverse relation child referensi ke parent, kita harus sesuaikan dengan nama model nya
+        //nama table nya adalah work_location, tapi nama model nya adalah WorkLocation 
+        //maka kita pakai WorkLocation
         if(!$jobs || $jobs->status_published == 0){
             abort(404);
         }
         
         // Kirim data jobs ke view vacancy
-        return view('vacancy', compact('jobs'));
+        return view('vacancy', compact('jobs', 'work_location'));
     }
 
 
