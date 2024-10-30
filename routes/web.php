@@ -34,7 +34,7 @@ Route::resource('jurusan', JurusanController::class)->middleware('auth');
 Route::get('pipelines', [ApplicantController::class, 'index'])->name('pipelines.index')->middleware('auth');
 Route::put('pipelines/{id}/updateStatus', [ApplicantController::class, 'updateStatus'])->name('applicants.updateStatus')->middleware('auth');
 Route::get('/pipelines/{id}/pdf', [ApplicantController::class, 'generatePdf'])->name('applicants.generatePdf')->middleware('auth');
-
+Route::post('/applicant/recommend', [ApplicantController::class, 'updateRecommendation'])->name('applicant.recommend');
 Route::delete('/pipelines/{applicant}', [ApplicantController::class, 'destroy'])->name('pipelines.destroy');
 Route::get('/get-jurusan/{education_id}', [ApplicantController::class, 'getJurusan']);
 
@@ -44,6 +44,8 @@ Route::patch('/jobs/{id}/update-status', [JobController::class, 'updateStatus'])
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::patch('/jobs/{job}/update-status', [JobController::class, 'updateStatus'])->name('jobs.updateStatus');
 Route::get('/list', [VacancyController::class, 'list'])->name('vacancy_list');
+Route::get('/list1', [VacancyController::class, 'list2'])->name('list');
+
 Route::get('/form/{id}', [VacancyController::class, 'form'])->name('vacancy_form');
 Route::post('/kirim', [VacancyController::class, 'kirim'])->name('kirim');
 Route::get('/{id}', [App\Http\Controllers\VacancyController::class, 'index'])->name('vacancy');

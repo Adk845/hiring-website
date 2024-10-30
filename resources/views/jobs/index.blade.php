@@ -38,7 +38,7 @@
 
                             </div>
                         </td>
-                        @foreach (['applied', 'interview', 'offer', 'accepted', 'rejected'] as $status)
+                        @foreach (['applied', 'interview', 'offer', 'accepted', 'bankcv'] as $status)
                         <td class="pipeline_stage">
                             <a href="{{ route('pipelines.index', ['status' => $status, 'job_id' => $job->id]) }}" class="stage-link">
                                 <div>

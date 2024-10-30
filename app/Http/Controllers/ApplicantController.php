@@ -58,12 +58,25 @@ class ApplicantController extends Controller
             'interview' => Applicant::where('status', 'interview')->count(),
             'offer' => Applicant::where('status', 'offer')->count(),
             'accepted' => Applicant::where('status', 'accepted')->count(),
+            'bankcv' => Applicant::where('status', 'bankcv')->count(),
+
         ];
     
         if ($request->has('search')) {
             $search = $request->get('search');
-            $query->where('name', 'like',$search . '%');
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', $search . '%')
+                      ->orWhereHas('job', function ($query) use ($search) {
+                          $query->where('job_name', 'like', $search . '%');
+                      });
+            });
         }
+
+        if ($request->has('recommendation') && $request->get('recommendation') != '') {
+            $query->where('recommendation_status', $request->get('recommendation'));
+        }
+        
+        
     
         // Additional filtering logic for education and jurusan
         if (!$request->has('status')) {
@@ -118,7 +131,6 @@ class ApplicantController extends Controller
 
     public function store(Request $request)
     {
-        // @dd($request);
         // Validate input
         $request->validate([
             'job_id' => 'required|exists:jobs,id',
@@ -137,34 +149,33 @@ class ApplicantController extends Controller
             'achievement.*' => 'nullable|string',
             'skills.*' => 'nullable|string',
             'salary_expectation' => 'required|numeric|min:0',
-
-
-
             'role.*' => 'required|string|max:255',
             'name_company.*' => 'required|string',
             'desc_kerja.*' => 'required|string',
             'mulai.*' => 'required|date',
             'selesai.*' => 'required|date',
-
             'project_name.*' => 'nullable|string|max:255',
             'client.*' => 'nullable|string|max:255',
             'desc_project.*' => 'nullable|string',
             'mulai_project.*' => 'nullable|date',
             'selesai_project.*' => 'nullable|date',
-
             'name_ref.*' => 'nullable|string|max:255',
             'phone.*' => 'nullable|string|max:255',
             'email_ref.*' => 'nullable|string',
-
             'education' => 'required|exists:education,id',
-            'jurusan' => 'nullable|exists:jurusan,id',
+            'jurusan' => 'required|string|max:255', // Atur sesuai kebutuhan
         ]);
-
+    
         // Handle file upload for photo_pass if provided
         $path = null;
         if ($request->hasFile('photo_pass')) {
             $path = $request->file('photo_pass')->store('photos', 'public');
         }
+        $educationId = $request->education; 
+        // Cek dan simpan jurusan
+        $jurusan = Jurusan::firstOrCreate(['name_jurusan' => $request->jurusan], ['education_id' => $educationId]);
+    
+        // Create applicant
         $applicant = Applicant::create([
             'job_id' => $request->job_id,
             'name' => $request->name,
@@ -172,20 +183,20 @@ class ApplicantController extends Controller
             'number' => $request->number,
             'email' => $request->email,
             'profil_linkedin' => $request->profil_linkedin,
-            'certificates' => implode("|", $request->certificates),
+            'certificates' => implode("|", $request->certificates ?? []),
             'experience_period' => $request->experience_period,
             'photo_pass' => $path,
             'profile' => $request->profile,
             'languages' => $request->languages,
             'mbti' => $request->mbti,
             'iq' => $request->iq,
-            'achievement' => implode("|", $request->achievements),
-            'skills' => implode("|", $request->skills),
+            'achievement' => implode("|", $request->achievement ?? []),
+            'skills' => implode("|", $request->skills ?? []),
             'salary_expectation' => $request->salary_expectation,
-            'education_id' => $request->education,
-            'jurusan_id' => $request->jurusan,
+            'education_id' => $request->education, // Pastikan ini mengacu ke id yang benar
+            'jurusan_id' => $jurusan->id, // Gunakan ID dari jurusan
         ]);
-
+    
         // Handle work experiences
         if ($request->has('role')) {
             foreach ($request->role as $index => $role) {
@@ -198,7 +209,7 @@ class ApplicantController extends Controller
                 ]);
             }
         }
-
+    
         // Handle projects
         if ($request->has('project_name')) {
             foreach ($request->project_name as $index => $project_name) {
@@ -211,7 +222,8 @@ class ApplicantController extends Controller
                 ]);
             }
         }
-
+    
+        // Handle references
         if ($request->has('name_ref')) {
             foreach ($request->name_ref as $index => $name_ref) {
                 $applicant->references()->create([
@@ -461,6 +473,28 @@ class ApplicantController extends Controller
 
         return response()->json(['message' => 'Notes deleted successfully!']);
     }
+
+    public function updateRecommendation(Request $request)
+    {
+        // Validasi input
+        $validatedData = $request->validate([
+            'recommendation_status' => 'required|string',
+            'id' => 'required|integer|exists:applicants,id',
+        ]);
+    
+        // Temukan applicant berdasarkan ID
+        $applicant = Applicant::find($validatedData['id']);
+        
+        // Perbarui status rekomendasi
+        $applicant->recommendation_status = $validatedData['recommendation_status'];
+        $applicant->save();
+    
+        return response()->json(['message' => 'Status rekomendasi berhasil diperbarui!']);
+    }
+    
+    
+    
+
 
     
 }

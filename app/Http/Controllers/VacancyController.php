@@ -6,6 +6,7 @@ use App\Models\Education;
 use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\Applicant;
+use App\Models\Jurusan;
 
 class VacancyController extends Controller
 {
@@ -31,6 +32,13 @@ class VacancyController extends Controller
         $jobs = Job::all();
         $jobs = Job::where('status_published', 1)->get();
         return view('vacancy_list', compact('jobs'));
+    }
+
+    public function list2()
+    {
+        $jobs = Job::all();
+        $jobs = Job::where('status_published', 1)->get();
+        return view('list', compact('jobs'));
     }
 
     public function submit_applicant(Request $request)
@@ -71,34 +79,33 @@ class VacancyController extends Controller
             'achievement.*' => 'nullable|string',
             'skills.*' => 'nullable|string',
             'salary_expectation' => 'required|numeric|min:0',
-
-
-
             'role.*' => 'required|string|max:255',
             'name_company.*' => 'required|string',
             'desc_kerja.*' => 'required|string',
             'mulai.*' => 'required|date',
             'selesai.*' => 'required|date',
-
             'project_name.*' => 'nullable|string|max:255',
             'client.*' => 'nullable|string|max:255',
             'desc_project.*' => 'nullable|string',
             'mulai_project.*' => 'nullable|date',
             'selesai_project.*' => 'nullable|date',
-
             'name_ref.*' => 'nullable|string|max:255',
             'phone.*' => 'nullable|string|max:255',
             'email_ref.*' => 'nullable|string',
-
             'education' => 'required|exists:education,id',
-            'jurusan' => 'nullable|exists:jurusan,id',
+            'jurusan' => 'required|string|max:255', // Atur sesuai kebutuhan
         ]);
-
+    
         // Handle file upload for photo_pass if provided
         $path = null;
         if ($request->hasFile('photo_pass')) {
             $path = $request->file('photo_pass')->store('photos', 'public');
         }
+        $educationId = $request->education; 
+        // Cek dan simpan jurusan
+        $jurusan = Jurusan::firstOrCreate(['name_jurusan' => $request->jurusan], ['education_id' => $educationId]);
+    
+        // Create applicant
         $applicant = Applicant::create([
             'job_id' => $request->job_id,
             'name' => $request->name,
@@ -106,20 +113,20 @@ class VacancyController extends Controller
             'number' => $request->number,
             'email' => $request->email,
             'profil_linkedin' => $request->profil_linkedin,
-            'certificates' => implode("|", $request->certificates),
+            'certificates' => implode("|", $request->certificates ?? []),
             'experience_period' => $request->experience_period,
             'photo_pass' => $path,
             'profile' => $request->profile,
             'languages' => $request->languages,
             'mbti' => $request->mbti,
             'iq' => $request->iq,
-            'achievement' => implode("|", $request->achievements),
-            'skills' => implode("|", $request->skills),
+            'achievement' => implode("|", $request->achievement ?? []),
+            'skills' => implode("|", $request->skills ?? []),
             'salary_expectation' => $request->salary_expectation,
-            'education_id' => $request->education,
-            'jurusan_id' => $request->jurusan,
+            'education_id' => $request->education, // Pastikan ini mengacu ke id yang benar
+            'jurusan_id' => $jurusan->id, // Gunakan ID dari jurusan
         ]);
-
+    
         // Handle work experiences
         if ($request->has('role')) {
             foreach ($request->role as $index => $role) {
@@ -132,7 +139,7 @@ class VacancyController extends Controller
                 ]);
             }
         }
-
+    
         // Handle projects
         if ($request->has('project_name')) {
             foreach ($request->project_name as $index => $project_name) {
@@ -145,7 +152,8 @@ class VacancyController extends Controller
                 ]);
             }
         }
-
+    
+        // Handle references
         if ($request->has('name_ref')) {
             foreach ($request->name_ref as $index => $name_ref) {
                 $applicant->references()->create([
@@ -155,10 +163,11 @@ class VacancyController extends Controller
                 ]);
             }
         }
-
-
-        return redirect()->route('vacancy', $request->job_id)->with('success', 'your Application has been sent');
+    
+        return redirect()->route('vacancy', $request->job_id)->with('success', 'Your application has been sent');
     }
+    
+    
 
     
 

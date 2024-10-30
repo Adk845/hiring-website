@@ -54,9 +54,9 @@
 
                                 <!-- pendidikan -->
                             <div class="form-group col-md-3">
-                                <label for="education" class="form-label" >Pendidikan</label>
+                                <label for="education" class="form-label" >Last Education</label>
                                 <select id="education" name="education" class="form-control">
-                                    <option value="">Pilih Pendidikan</option>
+                                    <option value="">Choose Education</option>
                                     @foreach ($educations as $education)
                                     <option value="{{ $education->id }}" {{ $applicant->education_id == $education->id ? 'selected' : ''}}>
                                         {{ $education->name_education }}</option>
@@ -65,7 +65,7 @@
                             </div>
 
                                 <div class="form-group col-md-9">
-                                    <label for="jurusan" class="form-label">Jurusan</label>
+                                    <label for="jurusan" class="form-label">Major</label>
                                     <select id="jurusan" name="jurusan" class="form-control">
                                         @foreach($jurusans as $jurusan)
                                         <option value="{{ $jurusan->id}}" {{$applicant->jurusan_id == $jurusan->id ? 'selected' : ''}}>
@@ -83,7 +83,7 @@
 
                             <!-- Photo Pass -->
                             <div class="form-group row">
-                                <label for="photo_pass" class="form-label">Unggah Foto</label>
+                                <label for="photo_pass" class="form-label">Upload Photo</label>
                                 <input type="file" class="form-control @error('photo_pass') is-invalid @enderror" id="photo_pass" name="photo_pass">
                                 @error('photo_pass')
                                 <span class="text-danger">{{ $message }}</span>
@@ -95,7 +95,7 @@
 
                             <!-- Salary Expectation -->
                             <div class="form-group">
-                                <label for="salary_expectation">Ekspektasi Gaji</label>
+                                <label for="salary_expectation">Salary Expectation</label>
                                 <input type="number" class="form-control @error('salary_expectation') is-invalid @enderror" id="salary_expectation" name="salary_expectation" value="{{ old('salary_expectation', $applicant->salary_expectation) }}" placeholder="Ekspektasi Gaji" required>
                                 @error('salary_expectation')
                                 <span class="text-danger">{{ $message }}</span>
@@ -104,7 +104,7 @@
 
                             <!-- Profile -->
                             <div class="form-group">
-                                <label for="profile">Profil Diri</label>
+                                <label for="profile">Profile</label>
                                 <textarea class="form-control @error('profile') is-invalid @enderror" id="profile" name="profile" placeholder="Profil Diri">{{ old('profile', $applicant->profile) }}</textarea>
                                 @error('profile')
                                 <span class="text-danger">{{ $message }}</span>
@@ -117,9 +117,9 @@
                             
                             <!-- Job Selection -->
                             <div class="form-group row">
-                                <label for="job_id">Pilih Job</label>
+                                <label for="job_id">Choose Job</label>
                                 <select class="form-control @error('job_id') is-invalid @enderror" id="job_id" name="job_id">
-                                    <option value="">Pilih Job</option>
+                                    <option value="">Choose Job</option>
                                     @foreach ($jobs as $job)
                                     <option value="{{ $job->id }}" {{ old('job_id', $applicant->job_id) == $job->id ? 'selected' : '' }}>
                                         {{ $job->job_name }}
@@ -152,7 +152,7 @@
 
                             <!-- Experience Period -->
                             <div class="form-group row">
-                                <label for="experience_period">Pengalaman Kerja (Periode)</label>
+                                <label for="experience_period">Work Experience (Periode)</label>
                                 <input type="text" class="form-control @error('experience_period') is-invalid @enderror" id="experience_period" name="experience_period" value="{{ old('experience_period', $applicant->experience_period) }}" placeholder="Pengalaman Kerja">
                                 @error('experience_period')
                                 <span class="text-danger">{{ $message }}</span>
@@ -161,7 +161,7 @@
 
                             <!-- Languages -->
                             <div class="form-group">
-                                <label for="languages">Bahasa</label>
+                                <label for="languages">Languages</label>
                                 <input type="text" class="form-control @error('languages') is-invalid @enderror" id="languages" name="languages" value="{{ old('languages', $applicant->languages) }}" placeholder="Bahasa yang dikuasai">
                                 @error('languages')
                                 <span class="text-danger">{{ $message }}</span>
@@ -217,7 +217,7 @@
                                 
                                 <div class="input achievement">
             
-                                    <label for="achievement" class="mb-1">achievement</label>
+                                    <label for="achievement" class="mb-1">Achievement</label>
                                     <div class="achievement d-flex flex-grow-* row">
                                         <div v-for="(achievement, index) in achievements" :key='index' class="input achievements d-flex flex-grow-* col-md-6 row-sm-10">
                                             <input type="text" class="form-control @error('achievement.*') is-invalid @enderror" id="achievement" name="achievements[]" placeholder="Prestasi" v-model="achievements[index]">
@@ -251,7 +251,7 @@
                                 
                             </div>  
 
-                            <h1>Work experience</h1>
+                            <h1>Work Experience</h1>
                             <div  id="work_experience" class="work_experience" v-for='(experience, index) in experiences' :key='index'>
                                 <div class="">
                                     <input type="hidden" name="experience_id" v-model="experience.id">
@@ -372,7 +372,7 @@
                                     <input type="hidden" name="applicant_id" value="{{$applicant->id}}">
                                 </div>
                                 <div class="input references_name" >
-                                    <label class="form-label" for="name_ref[]">Instution / Company Name</label>
+                                    <label class="form-label" for="name_ref[]">Reference Name</label>
                                     <input class="form-control" type="text" name="name_ref[]" id="name_ref[]" v-model="reference.name_ref">
                                     @error('name_ref.*')
                                     <span class="text-danger">{{ $message }}</span>
@@ -386,7 +386,7 @@
                                     @enderror
                                 </div>
                                 <div class="input references_number">
-                                    <label for="phone[]" class="form-label">Number</label>
+                                    <label for="phone[]" class="form-label">Mobile Number</label>
                                     <input type="text" class="form-control" name="phone[]" v-model="reference.phone">
                                     @error('phone.*')
                                     <span class="text-danger">{{ $message }}</span>

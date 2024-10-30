@@ -11,6 +11,8 @@
             padding: 0;
             background-color: white;
             color: #333;
+            padding-bottom: 50px;
+            /* Memberikan ruang untuk footer */
         }
 
         .container {
@@ -36,12 +38,12 @@
         }
 
         .logo {
-            margin-left: 270px;
-            width: 90px;
+            margin-right: 270px;
+            width: 135px;
         }
 
         h1 {
-            font-size: 22px;
+            font-size: 20px;
             margin: 8px 0;
             color: #10375C;
         }
@@ -67,7 +69,7 @@
         }
 
         h2 {
-            font-size: 18px;
+            font-size: 14px;
             margin-bottom: 8px;
             color: #10375C;
             border-bottom: 2px solid #10375C;
@@ -75,7 +77,7 @@
         }
 
         h3 {
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 3px;
             color: #0056b3;
         }
@@ -83,6 +85,7 @@
         p {
             margin: 3px 0;
             line-height: 1.4;
+            font-size: 12px;
         }
 
         /* Styles for skills, certificates, and achievements */
@@ -103,7 +106,7 @@
             border-radius: 4px;
             padding: 5px 10px;
             margin: 5px;
-            font-size: 14px;
+            font-size: 12px;
             color: #333;
         }
 
@@ -125,14 +128,72 @@
         .section ul {
             margin-top: 10px;
         }
+        
 
         .footer {
             text-align: center;
-            font-size: 12px;
+            font-size: 10px;
             margin-top: 15px;
             color: #666;
             padding: 8px 0;
+            position: fixed;
+            /* Mengunci footer di bagian bawah */
+            bottom: -25px;
+            /* Posisi dari bagian bawah */
+            left: 0;
+            right: 0;
+            display: flex;
+          
         }
+
+        .footer .address {
+            text-align: left;
+            font-size: 10px;
+            margin-bottom: -50px;
+            /* Pastikan huruf kecil 'px' */
+        }
+
+        .footer .qr-code {
+            text-align: right;
+            
+        }
+
+        .content {
+            padding: 20px;
+            min-height: 100vh;
+            /* Memastikan konten setidaknya setinggi layar */
+        }
+
+
+        .footer1 {
+            text-align: center;
+            font-size: 10px;
+            margin-top: 15px;
+            color: #666;
+            padding: 8px 0;
+            position: fixed;
+            bottom: -55px;
+            left: 0;
+            right: 0;
+        }
+
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        @page {
+            margin: 20mm;
+            @bottom-right {
+                content: "Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58 - Jaka Setia – Bekasi Selatan – Jawa Barat 17147";
+                font-size: 10px;
+            }
+            @bottom-left {
+                content: url('{{ public_path('assets/QR.png') }}');
+            }
+        }
+
+         
     </style>
 
 </head>
@@ -148,11 +209,11 @@
             <img src="https://via.placeholder.com/100" alt="Default Photo">
             @endif
             <h1>{{ $applicant->name }}</h1>
-            <div class="contact-info">
+            <!-- <div class="contact-info">
                 <p>{{ $applicant->profil_linkedin }}</p>
                 <p>{{ $applicant->email }}</p>
                 <p>{{ $applicant->number }}</p>
-            </div>
+            </div> -->
         </div>
 
         <div class="section">
@@ -164,6 +225,25 @@
             <h2>Education</h2>
             <p><strong>Education:</strong> {{ $applicant->education->name_education }}</p>
             <p><strong>Major:</strong> {{ $applicant->jurusan->name_jurusan }}</p>
+        </div>
+
+
+        <div class="section">
+            <h2>Certificates</h2>
+            <ul class="certificates-list">
+                @foreach(explode('|', $applicant->certificates) as $certificate)
+                <li>{{ trim($certificate) }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Skills</h2>
+            <ul class="skills-list">
+                @foreach(explode('|', $applicant->skills) as $skill)
+                <li>{{ trim($skill) }}</li>
+                @endforeach
+            </ul>
         </div>
 
         <div class="section">
@@ -181,33 +261,6 @@
         </div>
 
 
-        <div class="section">
-            <h2>Skills</h2>
-            <ul class="skills-list">
-                @foreach(explode('|', $applicant->skills) as $skill)
-                <li>{{ trim($skill) }}</li>
-                @endforeach
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>Achievements</h2>
-            <ul class="achievement-list">
-                @foreach(explode('|', $applicant->achievement) as $achievement)
-                <li>{{ trim($achievement) }}</li>
-                @endforeach
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>Certificates</h2>
-            <ul class="certificates-list">
-                @foreach(explode('|', $applicant->certificates) as $certificate)
-                <li>{{ trim($certificate) }}</li>
-                @endforeach
-            </ul>
-        </div>
-
         @if($applicant->projects->filter(function($project) {
         return !is_null($project->project_name) && !is_null($project->client) && !is_null($project->desc_project) && !is_null($project->mulai_project) && !is_null($project->selesai_project);
         })->isNotEmpty())
@@ -223,6 +276,15 @@
             @endforeach
         </div>
         @endif
+
+        <div class="section">
+            <h2>Achievements</h2>
+            <ul class="achievement-list">
+                @foreach(explode('|', $applicant->achievement) as $achievement)
+                <li>{{ trim($achievement) }}</li>
+                @endforeach
+            </ul>
+        </div>
 
         <div class="section">
             <h2>Languages</h2>
@@ -251,10 +313,23 @@
         </div>
         @endif
 
-        <div class="footer">
-            &copy; {{ date('Y') }} {{ $applicant->name }}. All rights reserved.
+      
+
+        <div class="footer1">
+            &copy; {{ date('F Y') }} I-solutions Indonesia. All rights reserved.
         </div>
+
     </div>
+
+    <div class="footer">
+            <div class="address">
+            Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58 <br>
+            Jaka Setia – Bekasi Selatan – Jawa Barat 17147
+            </div>
+            <div class="qr-code">
+            <img src="{{ public_path('assets/QR.png') }}" alt="QR Code" style="width: 50px; height: 50px;" />
+            </div>
+        </div>
 </body>
 
 </html>

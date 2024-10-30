@@ -45,30 +45,30 @@ class DatabaseSeeder extends Seeder
            
         }
 
-        $sma = ['IPA', 'IPS'];
-        $smk = ['Perkantoran', 'Sistem Informasi Jaringan', 'Accountant'];
-        $s1 = ['Accountant', 'Tehnik Sipil', 'Tehnik Geologi', 'Tehnik Kimia'];
+        // $sma = ['IPA', 'IPS'];
+        // $smk = ['Perkantoran', 'Sistem Informasi Jaringan', 'Accountant'];
+        // $s1 = ['Accountant', 'Tehnik Sipil', 'Tehnik Geologi', 'Tehnik Kimia'];
 
-        foreach($sma as $jurusan) {
-            jurusan::create([
-                'name_jurusan' => $jurusan,
-                'education_id' => '1'
-            ]);
-        }
+        // foreach($sma as $jurusan) {
+        //     jurusan::create([
+        //         'name_jurusan' => $jurusan,
+        //         'education_id' => '1'
+        //     ]);
+        // }
 
-        foreach($smk as $jurusan) {
-            jurusan::create([
-                'name_jurusan' => $jurusan,
-                'education_id' => '2'
-            ]);
-        }
+        // foreach($smk as $jurusan) {
+        //     jurusan::create([
+        //         'name_jurusan' => $jurusan,
+        //         'education_id' => '2'
+        //     ]);
+        // }
 
-        foreach($s1 as $jurusan) {
-            jurusan::create([
-                'name_jurusan' => $jurusan,
-                'education_id' => '4'
-            ]);
-        }
+        // foreach($s1 as $jurusan) {
+        //     jurusan::create([
+        //         'name_jurusan' => $jurusan,
+        //         'education_id' => '4'
+        //     ]);
+        // }
        
 
     }

@@ -35,9 +35,9 @@
                             <i class="fa fa-plus"></i> Create Major for {{$educationFilter->name_education}}
                         </a>
                     @else
-                        <a href="{{ route('jurusan.create') }}" class="btn btn-primary">
+                        <!-- <a href="{{ route('jurusan.create') }}" class="btn btn-primary">
                             <i class="fa fa-plus"></i> Create Major
-                        </a>
+                        </a> -->
                     @endif
 
 

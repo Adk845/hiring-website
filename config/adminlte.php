@@ -357,6 +357,11 @@ return [
                     'text' => 'Major',
                     'url' => '/jurusan',
                 ],
+
+                // [
+                //     'text' => 'Work Location',
+                //     'url' => '/worklocation',
+                // ],
             ],
         ],
         // ['header' => 'labels'],
