@@ -238,4 +238,66 @@
 
 
 
+.recommendation-dropdown {
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa; /* Default background */
+    font-size: 0.9rem;
+    color: #333;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
 
+.recommendation-dropdown.recommended {
+    background-color: #28a745; /* Green for Recommended */
+    color: #fff;
+}
+
+.recommendation-dropdown.not-recommended {
+    background-color: #fd7e14; /* Orange for Not Recommended */
+    color: #fff;
+}
+
+.recommendation-remark {
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+    /* border-radius: 5px;
+    border: 1px solid #ccc; */
+    display: inline-block;
+    transition: background-color 0.3s;
+    width: 200px; /* Atur lebar sesuai kebutuhan */
+}
+
+.selected-option {
+    padding: 11px;
+    border-radius: 5px;
+    width: 80%; /* Pastikan mengambil lebar penuh dari kotak */
+}
+
+.options {
+    position: absolute;
+    top: 100%; /* Tempatkan di bawah elemen utama */
+    left: 0;
+    z-index: 10;
+    /* background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+    width: 100%; /* Pastikan opsi juga lebar penuh */
+}
+
+.option {
+    padding: 10px; /* Ubah padding sesuai kebutuhan */
+    cursor: pointer;
+    width: 80%; /* Pastikan opsi juga lebar penuh */
+}
+
+.option:hover {
+    background-color: #f0f0f0; /* Hover effect */
+}
+
+.btn-fixed-width {
+    width: 150px; /* Tentukan lebar yang diinginkan */
+}

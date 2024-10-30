@@ -33,7 +33,7 @@ return new class extends Migration
                 $table->text('achievement')->nullable();;
                 $table->text('skills');
                 $table->decimal('salary_expectation', 10, 2);
-                $table->enum('status', ['applied', 'interview', 'offer', 'accepted', 'rejected'])->default('applied');
+                $table->enum('status', ['applied', 'interview', 'offer', 'accepted', 'rejected', 'bankcv'])->default('applied');
                 $table->timestamps();
                 $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
                 $table->foreign('education_id')->references('id')->on('education')->onDelete('cascade');
