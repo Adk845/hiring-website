@@ -16,34 +16,37 @@
 
 
     <!-- Filter Status Stage -->
-    <!-- Only show the status boxes if no job_id is provided -->
-    @if (!$request->has('job_id'))
+  
+    <!-- Kode untuk menampilkan stage -->
     <div class="status-boxes">
-        <a href="{{ route('pipelines.index', ['stage' => 'all', 'education' => $request->get('education')]) }}" class="status-box status-all {{ $request->get('stage') == 'all' ? 'active' : '' }}">
-            <small>All</small>
-        </a>
-        <a href="{{ route('pipelines.index', ['status' => 'applied', 'education' => $request->get('education')]) }}" class="status-box status-applied {{ $request->get('status') == 'applied' ? 'active' : '' }}">
-            <p>{{ $statusCounts['applied'] }}</p>
-            <small>Applied</small>
-        </a>
-        <a href="{{ route('pipelines.index', ['status' => 'interview', 'education' => $request->get('education')]) }}" class="status-box status-interview {{ $request->get('status') == 'interview' ? 'active' : '' }}">
-            <p>{{ $statusCounts['interview'] }}</p>
-            <small>Interview</small>
-        </a>
-        <a href="{{ route('pipelines.index', ['status' => 'offer', 'education' => $request->get('education')]) }}" class="status-box status-offer {{ $request->get('status') == 'offer' ? 'active' : '' }}">
-            <p>{{ $statusCounts['offer'] }}</p>
-            <small>Offer</small>
-        </a>
-        <a href="{{ route('pipelines.index', ['status' => 'accepted', 'education' => $request->get('education')]) }}" class="status-box status-accepted {{ $request->get('status') == 'accepted' ? 'active' : '' }}">
-            <p>{{ $statusCounts['accepted'] }}</p>
-            <small>Accepted</small>
-        </a>
-        <a href="{{ route('pipelines.index', ['status' => 'bankcv', 'education' => $request->get('education')]) }}" class="status-box status-accepted {{ $request->get('status') == 'bankcv' ? 'active' : '' }}">
-            <p>{{ $statusCounts['bankcv'] }}</p>
-            <small>Bank CV</small>
-        </a>
-    </div>
-    @endif
+    <a href="{{ route('pipelines.index', ['stage' => null, 'education' => null, 'job_id' => $request->get('job_id')]) }}" class="status-box status-all {{ $request->get('stage') == 'all' ? 'active' : '' }}">
+        <small>All</small>
+    </a>
+    <a href="{{ route('pipelines.index', ['status' => 'applied', 'education' => $request->get('education'), 'job_id' => $request->get('job_id')]) }}" class="status-box status-applied {{ $request->get('status') == 'applied' ? 'active' : '' }}">
+        <p>{{ $statusCounts['applied'] }}</p>
+        <small>Applied</small>
+    </a>
+    <a href="{{ route('pipelines.index', ['status' => 'interview', 'education' => $request->get('education'), 'job_id' => $request->get('job_id')]) }}" class="status-box status-interview {{ $request->get('status') == 'interview' ? 'active' : '' }}">
+        <p>{{ $statusCounts['interview'] }}</p>
+        <small>Interview</small>
+    </a>
+    <a href="{{ route('pipelines.index', ['status' => 'offer', 'education' => $request->get('education'), 'job_id' => $request->get('job_id')]) }}" class="status-box status-offer {{ $request->get('status') == 'offer' ? 'active' : '' }}">
+        <p>{{ $statusCounts['offer'] }}</p>
+        <small>Offer</small>
+    </a>
+    <a href="{{ route('pipelines.index', ['status' => 'accepted', 'education' => $request->get('education'), 'job_id' => $request->get('job_id')]) }}" class="status-box status-accepted {{ $request->get('status') == 'accepted' ? 'active' : '' }}">
+        <p>{{ $statusCounts['accepted'] }}</p>
+        <small>Accepted</small>
+    </a>
+    <a href="{{ route('pipelines.index', ['status' => 'bankcv', 'education' => $request->get('education'), 'job_id' => $request->get('job_id')]) }}" class="status-box status-bankcv {{ $request->get('status') == 'bankcv' ? 'active' : '' }}">
+        <p>{{ $statusCounts['bankcv'] }}</p>
+        <small>Bank CV</small>
+    </a>
+</div>
+
+
+
+
 
 </div>
 @stop
@@ -53,72 +56,129 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card overflow-scroll">
+        <div class="card ">
             <div class="card-body pe-3">
 
 
                 <!-- Search bar and filters -->
+                <!-- Filter Button -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="search-bar me-3">
-                        <form action="{{ route('pipelines.index') }}" method="GET" class="d-flex align-items-center flex-wrap gap-3">
+                    <!-- Left side: Filter By and Sort By -->
+                    <div class="d-flex align-items-center gap-3">
 
-                            <!-- Filter Education and Major -->
-                            <div class="d-flex align-items-center">
-                                <!-- Filter by Education -->
-                                <select name="education" class="form-select me-2" id="education-dropdown">
-                                    <option value="">Edu</option>
-                                    @foreach($educations as $education)
-                                    <option value="{{ $education->id }}" {{ $request->get('education') == $education->id ? 'selected' : '' }}>
-                                        {{ $education->name_education }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                        <!-- Filter Button -->
+                        <button
+                            type="button"
+                            class="btn btn-primary me-0"
+                            data-bs-toggle="modal"
+                            data-bs-target="#filterModal"
+                            style="min-width: 100px; margin-top: -15px;"
+                            onclick="checkFilterConditions()">
+                            <i class="fa fa-filter" aria-hidden="true"></i> Filter By
+                        </button>
 
-                                <!-- Filter by Jurusan (Major) -->
-                                <select name="jurusan" class="form-select me-2" id="jurusan-dropdown">
-                                    <option value="">Major</option>
-                                    @foreach($jurusans as $jurusan)
-                                    <option value="{{ $jurusan->id }}" data-education-id="{{ $jurusan->education_id }}" {{ $request->get('jurusan') == $jurusan->id ? 'selected' : '' }}>
-                                        {{ $jurusan->name_jurusan }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <!-- Sorting Dropdown -->
+                        <form method="GET" action="{{ route('pipelines.index') }}" class="d-flex align-items-center">
+                            <button type="button" class="btn btn-primary me-0 btn-no-animation" style="min-width: 100px;">
+                                <i class="fa fa-filter" aria-hidden="true"></i> Sort By
+                            </button>
+                            <select name="sort" class="form-select ms-0" onchange="this.form.submit()" style="min-width: 150px;">
+                                <option value="newest" {{ request('sort') === 'newest' ? 'selected' : '' }}>Newest to Oldest</option>
+                                <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest to Newest</option>
+                                <option value="a_to_z" {{ request('sort') === 'a_to_z' ? 'selected' : '' }}>A to Z</option>
+                                <option value="z_to_a" {{ request('sort') === 'z_to_a' ? 'selected' : '' }}>Z to A</option>
+                            </select>
 
-                            <!-- Filter by Recommendation -->
-                            <div class="d-flex align-items-center">
-                                <select name="recommendation" class="form-select me-2" id="recommendation-dropdown">
-                                    <option value="">Recommendation</option>
-                                    <option value="recommended" {{ $request->get('recommendation') == 'recommended' ? 'selected' : '' }}>Recommended</option>
-                                    <option value="not_recommended" {{ $request->get('recommendation') == 'not_recommended' ? 'selected' : '' }}>Not Recommended</option>
-                                </select>
-                            </div>
+                            <!-- Menambahkan parameter lain ke URL -->
+                            <input type="hidden" name="job_id" value="{{ request('job_id') }}">
+                            <input type="hidden" name="status" value="{{ request('status') }}">
+                        </form>
 
-                            <!-- Search Input -->
-                            <div class="d-flex align-items-center">
-                                <input type="text" name="search" class="form-control me-2" placeholder="Search..." value="{{ $request->get('search') }}" aria-label="Search Applicant">
-                            </div>
 
-                            <!-- Submit button -->
-                            <button type="submit" class="btn btn-secondary">
+
+                    </div>
+
+                    <!-- Right side: Search Input -->
+                    <div class="search-bar">
+                        <form action="{{ route('pipelines.index') }}" method="GET" class="d-flex align-items-center gap-2">
+                            <input type="text" name="search" class="form-control form-control-sm custom-search-input"
+                                style="margin-left: 300px;" placeholder="Search..."
+                                value="{{ request('search') }}" aria-label="Search Applicant">
+
+                            <input type="hidden" name="job_id" value="{{ request('job_id') }}">
+                            <input type="hidden" name="status" value="{{ request('status') }}">
+
+                            <button type="submit" class="btn btn-secondary btn-sm">
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
-
                     </div>
-                    <div style="display: flex; align-items: center;">
-
-
-
-                        <a href="{{ route('pipelines.create') }}" class="btn btn-primary">
-                            <i class="fa fa-plus"></i> Create Applicant
-                        </a>
-                    </div>
-
-
 
 
                 </div>
+
+
+                <!-- Modal Filter -->
+                <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="filterModalLabel">Filter Options</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('pipelines.index') }}" method="GET">
+                                    <!-- Filter by Job ID (Hidden Field) -->
+                                    <input type="hidden" name="job_id" value="">
+
+
+                                    <!-- Filter by Education -->
+                                    <div class="mb-3">
+                                        <label for="education-dropdown" class="form-label">Education</label>
+                                        <select name="education" class="form-select" id="education-dropdown">
+                                            <option value="">Select Education</option>
+                                            @foreach($educations as $education)
+                                            <option value="{{ $education->id }}" {{ $request->get('education') == $education->id ? 'selected' : '' }}>
+                                                {{ $education->name_education }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Filter by Major -->
+                                    <div class="mb-3">
+                                        <label for="jurusan-dropdown" class="form-label">Major</label>
+                                        <select name="jurusan" class="form-select" id="jurusan-dropdown">
+                                            <option value="">Select Major</option>
+                                            @foreach($jurusans as $jurusan)
+                                            <option value="{{ $jurusan->id }}" data-education-id="{{ $jurusan->education_id }}" {{ $request->get('jurusan') == $jurusan->id ? 'selected' : '' }}>
+                                                {{ $jurusan->name_jurusan }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Filter by Recommendation -->
+                                    <div class="mb-3">
+                                        <label for="recommendation-dropdown" class="form-label">Recommendation</label>
+                                        <select name="recommendation" class="form-select" id="recommendation-dropdown">
+                                            <option value="">Select Recommendation</option>
+                                            <option value="recommended" {{ request('recommendation') == 'recommended' ? 'selected' : '' }}>Recommended</option>
+                                            <option value="not_recommended" {{ request('recommendation') == 'not_recommended' ? 'selected' : '' }}>Not Recommended</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="table-wrapper">
                     <table class="table table-hover table-bordered table-striped" id="example2">
                         <thead>
@@ -137,7 +197,7 @@
                         <tbody>
                             @foreach($applicants as $key => $applicant)
                             <tr>
-                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $key + $applicants->firstItem() }}</td>
                                 <td>
                                     <div style="display: flex; align-items: center; cursor: pointer;" onclick="showApplicantInfo({{ json_encode($applicant) }})">
                                         @if($applicant->photo_pass)
@@ -171,21 +231,21 @@
 
                                                 </div>
                                 <td>
-                                    <div class="recommendation-remark" onclick="toggleDropdown(this)">
-                                        <span class="selected-option"
-                                            style="color: white; background-color: <?php echo $applicant->recommendation_status === 'recommended' ? 'green' : 'orange'; ?>;">
+                                    <div class="recommendation-remark" onclick="toggleDropdown(this)" style="position: relative;">
+                                        <span class="selected-option" style="color: white; background-color: <?php echo $applicant->recommendation_status === 'recommended' ? 'green' : 'orange'; ?>;">
                                             <?php echo ucfirst(str_replace('_', ' ', $applicant->recommendation_status)); ?>
                                         </span>
-                                        <div class="options" style="display: none;">
-                                            <div class="option" data-value="recommended"
-                                                onclick="updateRecommendation(this, <?php echo $applicant->id; ?>)"
-                                                style="background-color: green; color: white;">Recommended</div>
-                                            <div class="option" data-value="not_recommended"
-                                                onclick="updateRecommendation(this, <?php echo $applicant->id; ?>)"
-                                                style="background-color: orange; color: white;">Not Recommended</div>
+                                        <div class="options" style="display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 1000;">
+                                            <div class="option" data-value="recommended" onclick="updateRecommendation(this, <?php echo $applicant->id; ?>)" style="background-color: white; color: black;">
+                                                Recommended
+                                            </div>
+                                            <div class="option" data-value="not_recommended" onclick="updateRecommendation(this, <?php echo $applicant->id; ?>)" style="background-color: white; color: black;">
+                                                Not Recommended
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
+
 
 
 
@@ -221,6 +281,10 @@
                 @endforeach
                 </tbody>
                 </table>
+                <div class="d-flex justify-content-center">
+                    {{ $applicants->links('pagination::bootstrap-4', ['class' => 'pagination-sm']) }}
+                </div>
+
             </div>
         </div>
     </div>
@@ -232,9 +296,9 @@
         <div class="modal-content">
             <div class="modal-header" style="background: linear-gradient(135deg, #007bff, #0056b3);">
                 <h5 class="modal-title" id="applicantInfoModalLabel">Applicant Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <!-- Close button for Bootstrap 5 -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -258,16 +322,23 @@
                 <button id="edit-notes-button" onclick="editNotes()" class="btn btn-secondary" style="display: none;">Edit</button>
                 <button onclick="deleteNotes()" class="btn btn-danger">Delete Notes</button>
                 <a id="download-cv" href="#" class="btn btn-success">Download CV</a>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
             </div>
 
         </div>
     </div>
 </div>
+
 @stop
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{{ asset('css/applicant.index.css') }}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 @push('js')
 <script>
@@ -297,33 +368,6 @@
 
         currentApplicantId = applicant.id;
 
-        // AJAX request to get saved notes
-        // $.ajax({
-        //     url: "/api/getnotes/" + currentApplicantId,
-        //     type: "GET",
-        //     success: function(response) {
-        //         const savedNotes = response.notes;
-        //         const notes = response.notes;
-        //         console.log(notes);
-        //         $('#applicant-notes').val(savedNotes ? savedNotes : '');
-
-        //         if (savedNotes) {
-        //             $('#applicant-notes').prop('disabled', true);
-        //             $('#save-notes-button').hide();
-        //             $('#edit-notes-button').show();
-        //         } else {
-        //             $('#applicant-notes').prop('disabled', false);
-        //             $('#save-notes-button').show();
-        //             $('#edit-notes-button').hide();
-        //         }
-        //     },
-        //     error: function(xhr) {
-        //         console.error(xhr.responseText); // Log the error response for debugging
-        //         alert('Error loading notes: ' + xhr.statusText);
-
-
-        //     }
-        // });
 
         fetch('/getnotes/' + currentApplicantId)
             .then(response => {
@@ -460,67 +504,31 @@
         });
     });
 </script>
-<script>
-    function updateRecommendation(selectElement) {
-        var recommendation = selectElement.value; // Ambil nilai dropdown
-        var applicantId = selectElement.getAttribute('data-id'); // Ambil ID applicant dari atribut data
 
-        // Kirim data ke server menggunakan AJAX
-        $.ajax({
-            url: '{{ route("applicant.recommend") }}', // Gunakan rute yang benar
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}', // Token CSRF untuk keamanan
-                recommendation_status: recommendation, // Sesuaikan dengan parameter yang diharapkan di controller
-                id: applicantId // Kirim ID applicant
-            },
-            success: function(response) {
-                console.log(response.message); // Menampilkan pesan sukses di konsol
-                updateDropdownColor(selectElement); // Ubah warna dropdown sesuai pilihan
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText); // Tangani error
-            }
-        });
-    }
-
-    function updateDropdownColor(selectElement) {
-        if (selectElement.value === 'recommended') {
-            selectElement.style.backgroundColor = 'green'; // Mengubah warna latar belakang menjadi hijau
-            selectElement.style.color = 'white'; // Mengubah warna teks menjadi putih
-        } else {
-            selectElement.style.backgroundColor = 'orange'; // Mengubah warna latar belakang menjadi oranye
-            selectElement.style.color = 'white'; // Mengubah warna teks menjadi putih
-        }
-
-        selectElement.style.transition = 'background-color 0.3s'; // Menambahkan efek transisi
-    }
-</script>
 
 <script>
     function toggleDropdown(element) {
         const options = element.querySelector('.options');
-        options.style.display = options.style.display === 'none' ? 'block' : 'none'; // Toggle display
+        options.style.display = options.style.display === 'none' ? 'block' : 'none';
     }
 
     function updateRecommendation(optionElement, applicantId) {
         const recommendation = optionElement.getAttribute('data-value');
 
-        // Kirim data ke server menggunakan AJAX
         $.ajax({
-            url: '{{ route("applicant.recommend") }}', // Gunakan rute yang benar
+            url: '{{ route("applicant.recommend") }}',
             type: 'POST',
             data: {
-                _token: '{{ csrf_token() }}', // Token CSRF untuk keamanan
-                recommendation_status: recommendation, // Sesuaikan dengan parameter yang diharapkan di controller
-                id: applicantId // Kirim ID applicant
+                _token: '{{ csrf_token() }}',
+                recommendation_status: recommendation,
+                id: applicantId
             },
             success: function(response) {
-                console.log(response.message); // Menampilkan pesan sukses di konsol
-                updateRemarkDisplay(optionElement, recommendation); // Update tampilan remark
+                console.log(response.message);
+                updateRemarkDisplay(optionElement, recommendation); // Update display
             },
             error: function(xhr) {
-                console.error(xhr.responseText); // Tangani error
+                console.error(xhr.responseText);
             }
         });
     }
@@ -529,12 +537,13 @@
         const remark = optionElement.closest('.recommendation-remark');
         const selectedOption = remark.querySelector('.selected-option');
 
-        selectedOption.innerText = optionElement.innerText; // Update teks yang ditampilkan
-        selectedOption.style.backgroundColor = recommendation === 'recommended' ? 'green' : 'orange'; // Update warna latar belakang
-        selectedOption.style.color = 'white'; // Update warna teks
-        remark.querySelector('.options').style.display = 'none'; // Sembunyikan opsi setelah memilih
+        selectedOption.innerText = optionElement.innerText; // Update displayed text
+        selectedOption.style.backgroundColor = recommendation === 'recommended' ? 'green' : 'orange'; // Update background color
+        selectedOption.style.color = 'white'; // Update text color
+        remark.querySelector('.options').style.display = 'none'; // Hide options after selection
     }
 </script>
+
 
 <script>
     function filterNotRecommended() {
@@ -559,6 +568,25 @@
         });
     }
 </script>
+
+<script>
+    function checkFilterConditions() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('job_id');
+        const status = urlParams.get('status');
+
+        // Periksa jika ada job_id atau status
+        if (jobId || status) {
+            if (jobId) {
+                document.querySelector('#filterModal [name="job_id"]').value = jobId;
+            }
+            if (status) {
+                document.querySelector('#filterModal [name="status"]').value = status;
+            }
+        }
+    }
+</script>
+
 
 
 

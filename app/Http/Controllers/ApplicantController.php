@@ -34,76 +34,164 @@ class ApplicantController extends Controller
     public function index(Request $request)
     {
         $query = Applicant::with('job', 'education', 'jurusan');
-    
+
         $jobId = $request->get('job_id');
-        
-        // Get job title only if job ID is provided
         $jobTitle = $jobId ? optional(Job::find($jobId))->job_name : null;
-    
+        $status = $request->get('status');
+        $sort = $request->get('sort', 'newest');
+
         if ($jobId) {
             $query->where('job_id', $jobId);
         }
-    
-        // Retrieve the current status filter if it exists
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+        // Filter by current status if exists
         $currentStatus = $request->get('status');
-    
-        // Change 'stage' to 'status'
         if ($currentStatus && $currentStatus !== '') {
             $query->where('status', $currentStatus);
         }
-    
-        // Get the count of applicants based on status
-        $statusCounts = [
-            'applied' => Applicant::where('status', 'applied')->count(),
-            'interview' => Applicant::where('status', 'interview')->count(),
-            'offer' => Applicant::where('status', 'offer')->count(),
-            'accepted' => Applicant::where('status', 'accepted')->count(),
-            'bankcv' => Applicant::where('status', 'bankcv')->count(),
 
-        ];
-    
-        if ($request->has('search')) {
-            $search = $request->get('search');
-            $query->where(function ($query) use ($search) {
-                $query->where('name', 'like', $search . '%')
-                      ->orWhereHas('job', function ($query) use ($search) {
-                          $query->where('job_name', 'like', $search . '%');
-                      });
-            });
-        }
 
-        if ($request->has('recommendation') && $request->get('recommendation') != '') {
-            $query->where('recommendation_status', $request->get('recommendation'));
-        }
-        
-        
-    
-        // Additional filtering logic for education and jurusan
-        if (!$request->has('status')) {
+        // Memeriksa jika ada job_id atau status
+        $applicants = $query->get();
+
+
+        // Ambil stage name jika ada job_id
+        $stageName = $jobId ? ($applicants->isNotEmpty() ? $applicants->first()->status : null) : null;
+
+        if ($jobId || $status) {
+            // Jika ada job_id, filter data berdasarkan job_id
+            if ($jobId) {
+                $query->where('job_id', $jobId);
+            }
+
+
             if ($request->has('education') && !empty($request->get('education'))) {
                 $educationId = $request->get('education');
                 $query->where('education_id', $educationId);
             }
-    
+
             if ($request->has('jurusan') && !empty($request->get('jurusan'))) {
                 $jurusanId = $request->get('jurusan');
                 $query->where('jurusan_id', $jurusanId);
             }
+
+
+            if ($request->has('recommendation') && $request->get('recommendation') != '') {
+                $query->where('recommendation_status', $request->get('recommendation'));
+            }
+
+
+            if ($status && $status != '') {
+                $query->where('status', $status);
+            }
+        } else {
+            // Jika tidak ada job_id dan status, terapkan filter ke semua data
+            if ($request->has('status') && $request->get('status') != '') {
+                $query->where('status', $request->get('status'));
+            }
+
+            if ($request->has('education') && !empty($request->get('education'))) {
+                $educationId = $request->get('education');
+                $query->where('education_id', $educationId);
+            }
+
+            if ($request->has('jurusan') && !empty($request->get('jurusan'))) {
+                $jurusanId = $request->get('jurusan');
+                $query->where('jurusan_id', $jurusanId);
+            }
+
+            if ($request->has('recommendation') && $request->get('recommendation') != '') {
+                $query->where('recommendation_status', $request->get('recommendation'));
+            }
         }
-    
-        $applicants = $query->get();
-    
-        // Get the stage name only if a job ID is provided
-        $stageName = $jobId && $applicants->isNotEmpty() ? $applicants->first()->status : null;
-    
+
+        // Search 
+        if ($request->has('search')) {
+            $search = $request->get('search');
+
+            if ($jobId && $status) {
+                $query->where('name', 'like', $search . '%');
+            } else {
+
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', $search . '%')
+                        ->orWhereHas('job', function ($query) use ($search) {
+                            $query->where('job_name', 'like', $search . '%');
+                        });
+                });
+            }
+        }
+
+
+
+        // Logika penyortiran
+        if ($jobId && $status) {
+            // Jika ada job_id dan status, filter berdasarkan job_id dan status
+            $query->where('job_id', $jobId)
+                  ->where('status', $status);
+        } else {
+            // Jika tidak ada job_id dan status, ambil semua data
+            // Anda bisa mengatur filter tambahan jika diperlukan di sini
+        }
+        
+        // Sortir data berdasarkan parameter sort
+        if ($sort === 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($sort === 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        } elseif ($sort === 'a_to_z') {
+            $query->orderBy('name', 'asc');
+        } elseif ($sort === 'z_to_a') {
+            $query->orderBy('name', 'desc');
+        }
+        
+        // Eksekusi query untuk mendapatkan hasil
+        $results = $query->get();
+
+        // Pagination
+        $perPage = 10;
+        $applicants = $query->paginate($perPage);
+
+        // Get the count of applicants based on status
+        $jobId = $request->input('job_id'); // Assuming you're getting job_id from the request
+
+        if ($jobId) {
+            
+            // If job_id exists, filter by job_id
+            $statusCounts = [
+                'applied' => Applicant::where('status', 'applied')->where('job_id', $jobId)->count(),
+                'interview' => Applicant::where('status', 'interview')->where('job_id', $jobId)->count(),
+                'offer' => Applicant::where('status', 'offer')->where('job_id', $jobId)->count(),
+                'accepted' => Applicant::where('status', 'accepted')->where('job_id', $jobId)->count(),
+                'bankcv' => Applicant::where('status', 'bankcv')->where('job_id', $jobId)->count(),
+            ];
+        } else {
+            // If job_id does not exist, count all statuses
+            $statusCounts = [
+                'applied' => Applicant::where('status', 'applied')->count(),
+                'interview' => Applicant::where('status', 'interview')->count(),
+                'offer' => Applicant::where('status', 'offer')->count(),
+                'accepted' => Applicant::where('status', 'accepted')->count(),
+                'bankcv' => Applicant::where('status', 'bankcv')->count(),
+            ];
+        }
+        
+
+
+        // Load dropdown options
         $jobs = Job::all();
         $educations = Education::all();
         $jurusans = Jurusan::all();
-    
+
         return view('pipelines.index', compact('applicants', 'jobs', 'jobTitle', 'educations', 'jurusans', 'request', 'statusCounts', 'stageName'));
     }
-    
-    
+
+
+
+
 
 
 
@@ -165,16 +253,16 @@ class ApplicantController extends Controller
             'education' => 'required|exists:education,id',
             'jurusan' => 'required|string|max:255', // Atur sesuai kebutuhan
         ]);
-    
+
         // Handle file upload for photo_pass if provided
         $path = null;
         if ($request->hasFile('photo_pass')) {
             $path = $request->file('photo_pass')->store('photos', 'public');
         }
-        $educationId = $request->education; 
+        $educationId = $request->education;
         // Cek dan simpan jurusan
         $jurusan = Jurusan::firstOrCreate(['name_jurusan' => $request->jurusan], ['education_id' => $educationId]);
-    
+
         // Create applicant
         $applicant = Applicant::create([
             'job_id' => $request->job_id,
@@ -196,7 +284,7 @@ class ApplicantController extends Controller
             'education_id' => $request->education, // Pastikan ini mengacu ke id yang benar
             'jurusan_id' => $jurusan->id, // Gunakan ID dari jurusan
         ]);
-    
+
         // Handle work experiences
         if ($request->has('role')) {
             foreach ($request->role as $index => $role) {
@@ -209,7 +297,7 @@ class ApplicantController extends Controller
                 ]);
             }
         }
-    
+
         // Handle projects
         if ($request->has('project_name')) {
             foreach ($request->project_name as $index => $project_name) {
@@ -222,7 +310,7 @@ class ApplicantController extends Controller
                 ]);
             }
         }
-    
+
         // Handle references
         if ($request->has('name_ref')) {
             foreach ($request->name_ref as $index => $name_ref) {
@@ -270,7 +358,7 @@ class ApplicantController extends Controller
     public function update(Request $request, $id)
     {
 
-        
+
         // Validate input
         //khusus validate yang sifatnya array maka harus ditambahkan '.*' setelah nama atribut $requestnya 
         //misal 'skills.*' => 'nullable|string',
@@ -312,7 +400,7 @@ class ApplicantController extends Controller
             'education' => 'required|exists:education,id',
             'jurusan' => 'nullable|exists:jurusan,id',
         ]);
-        
+
         // Retrieve the applicant
         $applicant = Applicant::findOrFail($id);
 
@@ -412,20 +500,20 @@ class ApplicantController extends Controller
         // Get the job title
         $job = Job::find($jobId);
         $jobTitle = $job ? $job->job_name : null;
-    
+
         // Get applicants for this job
         $applicants = Applicant::where('job_id', $jobId)->get();
-    
+
         // Get the stage name for the first applicant (or however you want to decide)
         $stageName = $applicants->isNotEmpty() ? $applicants->first()->status : null;
-    
+
         return view('jobs.show', compact('applicants', 'jobTitle', 'stageName'));
     }
 
     public function getNotes($id)
     {
-       $notes = Notes::where('applicant_id', $id)->first();
-       return response()->json($notes);
+        $notes = Notes::where('applicant_id', $id)->first();
+        return response()->json($notes);
     }
     public function saveNotes(Request $request)
     {
@@ -440,9 +528,9 @@ class ApplicantController extends Controller
         //     ['notes' => $request->notes, 'updated_at' => now()]
         // );
 
-        $note = notes::where('applicant_id',$request->applicant_id)->first();
+        $note = notes::where('applicant_id', $request->applicant_id)->first();
         $applicant = Applicant::findOrFail($request->applicant_id);
-        if($note) {
+        if ($note) {
             $note->update([
                 'notes' => $request->notes
             ]);
@@ -451,10 +539,10 @@ class ApplicantController extends Controller
                 'notes' => $request->notes
             ]);
         }
-       
-        
-        
-        
+
+
+
+
 
         return response()->json(['message' => 'Notes saved successfully!']);
     }
@@ -466,7 +554,7 @@ class ApplicantController extends Controller
         ]);
 
         // DB::table('notes')->where('applicant_id', $request->applicant_id)->delete();
-        $note = notes::where('applicant_id',$request->applicant_id)->first();
+        $note = notes::where('applicant_id', $request->applicant_id)->first();
         $note->update([
             'notes' => ''
         ]);
@@ -481,20 +569,14 @@ class ApplicantController extends Controller
             'recommendation_status' => 'required|string',
             'id' => 'required|integer|exists:applicants,id',
         ]);
-    
+
         // Temukan applicant berdasarkan ID
         $applicant = Applicant::find($validatedData['id']);
-        
+
         // Perbarui status rekomendasi
         $applicant->recommendation_status = $validatedData['recommendation_status'];
         $applicant->save();
-    
+
         return response()->json(['message' => 'Status rekomendasi berhasil diperbarui!']);
     }
-    
-    
-    
-
-
-    
 }
