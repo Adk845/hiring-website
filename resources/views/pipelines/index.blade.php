@@ -4,13 +4,18 @@
 
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center">
-    <h1 class="m-0 text-dark">
-        <b> List Applicants
-            @if(isset($jobTitle) && isset($stageName))
-            - {{ $jobTitle }} ({{ $stageName }})
+<h1 class="m-0 text-dark">
+    <b>List Applicants
+        @if(isset($jobTitle))
+            - {{ $jobTitle }}
+            @if(isset($stageName) && $request->has('job_id') && $request->has('status'))
+                ({{ $stageName }})
             @endif
-        </b>
-    </h1>
+        @endif
+    </b>
+</h1>
+
+
 
 
 
@@ -65,6 +70,10 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <!-- Left side: Filter By and Sort By -->
                     <div class="d-flex align-items-center gap-3">
+
+                    <a href="{{ route('pipelines.create') }}" class="btn btn-primary btn-extended" style="margin-top: -15px;">
+                        <i class="fa fa-plus"></i>New Data
+                    </a>
 
                         <!-- Filter Button -->
                         <button
