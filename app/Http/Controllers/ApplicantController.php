@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Applicant;
 use App\Models\Education;
 use App\Models\Job;
-use App\Models\jURUSAN;
+use App\Models\Jurusan;
 use App\Models\Project;
 use App\Models\Reference;
 use App\Models\Notes;
