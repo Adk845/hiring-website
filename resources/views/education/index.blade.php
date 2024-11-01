@@ -27,26 +27,33 @@
                     </a>
                 </div>
 
-                <div class="kontainer_department mt-5 d-flex flex-wrap">
+                <div class="kontainer_department mt-5 d-flex flex-wrap justify-content-start">
                     @foreach($education as $education)
-                    <div class="card me-3 mb-3" style="width: 18rem;">
-                        <a href="{{ route('showEducationMajor', $education->id) }}" class="major_page">
-                            <div class="image_department">
-                                <img src="{{ asset('assets/school.jpeg') }}" class="card-img-top" alt="...">
+                    <div class="card me-4 mb-4 shadow-lg" style="width: 18rem; border-radius: 10px; overflow: hidden;">
+                        <a href="{{ route('showEducationMajor', $education->id) }}" class="major_page text-decoration-none">
+                            <div class="image_department d-flex justify-content-center align-items-center bg-light" style="height: 150px;">
+                                <i class="fa fa-graduation-cap fa-5x text-primary" aria-hidden="true"></i>
+                                
                             </div>
                         </a>
-                        <div class="card-body">
+                        <div class="card-body text-center">
                             <a href="{{ route('jobs.index', ['department' => $education->id]) }}" class="text-decoration-none text-dark">
-                                <h4 class="">{{ $education->name_education }}</h4>
+                                <h5 class="card-title font-weight-bold mb-3">{{ $education->name_education }}</h5>
                             </a>
-                            <a href="{{ route('education.edit', $education) }}" class="btn btn-success btn-xs"> <i class="fa fa-edit"></i>  Edit</a>
-                            <a href="{{ route('education.destroy', $education) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
-                                <i class="fa fa-trash"></i> Delete
-                            </a>
+                            <div class="d-flex justify-content-end mt-3">
+                                <a href="{{ route('education.edit', $education) }}" class="btn btn-outline-success btn-sm me-2">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                                <a href="{{ route('education.destroy', $education) }}" onclick="notificationBeforeDelete(event, this)" class="btn btn-outline-danger btn-sm">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                            </div>
                         </div>
                     </div>
                     @endforeach
                 </div>
+
+
             </div>
         </div>
     </div>
