@@ -35,7 +35,7 @@
             <div class="title mt-4 d-flex justify-content-between">
                 <h1>{{ $jobs->job_name}}</h1>
                 <div class="apply">
-                    <a href="{{route('vacancy_form', $jobs->id)}}" target="_blank" class="btn btn-warning btn-lg">Apply Now</a>
+                    <a href="{{route('vacancy_form', $jobs->id)}}"  class="btn btn-warning btn-lg">Apply Now</a>
                 </div>
             </div>
             <div class="title mt-4 mb-4"><h2>Employment Type : {{ $jobs->employment_type}}</h2></div>
