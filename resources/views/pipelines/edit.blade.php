@@ -415,32 +415,6 @@
 @stop
 
 @section('js')
-<script>
-    $(document).ready(function() {
-        // Dynamically load Jurusan based on selected Pendidikan
-        $('#education').change(function() {
-            let educationId = $(this).val();
-            $.ajax({
-                url: '/jurusan/' + educationId,
-                type: 'GET',
-                success: function(data) {
-                    $('#jurusan').empty();
-                    $('#jurusan').append('<option value="">Pilih Jurusan</option>');
-                    $.each(data, function(index, jurusan) {
-                        $('#jurusan').append('<option value="' + jurusan.id + '">' + jurusan.name + '</option>');
-                    });
-                    // Set the previously selected jurusan if available
-                    @if(isset($applicant->jurusan_id))
-                    $('#jurusan').val('{{ $applicant->jurusan_id }}').change();
-                    @endif
-                }
-            });
-        });
-
-        // Trigger the change event to pre-fill jurusan when loading the edit page
-        $('#education').change();
-    });
-</script>
 
 <script>
     const {createApp} = Vue

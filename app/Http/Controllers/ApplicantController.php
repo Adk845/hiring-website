@@ -406,6 +406,7 @@ class ApplicantController extends Controller
 
         // Handle file upload for photo_pass if provided
         if ($request->hasFile('photo_pass')) {
+            Storage::disk('public')->delete($applicant->photo_pass);
             $path = $request->file('photo_pass')->store('photos', 'public');
             $applicant->update(['photo_pass' => $path]);
         }
@@ -477,8 +478,11 @@ class ApplicantController extends Controller
 
     public function destroy($id)
     {
-        $applicant = Applicant::find($id);
-        if ($applicant) $applicant->delete();
+        $applicant = Applicant::find($id);       
+        if ($applicant) {
+            Storage::disk('public')->delete($applicant->photo_pass);
+            $applicant->delete();
+        }        
         return redirect()->route('pipelines.index')->with('success_message', 'Applicant deleted successfully.');
     }
 
