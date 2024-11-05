@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <form action="{{ route('kirim') }}" method="POST" enctype="multipart/form-data">
+        <form id="myForm" action="{{ route('kirim') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="hidden_input">
                 <input type="hidden" id="job_id" name="job_id" value="{{$jobs->id}}">
@@ -378,7 +378,13 @@
                 </div>
 
                 <div class="submit_button mb-5 mt-5 ">
-                    <button class="btn btn-success btn-lg" type="submit">Submit</button>
+                    <button id="tombolSubmit" class="btn btn-success btn-lg" type="submit">
+                        <p id="tulisanSubmit" style="margin: 0px">Submit</p>
+                        <div id="loading" style="display: none">
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span role="status">Loading...</span>
+                        </div>
+                    </button>
                 </div>
             </div>
         </form>
@@ -467,6 +473,15 @@
 
 
         $(document).ready(function() {
+            //fungsi loading di tombol submit
+            $('#myForm').on('submit', function() {
+
+                $('#tulisanSubmit').hide();
+                $('#loading').show();
+                $('#tombolSubmit').prop('disabled', true);
+            })
+            //=============================================
+
             $('#education').on('change', function() {
                 var educationId = $(this).val();
                 if (educationId) {
