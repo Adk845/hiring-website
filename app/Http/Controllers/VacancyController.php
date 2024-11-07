@@ -103,8 +103,8 @@ class VacancyController extends Controller
         }
         $educationId = $request->education; 
         // Cek dan simpan jurusan
-        $jurusan = Jurusan::firstOrCreate(['name_jurusan' => $request->jurusan], ['education_id' => $educationId]);
-    
+        $education = Education::find($educationId);
+        $jurusan = $education->Jurusan()->firstOrCreate(['name_jurusan' => $request->jurusan], ['education_id' => $educationId]);
         // Create applicant
         $applicant = Applicant::create([
             'job_id' => $request->job_id,
