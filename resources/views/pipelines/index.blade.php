@@ -473,26 +473,49 @@
 
 
 <script>
+    // $(document).ready(function() {
+
+    //     $('#education-dropdown').change(function() {
+    //         var selectedEducationId = $(this).val();
+
+
+    //         $('#jurusan-dropdown option').each(function() {
+    //             if ($(this).data('education-id') == selectedEducationId || selectedEducationId == '') {
+    //                 $(this).show();
+    //             } else {
+    //                 $(this).hide();
+    //             }
+    //         });
+
+
+    //         if (selectedEducationId == '') {
+    //             $('#jurusan-dropdown').val('').change();
+    //         }
+    //     });
+    // });
     $(document).ready(function() {
-
-        $('#education-dropdown').change(function() {
+        $('#jurusan-dropdown option').each(function(){
+            $(this).hide();
+        })
+        $('#education-dropdown').val('');
+        $('#jurusan-dropdown').val('');
+        $('#recomendation-dropdown').val('');
+        $('#education-dropdown').on('change click', function(){
             var selectedEducationId = $(this).val();
+                $('#jurusan-dropdown option').each(function() {
+                    if ($(this).data('education-id') == selectedEducationId || selectedEducationId == '') {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
 
 
-            $('#jurusan-dropdown option').each(function() {
-                if ($(this).data('education-id') == selectedEducationId || selectedEducationId == '') {
-                    $(this).show();
-                } else {
-                    $(this).hide();
+                if (selectedEducationId == '') {
+                    $('#jurusan-dropdown').val('').change();
                 }
-            });
-
-
-            if (selectedEducationId == '') {
-                $('#jurusan-dropdown').val('').change();
-            }
-        });
-    });
+        })
+});
 </script>
 <script>
     $(document).ready(function() {
