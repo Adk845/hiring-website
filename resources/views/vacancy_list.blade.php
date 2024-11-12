@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/vacancy.list.css')}}">
+    <link rel="icon" href="{{ asset('favicons/ISOLOGO.png') }}">
     <title>vacancy list</title>
 </head>
 <body>
@@ -26,7 +27,7 @@
         
 
             <div class="title mb-5 mt-4" style="font-family: 'Arial Narrow', sans-serif; color:grey;">
-                <h1>Open Recruitment List</h1>
+                <h1>Vacancy</h1>
             </div>
 
             @foreach($jobs as $job)

@@ -15,7 +15,7 @@
         
 
         <div class="title mb-5 mt-4">
-            <h1>Open Recruitment List</h1>
+            <h1 >Vacancy</h1>
         </div>
 
         @foreach($jobs as $job)
