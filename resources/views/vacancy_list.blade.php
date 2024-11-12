@@ -19,28 +19,26 @@
                     <div class="logo flex-lg">
                         <img src="{{asset('assets/ISOLOGO.png')}}" width="200px" alt="">
                     </div>
-                    <div class="title">
-                        <h1>Open Hiring</h1>
-                    </div>
+                    
                 </div>
                 {{-- <div class="title mt-4 mb-4 "><h1>Open Hiring</h1></div> --}}
             </div>
         
 
-        <div class="title mb-5 mt-4">
-            <h1>Open Recruitment List</h1>
-        </div>
+            <div class="title mb-5 mt-4" style="font-family: 'Arial Narrow', sans-serif; color:grey;">
+                <h1>Open Recruitment List</h1>
+            </div>
 
-        @foreach($jobs as $job)
-            <a href="{{route('vacancy', $job->id)}}" style="text-decoration: none" target="_blank">
-                <div class="row vacancy_kontainer">
-                    <div class="col vacancy">
-                        <p class="name">{{$job->job_name}}</p>
-                    </div> 
-                </div>   
-            </a> 
-        
-         @endforeach
+            @foreach($jobs as $job)
+                <a href="{{route('vacancy', $job->id)}}" style="text-decoration: none; font-family: 'Arial Narrow', sans-serif; " target="_blank">
+                    <div class="row vacancy_kontainer">
+                        <div class="col vacancy">
+                            <p class="name">{{$job->job_name}}</p>
+                        </div> 
+                    </div>   
+                </a> 
+            
+            @endforeach
 
          <div class="footer row align-items-end justify-content-evenly">
             <div class="kiri col-md-4 row-sm">

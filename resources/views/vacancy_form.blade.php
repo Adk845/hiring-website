@@ -128,22 +128,22 @@
                                 <label for="mbti">MBTI</label>
                                 <select class="form-control @error('mbti') is-invalid @enderror" id="mbti" name="mbti">
                                     <option value="" disabled selected>Select MBTI</option>
-                                    <option value="ISTJ">ISTJ - The Inspector</option>
-                                    <option value="ISFJ">ISFJ - The Protector</option>
-                                    <option value="INFJ">INFJ - The Advocate</option>
-                                    <option value="INTJ">INTJ - The Architect</option>
-                                    <option value="ISTP">ISTP - The Virtuoso</option>
-                                    <option value="ISFP">ISFP - The Adventurer</option>
-                                    <option value="INFP">INFP - The Mediator</option>
-                                    <option value="INTP">INTP - The Thinker</option>
-                                    <option value="ESTP">ESTP - The Persuader</option>
-                                    <option value="ESFP">ESFP - The Performer</option>
-                                    <option value="ENFP">ENFP - The Campaigner</option>
-                                    <option value="ENTP">ENTP - The Debater</option>
-                                    <option value="ESTJ">ESTJ - The Director</option>
-                                    <option value="ESFJ">ESFJ - The Caregiver</option>
-                                    <option value="ENFJ">ENFJ - The Protagonist</option>
-                                    <option value="ENTJ">ENTJ - The Commander</option>
+                                    <option value="ISTJ">ISTJ -  Inspector</option>
+                                    <option value="ISFJ">ISFJ -  Defender</option>
+                                    <option value="INFJ">INFJ -  Advocate</option>
+                                    <option value="INTJ">INTJ -  Architect</option>
+                                    <option value="ISTP">ISTP -  Virtuoso</option>
+                                    <option value="ISFP">ISFP -  Adventurer</option>
+                                    <option value="INFP">INFP -  Mediator</option>
+                                    <option value="INTP">INTP -  Logician</option>
+                                    <option value="ESTP">ESTP -  Entrepeneur</option>
+                                    <option value="ESFP">ESFP -  Entertainer</option>
+                                    <option value="ENFP">ENFP -  Campaigner</option>
+                                    <option value="ENTP">ENTP -  Debater</option>
+                                    <option value="ESTJ">ESTJ -  Executive</option>
+                                    <option value="ESFJ">ESFJ -  Consul</option>
+                                    <option value="ENFJ">ENFJ -  Protagonist</option>
+                                    <option value="ENTJ">ENTJ -  Commander</option>
                                 </select>
                                 @error('mbti')
                                 <span class="text-danger">{{ $message }}</span>

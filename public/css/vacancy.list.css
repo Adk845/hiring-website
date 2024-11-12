@@ -46,6 +46,7 @@ hr{
     transition: box-shadow 0.3s; /* Efek transisi */
     cursor: pointer; /* Menunjukkan bahwa ini dapat diklik */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+    font-family: 'Arial Narrow', sans-serif;
 
 }
 

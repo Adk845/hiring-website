@@ -24,8 +24,10 @@
         }
 
         .header {
+            margin-top: -20px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            /* Menghapus margin bawah */
         }
 
         .header img {
@@ -34,32 +36,30 @@
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #10375C;
-            margin-bottom: 10px;
-        }
-
-        .logo {
-            margin-right: 270px;
-            width: 135px;
+            margin: 0;
+            /* Menghapus margin di gambar */
         }
 
         h1 {
-            font-size: 20px;
-            margin: 8px 0;
+            font-size: 17px;
+            margin: 0;
+            /* Menghapus margin di h1 */
             color: #10375C;
         }
 
-        .contact-info {
-            font-size: 14px;
-            margin: 3px 0;
-        }
+
+
 
         .section {
-            margin-bottom: 15px;
+            margin-top: 0;
+            /* Mengurangi jarak atas */
+            margin-bottom: 10px;
             padding: 8px;
             border: 1px solid #e0e0e0;
             border-radius: 6px;
             background-color: white;
         }
+
 
         .section p {
             word-wrap: break-word;
@@ -69,7 +69,8 @@
         }
 
         h2 {
-            font-size: 14px;
+            font-size: 12px;
+            margin-top: 0px;
             margin-bottom: 8px;
             color: #10375C;
             border-bottom: 2px solid #10375C;
@@ -77,7 +78,7 @@
         }
 
         h3 {
-            font-size: 14px;
+            font-size: 11px;
             margin-bottom: 3px;
             color: #0056b3;
         }
@@ -85,7 +86,7 @@
         p {
             margin: 3px 0;
             line-height: 1.4;
-            font-size: 12px;
+            font-size: 10px;
         }
 
         /* Styles for skills, certificates, and achievements */
@@ -106,7 +107,7 @@
             border-radius: 4px;
             padding: 5px 10px;
             margin: 5px;
-            font-size: 12px;
+            font-size: 10px;
             color: #333;
         }
 
@@ -128,55 +129,40 @@
         .section ul {
             margin-top: 10px;
         }
-        
 
         .footer {
-            text-align: center;
-            font-size: 10px;
-            margin-top: 15px;
-            color: #666;
-            padding: 8px 0;
+            display: flex;
+            align-content: flex-end;
+            justify-content: space-between;
             position: fixed;
-            /* Mengunci footer di bagian bawah */
-            bottom: -25px;
-            /* Posisi dari bagian bawah */
+            bottom: 0;
             left: 0;
             right: 0;
-            display: flex;
-          
+            padding: 10px;
+            width: 100%;
+            z-index: 999;
+        }
+
+        .footer .logo {
+            position: absolute;
+            left: 5px;
+            top: -2px;
+            width: 50%;
         }
 
         .footer .address {
-            text-align: left;
             font-size: 10px;
-            margin-bottom: -50px;
-            /* Pastikan huruf kecil 'px' */
+            text-align: center;
+            width: 100%;
         }
 
         .footer .qr-code {
-            text-align: right;
-            
+            position: absolute;
+            right: 10px;
+            top: -10px;
+            width: 80px;
+            height: 80px;
         }
-
-        .content {
-            padding: 20px;
-            min-height: 100vh;
-            /* Memastikan konten setidaknya setinggi layar */
-        }
-
-
-        .footer1 {
-            text-align: center;
-            font-size: 10px;
-            margin-top: 15px;
-            color: #666;
-            padding: 8px 0;
-            position: fixed;
-            bottom: -55px;
-            left: 0;
-            right: 0;
-        }
-
 
         .page-break {
             page-break-before: always;
@@ -184,23 +170,23 @@
 
         @page {
             margin: 20mm;
+
             @bottom-right {
                 content: "Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58 - Jaka Setia – Bekasi Selatan – Jawa Barat 17147";
                 font-size: 10px;
             }
+
             @bottom-left {
-                content: url('{{ public_path('assets/QR.png') }}');
+                content: url('{{ public_path(' assets/QR.png') }}');
             }
         }
-
-         
     </style>
 
 </head>
 
 <body>
     <div class="container">
-        <div class="logo"> <img src="{{ public_path('assets/ISOLOGO.png') }}" alt="Logo" class="logo"></div>
+
         <div class="header">
 
             @if($applicant->photo_pass)
@@ -209,11 +195,7 @@
             <img src="https://via.placeholder.com/100" alt="Default Photo">
             @endif
             <h1>{{ $applicant->name }}</h1>
-            <!-- <div class="contact-info">
-                <p>{{ $applicant->profil_linkedin }}</p>
-                <p>{{ $applicant->email }}</p>
-                <p>{{ $applicant->number }}</p>
-            </div> -->
+
         </div>
 
         <div class="section">
@@ -313,23 +295,27 @@
         </div>
         @endif
 
-      
 
-        <div class="footer1">
-            &copy; {{ date('F Y') }} I-solutions Indonesia. All rights reserved.
-        </div>
+
+
 
     </div>
 
     <div class="footer">
-            <div class="address">
-            Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58 <br>
-            Jaka Setia – Bekasi Selatan – Jawa Barat 17147
-            </div>
-            <div class="qr-code">
-            <img src="{{ public_path('assets/QR.png') }}" alt="QR Code" style="width: 50px; height: 50px;" />
-            </div>
+        <div class="logo">
+            <img src="{{ public_path('assets/ISOLOGO.png') }}" alt="Logo" class="logo">
         </div>
+        <div class="address">
+            Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58 <br>
+            Jaka Setia – Bekasi Selatan – Jawa Barat 17147 <br>
+            &copy; {{ date('F Y') }} I-solutions Indonesia. All rights reserved.
+        </div>
+        <div class="qr-code">
+            <img src="{{ public_path('assets/QR.png') }}" alt="QR Code" class="qr-code">
+        </div>
+    </div>
+
+
 </body>
 
 </html>
