@@ -22,9 +22,7 @@
             <div class="logo flex-lg">
                 <img src="{{asset('assets/ISOLOGO.png')}}" width="200px" alt="">
             </div>
-            <div class="title">
-                <h1>Open Hiring</h1>
-            </div>
+           
         </div>
         {{-- <div class="title mt-4 mb-4 "><h1>Open Hiring</h1></div> --}}
     </div>
@@ -38,7 +36,7 @@
                     <a href="{{route('vacancy_form', $jobs->id)}}"  class="btn btn-warning btn-lg">Apply Now</a>
                 </div>
             </div>
-            <div class="title mt-4 mb-4"><h2>Employment Type : {{ $jobs->employment_type}}</h2></div>
+            <div class="title mt-4 mb-4"><h3>Employment Type : {{ $jobs->employment_type}}</h3></div>
             <div class="title mt-4 mb-4"><h3>Work Location : {{ (Str::lower($work_location) == 'company') ? $jobs->spesifikasi : $work_location }}</h3></div>
         </div>
         <div class="row">
