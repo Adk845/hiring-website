@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/vacancy.form.css')}}">
+    <link rel="icon" src="{{asset('assets/ISOLOGO.png')}}">
     <script src="{{asset('js/vue.global.js')}}"></script>
     <title>vacancy Form</title>
 </head>
@@ -24,10 +25,14 @@
                 <div class="logo flex-lg">
                     <img src="{{asset('assets/ISOLOGO.png')}}" width="200px" alt="">
                 </div>
-                <div class="title">
+                <div class="title d-md-inline d-none">
                     <h1 class="job_title">{{$jobs->job_name}}</h1>
                 </div>
             </div>
+        </div>
+
+        <div class="title d-md-none">
+            <h1 class="job_title">{{$jobs->job_name}}</h1>
         </div>
 
         <form id="myForm" action="{{ route('kirim') }}" method="POST" enctype="multipart/form-data">
