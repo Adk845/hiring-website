@@ -22,9 +22,10 @@
     
 
 
+
 .text{
     font-size: larger;
-
+    text-align: justify;
 }
 .icon{
     width: 30px;

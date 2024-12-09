@@ -10,6 +10,49 @@ use App\Models\Jurusan;
 
 class VacancyController extends Controller
 {
+    public function search(Request $request)
+    {
+       
+        $jobName = $request->input('job_name');
+        $employmentType = $request->input('employment_type');
+        $workLocation = $request->input('work_location');
+        $sort = $request->input('sort', 'asc');  
+
+       
+        $jobs = Job::query();
+
+        
+        if ($jobName) {
+            $jobs->where('job_name', 'like', '%' . $jobName . '%');
+        }
+
+        
+        if ($employmentType) {
+            $jobs->where('employment_type', $employmentType);
+        }
+
+        
+        if ($workLocation) {
+            $jobs->whereHas('workLocation', function($query) use ($workLocation) {
+                $query->where('location', 'like', '%' . $workLocation . '%');
+            });
+        }
+
+        
+        if ($sort === 'desc') {
+            $jobs->orderBy('job_name', 'desc');
+        } else {
+            $jobs->orderBy('job_name', 'asc');
+        }
+
+       
+        $jobs = $jobs->get();
+
+       
+        return view('list', compact('jobs'));
+    }
+
+
     public function index($id)
     {
         // cari jobs dengan id tertentu

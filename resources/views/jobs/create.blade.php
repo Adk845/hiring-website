@@ -67,8 +67,8 @@
                                 <label for="employment_type">Employment Type</label>
                                 <select class="form-control @error('employment_type') is-invalid @enderror" id="employment_type" name="employment_type">
                                     <option value="">Select Job Type</option>
-                                    <option value="permanent" {{ old('employment_type') == 'permanent' ? 'selected' : '' }}>Permanent</option>
-                                    <option value="contract" {{ old('employment_type') == 'contract' ? 'selected' : '' }}>Contract</option>
+                                    <option value="Permanent" {{ old('employment_type') == 'Permanent' ? 'selected' : '' }}>Permanent</option>
+                                    <option value="Contract" {{ old('employment_type') == 'Contract' ? 'selected' : '' }}>Contract</option>
                                 </select>
                                 @error('employment_type')
                                 <span class="text-danger">{{ $message }}</span>
