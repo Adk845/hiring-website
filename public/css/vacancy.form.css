@@ -8,6 +8,10 @@ label{
     color: #B8001F;
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
 .overley{
     width: 100%;
     height: 100px;

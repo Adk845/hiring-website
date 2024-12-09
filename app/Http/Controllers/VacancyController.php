@@ -76,7 +76,11 @@ class VacancyController extends Controller
         $jobs = Job::where('status_published', 1)->get();
         return view('vacancy_list', compact('jobs'));
     }
-
+    public function showJobDetails(Job $job)
+    {
+        // Menampilkan detail pekerjaan berdasarkan ID
+        return view('detail', compact('job'));
+    }
     public function list2()
     {
         $jobs = Job::all();
