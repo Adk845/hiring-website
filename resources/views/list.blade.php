@@ -17,21 +17,19 @@
             cursor: pointer;
         }
         body {
-        font-family: 'Poppins', sans-serif;
-    }
+            font-family: 'Poppins', sans-serif;
+        }
 
+        .vacancy-container.selected {
+            box-shadow: 0 0 15px 5px rgba(0, 123, 255, 0.6);  
+            color: #333;  
+            border: 3px solid #007bff;
+        }
 
-    .vacancy-container.selected {
-    box-shadow: 0 0 15px 5px rgba(0, 123, 255, 0.6);  
-    color: #333;  
-    border: 3px solid #007bff; /* Add a thick blue border */
-}
-
-.vacancy-container:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border: 2px solid #007bff; /* Blue border when hovered */
-}
-
+        .vacancy-container:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #007bff;
+        }
 
         .job-name {
             font-size: 18px;
@@ -58,21 +56,19 @@
         }
 
         .job-list-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    height: 70vh;
-    overflow-y: scroll; 
-    -ms-overflow-style: none; 
-    scrollbar-width: none; 
-    margin-top: 20px;
-}
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            height: 70vh;
+            overflow-y: scroll; 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+            margin-top: 20px;
+        }
 
-
-.job-list-container::-webkit-scrollbar {
-    display: none;
-}
-
+        .job-list-container::-webkit-scrollbar {
+            display: none;
+        }
 
         .job-details-container {
             padding: 20px;
@@ -97,7 +93,6 @@
             color: inherit;
         }
 
-        /* Styling for dynamic job details */
         .kontainer_vacancy {
             background-color: #f8f9fa;
             padding: 20px;
@@ -113,6 +108,17 @@
         .responsibilty .title, .requirements .title, .benefit .title {
             font-weight: bold;
             font-size: 20px;
+        }
+
+        /* Hide job details section on mobile */
+        @media (max-width: 768px) {
+            .col-8.job-details-container {
+                display: none;
+            }
+
+            .col-4.job-list-container {
+                width: 100%;  /* Make the job list container full width */
+            }
         }
     </style>
 </head>
@@ -146,57 +152,59 @@
             </form>
         </div>
 
-     
-<div class="container">
-    <div class="row-container">
-        <!-- Kolom Kiri (Daftar Lowongan) -->
-        <div class="col-4 job-list-container">
-    @foreach($jobs as $job)
-    <div class="vacancy-container" data-job-id="{{ $job->id }}" onclick="loadJobDetails({{ $job->id }})">
-    <p class="job-name">{{ $job->job_name }}</p>
-    <div class="job-info">
-        <p>Employment Type: {{ $job->employment_type }} <br> Location: {{ $job->workLocation->location }}</p>
-    </div>
-</div>
+        <div class="container">
+            <div class="row-container">
+                <!-- Kolom Kiri (Daftar Lowongan) -->
+                <div class="col-4 job-list-container">
+                    @foreach($jobs as $job)
+                    <div class="vacancy-container" data-job-id="{{ $job->id }}" onclick="loadJobDetails({{ $job->id }})">
+                        <p class="job-name">{{ $job->job_name }}</p>
+                        <div class="job-info">
+                            <p>Employment Type: {{ $job->employment_type }} <br> Location: {{ $job->workLocation->location }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
 
-    @endforeach
-</div>
-
-
-        <!-- Kolom Kanan (Menampilkan Detail Pekerjaan Dinamis) -->
-        <div class="col-8 job-details-container" id="job-details-container">
-            <div class="kontainer_vacancy" id="job-details-placeholder">
-                <h4>Select a job to view details</h4>
-                <p>Please click on a job from the list to see the details here.</p>
+                <!-- Kolom Kanan (Menampilkan Detail Pekerjaan Dinamis) -->
+                <div class="col-8 job-details-container" id="job-details-container">
+                    <div class="kontainer_vacancy" id="job-details-placeholder">
+                        <h4>Select a job to view details</h4>
+                        <p>Please click on a job from the list to see the details here.</p>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
-</div>
 
-<script>
-   function loadJobDetails(jobId) {
+    <script>
+        function loadJobDetails(jobId) {
+            // Check if the device is mobile (screen width less than or equal to 768px)
+            if (window.innerWidth <= 768) {
+                // Redirect to a new page for job details (assuming you have a route like /job/{id})
+                window.location.href = `/job/${jobId}`;
+            } else {
+                // If it's a desktop, load job details dynamically via AJAX
+                const allJobContainers = document.querySelectorAll('.vacancy-container');
+                allJobContainers.forEach(container => {
+                    container.classList.remove('selected');
+                });
 
-    const allJobContainers = document.querySelectorAll('.vacancy-container');
-    allJobContainers.forEach(container => {
-        container.classList.remove('selected');
-    });
+                const selectedJobContainer = document.querySelector(`.vacancy-container[data-job-id='${jobId}']`);
+                selectedJobContainer.classList.add('selected');
 
-    const selectedJobContainer = document.querySelector(`.vacancy-container[data-job-id='${jobId}']`);
-    selectedJobContainer.classList.add('selected');
-
-    // Kirim permintaan AJAX untuk mendapatkan detail pekerjaan
-    fetch(`/job/${jobId}`)
-        .then(response => response.text())
-        .then(data => {
-            // Masukkan hasil HTML ke dalam kolom kanan
-            document.getElementById('job-details-placeholder').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading job details:', error));
-}
-
-</script>
-
-
+                // Send AJAX request to fetch job details
+                fetch(`/job/${jobId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        // Insert job details into the right column
+                        document.getElementById('job-details-placeholder').innerHTML = data;
+                    })
+                    .catch(error => console.error('Error loading job details:', error));
+            }
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

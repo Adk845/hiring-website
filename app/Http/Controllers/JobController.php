@@ -76,13 +76,13 @@ class JobController extends Controller
     {
         // Ambil job berdasarkan ID
         $job = ModelsJob::findOrFail($id);
-
+        $workLocations = WorkLocation::all();
         // Ambil data work_location dan departement jika ingin ditampilkan dalam dropdown
-        $work_locations = WorkLocation::all();
+        // $work_locations = WorkLocation::all();
         $departments = Departement::all();
 
         // Tampilkan halaman edit dengan data job
-        return view('jobs.edit', compact('job', 'work_locations', 'departments'));
+        return view('jobs.edit', compact('job', 'workLocations', 'departments'));
     }
 
     public function update(Request $request, $id)
