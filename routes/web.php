@@ -45,7 +45,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::patch('/jobs/{job}/update-status', [JobController::class, 'updateStatus'])->name('jobs.updateStatus');
 Route::get('/list', [VacancyController::class, 'list'])->name('vacancy_list');
 Route::get('/list1', [VacancyController::class, 'list2'])->name('list');
-
+Route::get('/job/{job}', [VacancyController::class, 'showJobDetails'])->name('vacancy.details');
+Route::get('/list1/search', [VacancyController::class, 'search'])->name('vacancy.search');
 Route::get('/form/{id}', [VacancyController::class, 'form'])->name('vacancy_form');
 Route::post('/kirim', [VacancyController::class, 'kirim'])->name('kirim');
 Route::get('/{id}', [App\Http\Controllers\VacancyController::class, 'index'])->name('vacancy');

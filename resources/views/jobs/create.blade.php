@@ -29,32 +29,35 @@
                             </div>
 
                             <!-- Work Location -->
-                            <div class="form-group">
-                                <label for="work_location_id">Work Location</label>
-                                <select class="form-control @error('work_location_id') is-invalid @enderror" id="work_location_id" name="work_location_id">
-                                    <option value="">Select Work Location</option>
-                                    @foreach($workLocations as $location)
-                                    <option value="{{ $location->id }}" {{ old('work_location_id') == $location->id ? 'selected' : '' }}>
-                                        {{ $location->location }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @error('work_location_id')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            <div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="work_location_id">Work Location</label>
+            <select class="form-control @error('work_location_id') is-invalid @enderror" id="work_location_id" name="work_location_id">
+                <option value="">Select Work Location</option>
+                @foreach($workLocations as $location)
+                    <option value="{{ $location->id }}" {{ old('work_location_id') == $location->id ? 'selected' : '' }}>
+                        {{ $location->location }}
+                    </option>
+                @endforeach
+            </select>
+            @error('work_location_id')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+    </div>
 
-
-                            <!-- Spesifikasi -->
-                            <div class="form-group">
-                                <label for="spesifikasi">Company Name</label>
-                                <input type="text" class="form-control @error('spesifikasi') is-invalid @enderror"
-                                    id="spesifikasi" placeholder="fill in the company name" name="spesifikasi"
-                                    value="{{ old('spesifikasi') }}">
-                                @error('spesifikasi')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+    <div class="col-md-6">
+        <!-- Spesifikasi -->
+        <div class="form-group">
+            <label for="spesifikasi">Specification</label>
+            <input type="text" class="form-control @error('spesifikasi') is-invalid @enderror" id="spesifikasi" placeholder="fill in the specification" name="spesifikasi" value="{{ old('spesifikasi') }}">
+            @error('spesifikasi')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+    </div>
+</div>
 
                             <!-- Minimum Salary -->
                             
@@ -67,8 +70,8 @@
                                 <label for="employment_type">Employment Type</label>
                                 <select class="form-control @error('employment_type') is-invalid @enderror" id="employment_type" name="employment_type">
                                     <option value="">Select Job Type</option>
-                                    <option value="permanent" {{ old('employment_type') == 'permanent' ? 'selected' : '' }}>Permanent</option>
-                                    <option value="contract" {{ old('employment_type') == 'contract' ? 'selected' : '' }}>Contract</option>
+                                    <option value="Permanent" {{ old('employment_type') == 'Permanent' ? 'selected' : '' }}>Permanent</option>
+                                    <option value="Contract" {{ old('employment_type') == 'Contract' ? 'selected' : '' }}>Contract</option>
                                 </select>
                                 @error('employment_type')
                                 <span class="text-danger">{{ $message }}</span>

@@ -28,9 +28,8 @@
 }
 
 .text{
-    font-size: large;
+    font-size: larger;
     text-align: justify;
-
 }
 .icon{
     width: 30px;

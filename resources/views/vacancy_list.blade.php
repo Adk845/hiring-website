@@ -26,20 +26,27 @@
             </div>
         
 
-            <div class="title mb-5 mt-4" style="font-family: 'Arial Narrow', sans-serif; color:grey;">
+            <!-- <div class="title mb-5 mt-4" style="font-family: 'Arial Narrow', sans-serif; color:grey;">
                 <h1>Vacancy</h1>
-            </div>
-
-            @foreach($jobs as $job)
-                <a href="{{route('vacancy', $job->id)}}" style="text-decoration: none; font-family: 'Arial Narrow', sans-serif; " target="_blank">
-                    <div class="row vacancy_kontainer">
-                        <div class="col vacancy">
-                            <p class="name">{{$job->job_name}}</p>
-                        </div> 
-                    </div>   
-                </a> 
-            
-            @endforeach
+            </div> -->
+            <div class="job-list-container" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 50px;">
+    @foreach($jobs as $job)
+        <a href="{{route('vacancy', $job->id)}}" style="text-decoration: none" target="_blank">
+            <div class="row vacancy_kontainer" style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
+                <div class="col vacancy">
+                    <!-- Job Name dengan gaya bold dan warna hitam -->
+                    <p class="job-name" style="font-weight: bold; font-size: 18px; color: black; margin-bottom: 5px;">{{$job->job_name}}</p>
+                </div>
+                
+                <div class="title mt-1 mb-1">
+                    <!-- Employment Type dengan font kecil dan tidak tebal -->
+                    <h5 style="font-weight: normal; font-size: 14px; margin: 0; color: black;">Employment Type: {{ $job->employment_type }}</h5>
+                    <h5 style="font-weight: normal; font-size: 14px; margin: 0; color: black;">Work Location: {{ $job->workLocation->location }}</h5>
+                </div>
+            </div>   
+        </a>
+    @endforeach
+</div>
 
          <div class="footer row align-items-end justify-content-evenly">
             <div class="kiri col-md-4 row-sm">

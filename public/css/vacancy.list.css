@@ -40,22 +40,52 @@ hr{
     font-size: larger;
 }
 
-.vacancy_kontainer{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: #ffffff; /* Warna latar belakang elemen pekerjaan */
-    border-radius: 8px; /* Sudut melengkung */
-    padding: 15px; /* Padding yang lebih besar */
-    transition: box-shadow 0.3s; /* Efek transisi */
-    cursor: pointer; /* Menunjukkan bahwa ini dapat diklik */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan halus */
-    font-family: 'Arial Narrow', sans-serif;
+.vacancy_kontainer {
 
+   
+        margin-top: -2px;
+        margin-bottom: -2px;
+        margin-left: -2px;
+        margin-right: -2px;
+        /* Properti lainnya tetap sama */
+   
+    background-color: #ffffff; 
+    border-radius: 8px; 
+    padding: 15px;
+    transition: all 0.4s ease-in-out; 
+    cursor: pointer; 
+    box-shadow: 0 8px 5px rgba(6, 99, 240, 0.8); 
+    font-family: 'Arial Narrow', sans-serif;
+    color: black; 
 }
 
 .vacancy_kontainer:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lebih kuat saat hover */
+    box-shadow: 0 6px 25px rgba(6, 99, 240, 0.8); 
+    background-color: #1566c2; 
+    transform: translateY(-5px);
+    color: #ffffff !important; 
 }
+
+.vacancy_kontainer:active {
+    background-color: #0d4e8b; 
+    box-shadow: 0 8px 30px rgba(6, 99, 240, 0.8); 
+    transform: translateY(0); 
+    color: #ffffff !important;
+}
+
+
+
+.vacancy_kontainer:hover p,
+.vacancy_kontainer:hover h5 {
+    color: #ffffff !important;
+}
+
+.vacancy_kontainer:active p,
+.vacancy_kontainer:active h5 {
+    color: #ffffff !important; 
+}
+
+
 
 .footer{
     margin-top: 50px;
@@ -89,3 +119,8 @@ hr{
 .kanan{
     color: white;
 }
+
+
+
+    
+

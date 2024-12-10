@@ -80,7 +80,7 @@
                 </div> --}}
             </div>
         </div>
-        
+            </div>
         <div class="kanan col-8 row-sm d-flex align-items-center justify-content-center">
             <div class="alamat">
                 <p id="alamat">
@@ -88,7 +88,7 @@
                     Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58<br>
                     Jaka Setia – Bekasi Selatan – Jawa Barat 17147<br>
                     Phone : +62 (21) 8275 70 33<br>
-                    Call Centre / Whatsapp : (62) 813 2000 9319 or http://wa.me/6281320009319
+                    Call Centre / Whatsapp : (62) 813 2000 9319 or https://wa.me/6281320009319
                 </p>
             </div>
         </div>        
