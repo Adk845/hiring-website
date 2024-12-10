@@ -120,63 +120,75 @@
                 width: 100%;  /* Make the job list container full width */
             }
         }
+
+        
+
+
+        
     </style>
 </head>
 <body>
+<div class="container">
+    <!-- Form Pencarian di Atas -->
+    <div class="filter-search-container">
+        <form method="GET" action="{{ route('vacancy.search') }}" style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div class="filter-item">
+                <input type="text" name="job_name" placeholder="Search by Job Name" value="{{ request()->input('job_name') }}" class="form-control" style="padding: 8px;">
+            </div>
+            <div class="filter-item">
+                <select name="employment_type" class="form-control" style="padding: 8px;">
+                    <option value="">Select Employment Type</option>
+                    <option value="Permanent" {{ request()->input('employment_type') == 'Permanent' ? 'selected' : '' }}>Permanent</option>
+                    <option value="Contract" {{ request()->input('employment_type') == 'Contract' ? 'selected' : '' }}>Contract</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <input type="text" name="work_location" placeholder="Search by Location" value="{{ request()->input('work_location') }}" class="form-control" style="padding: 8px;">
+            </div>
+            <div class="filter-item">
+                <select name="sort" class="form-control" style="padding: 8px;">
+                    <option value="asc" {{ request()->input('sort') == 'asc' ? 'selected' : '' }}>Sort A-Z</option>
+                    <option value="desc" {{ request()->input('sort') == 'desc' ? 'selected' : '' }}>Sort Z-A</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <button type="submit" class="btn btn-primary" style="padding: 8px 15px;">Search</button>
+            </div>
+        </form>
+    </div>
+
     <div class="container">
-        <!-- Form Pencarian di Atas -->
-        <div class="filter-search-container">
-            <form method="GET" action="{{ route('vacancy.search') }}" style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <div class="filter-item">
-                    <input type="text" name="job_name" placeholder="Search by Job Name" value="{{ request()->input('job_name') }}" class="form-control" style="padding: 8px;">
-                </div>
-                <div class="filter-item">
-                    <select name="employment_type" class="form-control" style="padding: 8px;">
-                        <option value="">Select Employment Type</option>
-                        <option value="Permanent" {{ request()->input('employment_type') == 'Permanent' ? 'selected' : '' }}>Permanent</option>
-                        <option value="Contract" {{ request()->input('employment_type') == 'Contract' ? 'selected' : '' }}>Contract</option>
-                    </select>
-                </div>
-                <div class="filter-item">
-                    <input type="text" name="work_location" placeholder="Search by Location" value="{{ request()->input('work_location') }}" class="form-control" style="padding: 8px;">
-                </div>
-                <div class="filter-item">
-                    <select name="sort" class="form-control" style="padding: 8px;">
-                        <option value="asc" {{ request()->input('sort') == 'asc' ? 'selected' : '' }}>Sort A-Z</option>
-                        <option value="desc" {{ request()->input('sort') == 'desc' ? 'selected' : '' }}>Sort Z-A</option>
-                    </select>
-                </div>
-                <div class="filter-item">
-                    <button type="submit" class="btn btn-primary" style="padding: 8px 15px;">Search</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="container">
-            <div class="row-container">
-                <!-- Kolom Kiri (Daftar Lowongan) -->
-                <div class="col-4 job-list-container">
-                    @foreach($jobs as $job)
-                    <div class="vacancy-container" data-job-id="{{ $job->id }}" onclick="loadJobDetails({{ $job->id }})">
-                        <p class="job-name">{{ $job->job_name }}</p>
-                        <div class="job-info">
-                            <p>Employment Type: {{ $job->employment_type }} <br> Location: {{ $job->workLocation->location }}</p>
-                        </div>
+        <div class="row-container">
+            <!-- Kolom Kiri (Daftar Lowongan) -->
+            <div class="col-4 job-list-container">
+                @foreach($jobs as $job)
+                <div class="vacancy-container" data-job-id="{{ $job->id }}" onclick="loadJobDetails({{ $job->id }})">
+                    <p class="job-name">{{ $job->job_name }}</p>
+                    <div class="job-info">
+                        <p>Employment Type: {{ $job->employment_type }} <br> Location: {{ $job->workLocation->location }}</p>
                     </div>
-                    @endforeach
                 </div>
+                @endforeach
+            </div>
 
-                <!-- Kolom Kanan (Menampilkan Detail Pekerjaan Dinamis) -->
-                <div class="col-8 job-details-container" id="job-details-container">
-                    <div class="kontainer_vacancy" id="job-details-placeholder">
-                        <h4>Select a job to view details</h4>
-                        <p>Please click on a job from the list to see the details here.</p>
-                    </div>
+            <!-- Kolom Kanan (Menampilkan Detail Pekerjaan Dinamis) -->
+            <div class="col-8 job-details-container" id="job-details-container">
+                <div class="kontainer_vacancy" id="job-details-placeholder">
+                    <h4>Select a job to view details</h4>
+                    <p>Please click on a job from the list to see the details here.</p>
                 </div>
             </div>
         </div>
 
+        <!-- Pagination Outside the Main Job List -->
+        <div class="pagination-container" style="display: flex; justify-content: center; align-items: center; margin-top: 20px; height: 20vh;">
+    {{ $jobs->links('pagination::bootstrap-4') }}
+</div>
+
+
     </div>
+</div>
+
 
     <script>
         function loadJobDetails(jobId) {

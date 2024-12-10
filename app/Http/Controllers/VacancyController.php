@@ -76,17 +76,33 @@ class VacancyController extends Controller
         $jobs = Job::where('status_published', 1)->get();
         return view('vacancy_list', compact('jobs'));
     }
+    
     public function showJobDetails(Job $job)
     {
         // Menampilkan detail pekerjaan berdasarkan ID
         return view('detail', compact('job'));
     }
-    public function list2()
-    {
-        $jobs = Job::all();
-        $jobs = Job::where('status_published', 1)->get();
-        return view('list', compact('jobs'));
-    }
+    // public function list2()
+    // {
+    //     $jobs = Job::all();
+    //     $jobs = Job::where('status_published', 1)->get();
+    //     return view('list', compact('jobs'));
+    // }
+
+    public function list2(Request $request)
+{
+    // Paginate the jobs, showing 10 per page, where 'status_published' is 1
+    $jobs = Job::where('status_published', 1)
+               ->paginate(10); // Paginate results, 10 per page
+    
+    // Append the current query parameters to preserve filters across pagination
+    $jobs->appends($request->all());
+
+    // Return the view with the jobs
+    return view('list', compact('jobs'));
+}
+
+
 
     public function submit_applicant(Request $request)
     {
