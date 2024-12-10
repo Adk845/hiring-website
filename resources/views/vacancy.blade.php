@@ -30,15 +30,15 @@
     
     <div class="kontainer_vacancy" >
 
-        <div class="top mb-5"> 
-            <div class="title mt-4 d-flex justify-content-between">
-                <h1>{{ $jobs->job_name}}</h1>
-                <div class="apply">
-                    <a href="{{route('vacancy_form', $jobs->id)}}"  class="btn btn-warning btn-lg">Apply Now</a>
+        <div class="top mb-3"> 
+            <div class="title mt-4 row">
+                <h1 class="col-6">{{ $jobs->job_name}}</h1>
+                <div class="apply col-6 d-flex justify-content-end">
+                    <a href="{{route('vacancy_form', $jobs->id)}}"  class="btn btn-warning btn-md-lg align-self-start">Apply Now</a>
                 </div>
             </div>
-            <div class="title mt-4 mb-4"><h3>Employment Type : {{ $jobs->employment_type}}</h3></div>
-            <div class="title mt-4 mb-4"><h3>Work Location : {{ (Str::lower($work_location) == 'company') ? $jobs->spesifikasi : $work_location }}</h3></div>
+            <div class="title mt-1 mb-1"><h3>Employment Type : {{ $jobs->employment_type}}</h3></div>
+            <div class="title mt-1 mb-1"><h3>Work Location : {{ (Str::lower($work_location) == 'company') ? $jobs->spesifikasi : $work_location }}</h3></div>
         </div>
         <div class="row">
             {{-- <div class="col-6 konten">
@@ -69,18 +69,21 @@
     </div>
 
     <div class="footer row align-items-end justify-content-evenly">
-    <div class="kiri col-md-4 d-flex justify-content-start">
-        <!-- Gambar Barcode -->
-        <div class="d-flex align-items-center mb-3">
-            <div class="icon me-3">
-                <img src="{{ asset('assets/QR.png') }}" alt="Barcode"  style="width: 180px"/>
 
+
+        <!--barcode-->
+        <div class="kiri col-3 d-flex justify-content-center align-items-center">
+            <div class="d-flex">
+                <img src="{{ asset('assets/QR.png') }}" alt="Barcode" id="barcode"/>
+                {{-- <div class="icon me-3 d-flex align-items-center">
+                    <img src="{{ asset('assets/QR.png') }}" alt="Barcode" id="barcode"/>
+                </div> --}}
             </div>
         </div>
-    </div>
-        <div class="kanan col-md-4 row-sm d-flex align-items-baseline">
+            </div>
+        <div class="kanan col-8 row-sm d-flex align-items-center justify-content-center">
             <div class="alamat">
-                <p class="alamat">
+                <p id="alamat">
                     <strong>PT INTRA MULTI GLOBAL SOLUSI</strong> (I-Solutions Indonesia)<br>
                     Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58<br>
                     Jaka Setia – Bekasi Selatan – Jawa Barat 17147<br>
@@ -88,7 +91,8 @@
                     Call Centre / Whatsapp : (62) 813 2000 9319 or https://wa.me/6281320009319
                 </p>
             </div>
-        </div>
+        </div>        
+        
     </div>
 
 </div>

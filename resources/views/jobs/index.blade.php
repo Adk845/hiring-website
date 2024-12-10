@@ -43,7 +43,8 @@
                             <a href="{{ route('pipelines.index', ['status' => $status, 'job_id' => $job->id]) }}" class="stage-link">
                                 <div>
                                     <p class="amount">{{ $job->applicants->where('status', $status)->count() }}</p>
-                                    <small>{{ ucfirst($status) }}</small>
+                                    {{-- <small>{{ ucfirst($status) }}</small> --}}
+                                    <small>{{ ($status == 'bankcv') ? 'Bank CV' :  ucfirst($status) }}</small>
                                 </div>
                             </a>
                         </td>

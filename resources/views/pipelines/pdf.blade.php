@@ -130,7 +130,7 @@
             margin-top: 10px;
         }
 
-        .footer {
+        footer {
             display: flex;
             align-content: flex-end;
             justify-content: space-between;
@@ -168,23 +168,44 @@
             page-break-before: always;
         }
 
+        .table-content-cv{
+            border-spacing: 7px 0px;
+        }
+        
+        .content-cv{
+            text-align: justify;
+        }
+        .tr-content-cv{
+            margin: 10px;
+        }
+        .tr-content-cv td{
+            vertical-align: top;
+        }
+
         @page {
-            margin: 20mm;
-
-            @bottom-right {
-                content: "Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58 - Jaka Setia – Bekasi Selatan – Jawa Barat 17147";
-                font-size: 10px;
-            }
-
-            @bottom-left {
-                content: url('{{ public_path(' assets/QR.png') }}');
-            }
+            margin: 12mm;
+            font-size: 10px;
         }
     </style>
 
 </head>
 
 <body>
+
+    <footer class="footer">
+        <div class="logo">
+            <img src="{{ public_path('assets/ISOLOGO.png') }}" alt="Logo" class="logo">
+        </div>
+        <div class="address">
+            Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58 <br>
+            Jaka Setia – Bekasi Selatan – Jawa Barat 17147 <br>
+            &copy; {{ date('F Y') }} I-solutions Indonesia. All rights reserved.
+        </div>
+        <div class="qr-code">
+            <img src="{{ public_path('assets/QR.png') }}" alt="QR Code" class="qr-code">
+        </div>
+    </footer>
+
     <div class="container">
 
         <div class="header">
@@ -198,6 +219,7 @@
 
         </div>
 
+       
         <div class="section">
             <h2>Profile</h2>
             <p>{{ $applicant->profile }}</p>
@@ -205,11 +227,22 @@
 
         <div class="section">
             <h2>Education</h2>
-            <p><strong>Education:</strong> {{ $applicant->education->name_education }}</p>
-            <p><strong>Major:</strong> {{ $applicant->jurusan->name_jurusan }}</p>
+            <table class="table-content-cv">
+                <tr class="tr-content-cv">
+                    <td><strong>Education</strong></td>
+                    <td>:</td>
+                    <td>{{ $applicant->education->name_education }}</td>
+                </tr>
+                <tr class="tr-content-cv">
+                    <td><strong>Major</strong></td>
+                    <td>:</td>
+                    <td>{{ $applicant->jurusan->name_jurusan }}</td>
+                </tr>
+            </table>
+          
         </div>
 
-
+        @if($applicant->certificates)
         <div class="section">
             <h2>Certificates</h2>
             <ul class="certificates-list">
@@ -218,7 +251,9 @@
                 @endforeach
             </ul>
         </div>
+        @endif
 
+        @if($applicant->skills)
         <div class="section">
             <h2>Skills</h2>
             <ul class="skills-list">
@@ -227,15 +262,25 @@
                 @endforeach
             </ul>
         </div>
+        @endif
 
         <div class="section">
             <h2>Work Experience</h2>
             @if($applicant->workExperiences->isNotEmpty())
             @foreach($applicant->workExperiences as $experience)
             <h3>{{ $experience->role }}</h3>
-            <p><strong>Company:</strong> {{ $experience->name_company }}</p>
-            <p><strong>Description:</strong> {{ $experience->desc_kerja }}</p>
-            <p><strong>Period:</strong> {{ $experience->mulai }} - {{ $experience->selesai }}</p>
+            <table class="table-content-cv">
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>Company</strong></td> <td>:</td> <td class="content-cv">{{ $experience->name_company }}</td>
+                </tr>
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>Description</strong></td> <td>:</td> <td class="content-cv">{{ $experience->desc_kerja }}</td>
+                </tr>
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>Period</strong></td> <td>:</td> <td>{{ $experience->mulai }} - {{ $experience->selesai }}</td>
+                </tr>
+            </table>
+          
             @endforeach
             @else
             <p>No work experience available.</p>
@@ -243,22 +288,29 @@
         </div>
 
 
-        @if($applicant->projects->filter(function($project) {
-        return !is_null($project->project_name) && !is_null($project->client) && !is_null($project->desc_project) && !is_null($project->mulai_project) && !is_null($project->selesai_project);
-        })->isNotEmpty())
+        @if($applicant->Projects->isNotEmpty())
         <div class="section">
             <h2>Projects</h2>
             @foreach($applicant->projects as $project)
-            @if(!is_null($project->project_name) && !is_null($project->client) && !is_null($project->desc_project) && !is_null($project->mulai_project) && !is_null($project->selesai_project))
+            
             <h3>{{ $project->project_name }}</h3>
-            <p><strong>Client:</strong> {{ $project->client }}</p>
-            <p><strong>Description:</strong> {{ $project->desc_project }}</p>
-            <p><strong>Period:</strong> {{ $project->mulai_project }} - {{ $project->selesai_project }}</p>
-            @endif
+            <table class="table-content-cv">
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>Client</strong></td> <td>:</td> <td class="content-cv"> {{ $project->client }}</td>
+                </tr>
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>Description</strong></td> <td>:</td> <td class="content-cv">{{ $project->desc_project }}</td>
+                </tr>
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>Period</strong></td> <td>:</td> <td class="content-cv">{{ $project->mulai_project }} - {{ $project->selesai_project }}</td>
+                </tr>
+            </table>        
+          
             @endforeach
         </div>
         @endif
 
+        @if($applicant->achievement)
         <div class="section">
             <h2>Achievements</h2>
             <ul class="achievement-list">
@@ -267,6 +319,7 @@
                 @endforeach
             </ul>
         </div>
+        @endif
 
         <div class="section">
             <h2>Languages</h2>
@@ -275,46 +328,52 @@
 
         <div class="section">
             <h2>Additional Information</h2>
-            <p><strong>MBTI:</strong> {{ $applicant->mbti ?? 'none' }}</p>
-            <p><strong>IQ:</strong> {{ $applicant->iq ?? 'none' }}</p>
+            <table class="table-content-cv">
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>MBTI</strong></td> <td>:</td> <td class="content-cv">{{ $applicant->mbti ?? 'none' }}</td>
+                </tr>
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>IQ</strong></td> <td>:</td> <td class="content-cv">{{ $applicant->iq ?? 'none' }}</td>
+                </tr>               
+            </table>        
         </div>
 
 
-        @if($applicant->references->filter(function($reference) {
-        return !is_null($reference->name_ref) && !is_null($reference->phone) && !is_null($reference->email_ref);
-        })->isNotEmpty())
+        @if($applicant->references->isNotEmpty())
         <div class="section">
             <h2>References</h2>
             @foreach($applicant->references as $reference)
-            @if(!is_null($reference->name_ref) && !is_null($reference->phone) && !is_null($reference->email_ref))
             <h3>{{ $reference->name_ref }}</h3>
-            <p><strong>Phone Number:</strong> {{ $reference->phone }}</p>
-            <p><strong>Email:</strong> {{ $reference->email_ref }}</p>
-            @endif
+            <table class="table-content-cv">
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>Phone Number</strong></td> <td>:</td> <td class="content-cv">{{ $reference->phone }}</td>
+                </tr>
+                <tr class="tr-content-cv">
+                    <td class="title-content-cv"><strong>Email</strong></td> <td>:</td> <td class="content-cv">{{ $reference->email_ref }}</td>
+                </tr>               
+            </table>       
             @endforeach
         </div>
         @endif
 
 
+         <footer class="footer">
+            <div class="logo">
+                <img src="{{ public_path('assets/ISOLOGO.png') }}" alt="Logo" class="logo">
+            </div>
+            <div class="address">
+                Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58 <br>
+                Jaka Setia – Bekasi Selatan – Jawa Barat 17147 <br>
+                &copy; {{ date('F Y') }} I-solutions Indonesia. All rights reserved.
+            </div>
+            <div class="qr-code">
+                <img src="{{ public_path('assets/QR.png') }}" alt="QR Code" class="qr-code">
+            </div>
+        </footer>
 
 
 
     </div>
-
-    <div class="footer">
-        <div class="logo">
-            <img src="{{ public_path('assets/ISOLOGO.png') }}" alt="Logo" class="logo">
-        </div>
-        <div class="address">
-            Grand Galaxy City Jl. Cordova 3 Blok RGC3 No.58 <br>
-            Jaka Setia – Bekasi Selatan – Jawa Barat 17147 <br>
-            &copy; {{ date('F Y') }} I-solutions Indonesia. All rights reserved.
-        </div>
-        <div class="qr-code">
-            <img src="{{ public_path('assets/QR.png') }}" alt="QR Code" class="qr-code">
-        </div>
-    </div>
-
 
 </body>
 
