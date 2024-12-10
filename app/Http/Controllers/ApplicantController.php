@@ -19,7 +19,8 @@ class ApplicantController extends Controller
     public function generatePdf($id)
     {
         $applicant = Applicant::find($id);
-
+        // @dd($applicant->projects);
+        // return view('pipelines.pdf', compact('applicant'));
         if (!$applicant) {
             return redirect()->route('pipelines.index')->with('error', 'Applicant not found.');
         }
