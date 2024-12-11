@@ -91,7 +91,7 @@
 
         /* Styles for skills, certificates, and achievements */
         .skills-list,
-        .achievement-list,
+        /* .achievement-list,
         .certificates-list {
             display: flex;
             flex-wrap: wrap;
@@ -124,8 +124,85 @@
         .certificates-list li {
             background-color: #fff3cd;
             color: #856404;
-        }
+        } */
 
+
+        .skills-list {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    justify-content: flex-start; 
+    margin: 0; 
+    padding: 0; 
+}
+
+.skills-list li {
+    background-color: #cce5ff;
+    border-radius: 25px; 
+    padding: 5px 20px;
+    font-size: 10px; 
+    color: #004085;
+    white-space: nowrap; 
+    display: inline-block; 
+    text-align: center; 
+    margin-top: 5px; 
+    border: 1px solid #004085; 
+
+}
+
+
+/* certificate */
+.certificates-list {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    justify-content: flex-start; 
+    margin: 0; 
+    padding: 0; 
+}
+
+.certificates-list li {
+    background-color: #fff3cd;
+    border-radius: 25px; 
+    padding: 5px 20px;
+    font-size: 10px; 
+    color: #856404;
+    white-space: nowrap; 
+    display: inline-block; 
+    text-align: center; 
+    margin-top: 5px; 
+    border: 1px solid #856404; 
+
+}
+
+/* achievement */
+.achievement-list {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    justify-content: flex-start; 
+    margin: 0; 
+    padding: 0; 
+}
+
+.achievement-list li {
+    background-color: #d4edda;
+    border-radius: 25px; 
+    padding: 5px 20px;
+    font-size: 10px; 
+    color: #155724;
+    white-space: nowrap; 
+    display: inline-block; 
+    text-align: center; 
+    margin-left: 1px; 
+    margin-right: 1px; 
+    margin-top: 5px; 
+    border: 1px solid #155724; 
+}
+
+
+
+       
         .section ul {
             margin-top: 10px;
         }
@@ -254,15 +331,17 @@
         @endif
 
         @if($applicant->skills)
-        <div class="section">
-            <h2>Skills</h2>
-            <ul class="skills-list">
-                @foreach(explode('|', $applicant->skills) as $skill)
-                <li>{{ trim($skill) }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+    <div class="section">
+        <h2>Skills</h2>
+        <ul class="skills-list">
+            @foreach(explode('|', $applicant->skills) as $skill)
+            <li>{{ trim($skill) }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
 
         <div class="section">
             <h2>Work Experience</h2>
